@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+      "lib": ["esnext"],
+      "types": ["node"], 
+      "target": "ES6", 
+      "module": "commonjs", 
+      "moduleResolution": "node", 
+      "outDir": "dist",
+      "rootDir": "src", 
+      "strict": true, 
+      "emitDecoratorMetadata": true, 
+      "experimentalDecorators": true, 
+      "sourceMap": true, 
+      "esModuleInterop": true,
+      // "skipLibCheck": true, 
+      "resolveJsonModule": true,
+    },
+    "include": [
+      "src",
+    ],
+    "exclude": [
+      "node_modules",
+      "**/*.spec.ts",
+      "**/*.test.ts",
+    ],
+    "references": [{
+      "path": "../shared"
+    }]
+  }
