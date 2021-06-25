@@ -1,6 +1,8 @@
+export type HTTPMethod = "GET" | "POST" | "DELETE" | "PATCH";
+
 export interface EndpointEntry {
-    endpoint: string;
-    method: "GET" | "POST" | "UPDATE" | "DELETE";
+    readonly path: string;
+    readonly method: HTTPMethod;
 }
 
 export function createEndpoint(entry: EndpointEntry): Readonly<EndpointEntry> {

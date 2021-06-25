@@ -1,5 +1,5 @@
 import { RawAuthToken } from "../../data/auth";
-import { createEndpoint } from "../../util";
+import { EndpointEntry } from "../../util";
 
 export interface Request {
     username: string;
@@ -10,7 +10,7 @@ export interface Response {
     accessToken: RawAuthToken;
 }
 
-export const IssueAuthToken = createEndpoint({
-    endpoint: "auth/issue",
+export const endpoint = {
+    path: "auth/issue",
     method: "POST",
-});
+} as EndpointEntry;
