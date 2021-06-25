@@ -1,3 +1,3 @@
 export * from "./auth";
 
-export type { DataAccessFacade } from "./facade";
+export type { DataAccessFacade, DataAccess } from "./facade";

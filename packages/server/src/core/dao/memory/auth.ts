@@ -1,10 +1,10 @@
 import type { AuthData, AuthDataAccess } from "../types";
 
-export class AuthMemoryDataAccess implements AuthDataAccess {
-    private _store: AuthData[] = [];
+const store: AuthData[] = [];
 
+export class AuthMemoryDataAccess implements AuthDataAccess {
     async getAuthByUsername(username: string): Promise<AuthData | null> {
-        const foundAuthData = this._store.find(value => value.username == username);
+        const foundAuthData = store.find(value => value.username == username);
         if (foundAuthData === undefined) {
             return null;
         } else {
@@ -13,6 +13,10 @@ export class AuthMemoryDataAccess implements AuthDataAccess {
     }
 
     async registerAuth(authData: AuthData): Promise<void> {
-        this._store.push(authData);
+        store.push(authData);
+    }
+
+    static clear(): void {
+        store.length = 0;
     }
 }

@@ -1,6 +1,6 @@
 import { checkHashedPassword, hashPassword } from "./hash";
 
-import type { DataAccessFacade } from "../dao/types";
+import { DataAccess } from "../dao/types";
 
 interface AuthInfo {
     username: string;
@@ -10,7 +10,7 @@ type AuthResult = { success: true; authInfo: AuthInfo } | { success: false };
 type RegisterResult = { success: boolean };
 
 export class AuthWithPassword {
-    constructor(private readonly dataAccess: DataAccessFacade) {}
+    constructor(private readonly dataAccess: DataAccess<"auth">) {}
 
     async authorize(username: string, password: string): Promise<AuthResult> {
         const authData = await this.dataAccess.auth.getAuthByUsername(username);

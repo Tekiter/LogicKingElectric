@@ -1,5 +1,5 @@
-import { createMemoryDataAccessFacade } from "../../dao/memory";
-import { DataAccessFacade } from "../../dao/types";
+import { AuthMemoryDataAccess } from "../../dao/memory/auth";
+import { AuthDataAccess } from "../../dao/types";
 import { AuthWithPassword } from "../auth";
 
 const SAMPLE_USERNAME = "helloworld";
@@ -7,11 +7,17 @@ const SAMPLE_PASSWORD = "a_s1mp1e_p4sswd";
 
 describe("Auth With Username & Password", () => {
     let auth: AuthWithPassword;
-    let store: DataAccessFacade;
+    let store: { auth: AuthDataAccess };
+
+    beforeAll(() => {
+        store = {
+            auth: new AuthMemoryDataAccess(),
+        };
+        auth = new AuthWithPassword(store);
+    });
 
     beforeEach(() => {
-        store = createMemoryDataAccessFacade();
-        auth = new AuthWithPassword(store);
+        AuthMemoryDataAccess.clear();
     });
 
     test("register new auth", async () => {

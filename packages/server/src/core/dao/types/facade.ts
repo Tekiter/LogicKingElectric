@@ -4,4 +4,4 @@ export interface DataAccessFacade {
     auth: AuthDataAccess;
 }
 
-export type DataAccessFacadePartial = Partial<DataAccessFacade>;
+export type DataAccess<K extends keyof DataAccessFacade = keyof DataAccessFacade> = Pick<DataAccessFacade, K>;
