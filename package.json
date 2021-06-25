@@ -6,9 +6,9 @@
     ],
     "scripts": {
         "prepare": "husky install",
-        "server": "yarn workspace server",
-        "client": "yarn workspace client",
-        "shared": "yarn workspace shared",
+        "server": "yarn workspace @electric/server",
+        "client": "yarn workspace @electric/client",
+        "shared": "yarn workspace @electric/shared",
         "lint": "npm run lint-eslint && npm run lint-prettier",
         "lint-eslint": "eslint . --ext js,jsx,ts,tsx --ignore-path .gitignore --max-warnings=0 --fix",
         "lint-prettier": "prettier --write \"packages/**/*.(js|jsx|ts|tsx)\"",

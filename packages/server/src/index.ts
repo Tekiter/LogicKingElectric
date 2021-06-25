@@ -1,3 +1,3 @@
-import { Hello } from "shared";
+import { Hello } from "@electric/shared";
 
 console.log(`hello ${Hello}!`);

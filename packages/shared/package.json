@@ -1,13 +1,11 @@
 {
-  "name": "shared",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^4.3.4"
-  }
+    "name": "@electric/shared",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {},
+    "license": "MIT",
+    "devDependencies": {
+        "typescript": "^4.3.4"
+    }
 }
