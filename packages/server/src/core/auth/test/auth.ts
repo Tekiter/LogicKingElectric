@@ -9,7 +9,7 @@ describe("Auth With Username & Password", () => {
     let auth: AuthWithPassword;
     let store: { auth: AuthDataAccess };
 
-    beforeAll(() => {
+    beforeEach(() => {
         store = {
             auth: new AuthMemoryDataAccess(),
         };
@@ -35,7 +35,7 @@ describe("Auth With Username & Password", () => {
         expect(result.success).toBeFalsy();
     });
 
-    test("authorize", async () => {
+    test("authorize success", async () => {
         await auth.register(SAMPLE_USERNAME, SAMPLE_PASSWORD);
 
         const result = await auth.authorize(SAMPLE_USERNAME, SAMPLE_PASSWORD);
@@ -44,5 +44,19 @@ describe("Auth With Username & Password", () => {
         if (result.success) {
             expect(result.authInfo.username).toBe(SAMPLE_USERNAME);
         }
+    });
+
+    test("authorize with invalid username", async () => {
+        await auth.register(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+
+        const result = await auth.authorize("THE_OTHER", SAMPLE_PASSWORD);
+        expect(result.success).toBeFalsy();
+    });
+
+    test("authorize with invalid password", async () => {
+        await auth.register(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+
+        const result = await auth.authorize(SAMPLE_USERNAME, "OTHER_PW");
+        expect(result.success).toBeFalsy();
     });
 });

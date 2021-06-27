@@ -1,6 +1,6 @@
 module.exports = {
     testMatch: ["**/tests/**/*.+(ts|tsx|js)", "**/test/**/*.+(ts|tsx|js)", "**/?(*.)+(spec|test).+(ts|tsx|js)"],
-    testPathIgnorePatterns: ["/node_modules/", "/test/tmp/", "/test/utils/"],
+    testPathIgnorePatterns: ["/node_modules/", "/test/tmp/", "/test/utils/", "/dist/"],
     transformIgnorePatterns: [
         "/node_modules/",
         "/test/(fixtures|tmp|__data__)/",
