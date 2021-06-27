@@ -1,7 +1,7 @@
 import express from "express";
-import APIv1 from "../api/v1";
-import { ServiceFacade } from "../api/v1/util";
-import { createMemoryDataAccessFacade } from "../core/dao/memory";
+import APIv1 from "./api/v1";
+import { ServiceFacade } from "./api/v1/util";
+import { createMemoryDataAccessFacade } from "../service/dataAccess/memory";
 
 function createServices(): ServiceFacade {
     const dataAccess = createMemoryDataAccessFacade();

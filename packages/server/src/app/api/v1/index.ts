@@ -1,7 +1,7 @@
 import express from "express";
 import { getControllers, ServiceFacade, Controller } from "./util";
 
-import "./endpoint";
+import "./controller";
 
 export class APIv1 {
     private _router = express.Router();

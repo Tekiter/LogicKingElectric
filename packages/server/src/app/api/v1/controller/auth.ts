@@ -1,6 +1,6 @@
 import { issueToken } from "@electric/shared/src/api/v1/request/auth";
-import { AuthWithPassword } from "../../../core/auth";
-import { JWTTokenManager } from "../../../core/auth/token/jwt";
+import { AuthWithPassword } from "../../../../core/auth";
+import { JWTTokenManager } from "../../../../core/auth/token/jwt";
 import { APIError, createNoAuthController } from "../util";
 
 export const issueTokenController = createNoAuthController<issueToken.Request, issueToken.Response>(

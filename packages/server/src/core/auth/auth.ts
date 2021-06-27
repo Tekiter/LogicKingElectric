@@ -1,6 +1,6 @@
 import { checkHashedPassword, hashPassword } from "./hash";
 
-import { DataAccess } from "../dao/types";
+import { DataAccess } from "../../service/dataAccess/types";
 
 interface AuthInfo {
     username: string;
