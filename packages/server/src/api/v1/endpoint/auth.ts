@@ -1,7 +1,7 @@
 import { issueToken } from "@electric/shared/src/api/v1/request/auth";
 import { AuthWithPassword } from "../../../core/auth";
 import { JWTTokenManager } from "../../../core/auth/token/jwt";
-import { createNoAuthController, NotFoundError } from "../util";
+import { APIError, createNoAuthController } from "../util";
 
 export const issueTokenController = createNoAuthController<issueToken.Request, issueToken.Response>(
     issueToken.endpoint,
@@ -18,7 +18,7 @@ export const issueTokenController = createNoAuthController<issueToken.Request, i
                 accessToken: token,
             };
         } else {
-            throw new NotFoundError("Invalid username or password");
+            throw new APIError(issueToken.authFailError);
         }
     },
 );

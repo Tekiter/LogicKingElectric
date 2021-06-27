@@ -1,7 +1,7 @@
 import express from "express";
 import { EndpointEntry } from "@electric/shared/src/api/v1/util";
 import { DataAccess } from "../../../core/dao/types";
-import { ResponseError } from "./error";
+import { APIError } from "./error";
 
 export interface ServiceFacade {
     dataAccess: DataAccess;
@@ -43,8 +43,8 @@ export function createNoAuthController<Req, Res>(
 
 function asyncErrorHandler(res: express.Response) {
     return (error: Error) => {
-        if (error instanceof ResponseError) {
-            res.status(error.status).json({ message: error.message });
+        if (error instanceof APIError) {
+            res.status(error.status).json({ message: error.message, data: error.data });
         } else {
             res.status(500).json({ message: "Fatal error occuered" });
             console.log(error);

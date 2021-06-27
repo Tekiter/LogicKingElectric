@@ -1,11 +1,14 @@
-export abstract class ResponseError extends Error {
-    abstract status: number;
-}
+import { ErrorObject } from "@electric/shared/src/api/v1/util";
 
-export class NotFoundError extends ResponseError {
-    status = 404;
-}
+export class APIError<ErrorData> extends Error {
+    public status: number;
+    public data: ErrorData | undefined;
 
-export class UnauthorizedError extends ResponseError {
-    status = 401;
+    constructor(error: ErrorObject<null>);
+    constructor(error: ErrorObject<NonNullable<ErrorData>>, data: ErrorData);
+    constructor(error: ErrorObject<ErrorData>, data?: ErrorData) {
+        super(error.message);
+        this.status = error.status;
+        this.data = data;
+    }
 }
