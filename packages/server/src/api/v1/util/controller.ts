@@ -30,18 +30,32 @@ export function createNoAuthController<Req, Res>(
             const request: Request<Req> = {
                 data: extractData(endpoint, req),
             };
+            console.log(request);
 
             handler(request, services)
                 .then(response => res.status(200).json(response))
-                .catch((error: ResponseError) => res.status(error.status).json({ message: error.message }));
+                .catch(asyncErrorHandler(res));
         };
 
     controller.endpoint = endpoint;
     return controller;
 }
 
+function asyncErrorHandler(res: express.Response) {
+    return (error: Error) => {
+        if (error instanceof ResponseError) {
+            res.status(error.status).json({ message: error.message });
+        } else {
+            res.status(500).json({ message: "Fatal error occuered" });
+            console.log(error);
+        }
+    };
+}
+
 function extractData<T>(endpoint: EndpointEntry, req: express.Request): T {
     let dataSource = req.body;
+    console.log(req.body);
+    console.log(req.query);
     switch (endpoint.method) {
         case "GET":
         case "DELETE":
@@ -52,7 +66,7 @@ function extractData<T>(endpoint: EndpointEntry, req: express.Request): T {
             dataSource = req.body;
             break;
         default:
-            break;
+            throw new Error("Invalid method type : " + endpoint.method);
     }
 
     return dataSource as T;

@@ -1,6 +1,7 @@
 import { issueToken } from "@electric/shared/src/api/v1/request/auth";
 import { AuthWithPassword } from "../../../core/auth";
-import { createNoAuthController, NotFoundError, registerController } from "../util";
+import { JWTTokenManager } from "../../../core/auth/token/jwt";
+import { createNoAuthController, NotFoundError } from "../util";
 
 export const issueTokenController = createNoAuthController<issueToken.Request, issueToken.Response>(
     issueToken.endpoint,
@@ -11,12 +12,13 @@ export const issueTokenController = createNoAuthController<issueToken.Request, i
         const result = await auth.authorize(data.username, data.password);
 
         if (result.success) {
+            const tokenManager = new JWTTokenManager("SECRET_NEED_CHANGE");
+            const token = await tokenManager.issue(result.authInfo);
             return {
-                accessToken: result.authInfo.username,
+                accessToken: token,
             };
         } else {
             throw new NotFoundError("Invalid username or password");
         }
     },
 );
-registerController(issueTokenController);

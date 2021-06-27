@@ -11,6 +11,6 @@ export interface Response {
 }
 
 export const endpoint = {
-    path: "auth/issue",
+    path: "/auth/issue",
     method: "POST",
 } as EndpointEntry;

@@ -1,3 +1,6 @@
-import { Hello } from "@electric/shared";
+import { createApp } from "./app";
 
-console.log(`hello ${Hello}!`);
+const PORT = 5000;
+
+const app = createApp();
+app.listen(PORT, () => console.log("Server started: http://localhost:" + PORT));
