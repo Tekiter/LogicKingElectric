@@ -1,8 +1,9 @@
 import express from "express";
-import { getControllers, ServiceFacade, Controller, asyncErrorHandler } from "./util";
+import { getControllers, Controller, asyncErrorHandler } from "./util";
 
 import "./controller";
 import { HTTPMethod } from "@electric/shared/src/api/v1/util";
+import { ServiceFacade } from "../../services";
 
 export class APIv1 {
     private _router = express.Router();
