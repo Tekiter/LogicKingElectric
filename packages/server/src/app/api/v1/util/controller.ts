@@ -8,8 +8,8 @@ export interface RequestHandler<RequestData, ResponseData> {
     (request: Request<RequestData>, services: ServiceFacade): Promise<ResponseData>;
 }
 
-export interface Controller {
-    handler: RequestHandler<unknown, unknown>;
+export interface Controller<Req = unknown, Res = unknown> {
+    handler: RequestHandler<Req, Res>;
     endpoint: EndpointEntry;
     flags: {
         needAuth: boolean;

@@ -43,6 +43,7 @@ describe("Auth With Username & Password", () => {
 
         if (result.success) {
             expect(result.authInfo.username).toBe(SAMPLE_USERNAME);
+            expect(typeof result.accessToken).toBe("string");
         }
     });
 

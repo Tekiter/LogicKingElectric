@@ -1,12 +1,13 @@
 import { checkHashedPassword, hashPassword } from "./hash";
 
 import { DataAccess } from "../../core/dataAccess/types";
+import { JWTTokenManager } from "./token/jwt";
 
 interface AuthInfo {
     username: string;
 }
 
-type AuthResult = { success: true; authInfo: AuthInfo } | { success: false };
+type AuthResult = { success: true; authInfo: AuthInfo; accessToken: string } | { success: false };
 type RegisterResult = { success: boolean };
 
 export class AuthWithPassword {
@@ -25,13 +26,23 @@ export class AuthWithPassword {
             const authInfo: AuthInfo = {
                 username: authData.username,
             };
+
+            const token = await this.getAccessToken(authInfo);
+
             return {
                 success: true,
                 authInfo: authInfo,
+                accessToken: token,
             };
         }
 
         return { success: false };
+    }
+
+    private async getAccessToken(authInfo: AuthInfo) {
+        const tokenManager = new JWTTokenManager("SECRET_NEED_CHANGE");
+        const token = await tokenManager.issue(authInfo);
+        return token;
     }
 
     async register(username: string, password: string): Promise<RegisterResult> {

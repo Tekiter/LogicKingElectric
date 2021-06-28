@@ -1,5 +1,4 @@
 import { issueToken } from "@electric/shared/src/api/v1/request/auth";
-import { JWTTokenManager } from "../../../../service/auth/token/jwt";
 import { APIError, createNoAuthController } from "../util";
 
 export const issueTokenController = createNoAuthController<issueToken.Request, issueToken.Response>(
@@ -10,10 +9,8 @@ export const issueTokenController = createNoAuthController<issueToken.Request, i
         const result = await services.auth.authorize(data.username, data.password);
 
         if (result.success) {
-            const tokenManager = new JWTTokenManager("SECRET_NEED_CHANGE");
-            const token = await tokenManager.issue(result.authInfo);
             return {
-                accessToken: token,
+                accessToken: result.accessToken,
             };
         } else {
             throw new APIError(issueToken.authFailError);
