@@ -1,5 +1,5 @@
 import { AuthMemoryDataAccess } from "../../../core/dataAccess/memory/auth";
-import { AuthDataAccess } from "../../../core/dataAccess/types";
+import { AuthDataAccess } from "../../../core/dataAccess/types/auth";
 import { AuthWithPassword } from "../auth";
 
 const SAMPLE_USERNAME = "helloworld";

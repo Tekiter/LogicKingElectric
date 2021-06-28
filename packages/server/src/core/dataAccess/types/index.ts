@@ -1,3 +1,9 @@
-export * from "./auth";
+import { AuthDataAccess } from "./auth";
+import { ConfigDataAccess } from "./config";
 
-export type { DataAccessFacade, DataAccess } from "./facade";
+export interface DataAccessFacade {
+    auth: AuthDataAccess;
+    config: ConfigDataAccess;
+}
+
+export type DataAccess<K extends keyof DataAccessFacade = keyof DataAccessFacade> = Pick<DataAccessFacade, K>;

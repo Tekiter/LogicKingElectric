@@ -1,4 +1,4 @@
-import type { AuthData, AuthDataAccess } from "../types";
+import { AuthData, AuthDataAccess } from "../types/auth";
 
 const store: AuthData[] = [];
 
