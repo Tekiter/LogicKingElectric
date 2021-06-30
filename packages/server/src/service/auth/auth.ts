@@ -3,6 +3,11 @@ import { checkHashedPassword, hashPassword } from "./hash";
 import { DataAccess } from "../../core/dataAccess/types";
 import { JWTTokenManager } from "./token/jwt";
 
+export interface AuthService {
+    authorize(username: string, password: string): Promise<AuthResult>;
+    register(username: string, password: string): Promise<RegisterResult>;
+}
+
 interface AuthInfo {
     username: string;
 }
@@ -10,7 +15,7 @@ interface AuthInfo {
 type AuthResult = { success: true; authInfo: AuthInfo; accessToken: string } | { success: false };
 type RegisterResult = { success: boolean };
 
-export class AuthWithPassword {
+export class AuthWithPassword implements AuthService {
     constructor(private readonly dataAccess: DataAccess<"auth">) {}
 
     async authorize(username: string, password: string): Promise<AuthResult> {
@@ -47,11 +52,14 @@ export class AuthWithPassword {
 
     async register(username: string, password: string): Promise<RegisterResult> {
         const existingAuthData = await this.dataAccess.auth.getAuthByUsername(username);
-        if (existingAuthData !== null) {
+        const authDataExists = existingAuthData !== null;
+
+        const hashedPassword = await hashPassword(password);
+
+        if (authDataExists) {
             return { success: false };
         }
 
-        const hashedPassword = await hashPassword(password);
         await this.dataAccess.auth.registerAuth({ username: username, passwordHash: hashedPassword });
 
         return { success: true };

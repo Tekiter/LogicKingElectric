@@ -3,6 +3,7 @@ import { User } from "../../entity/user";
 
 export interface UserService {
     createNewUser(userInfo: User): Promise<CreateNewUserResult>;
+    isUserExists(username: string): Promise<boolean>;
 }
 
 interface CreateNewUserResult {
@@ -24,5 +25,12 @@ export class UserServiceImpl implements UserService {
 
         await this.dataAccess.user.saveOrCreateUser(userInfo);
         return { state: "created" };
+    }
+
+    async isUserExists(username: string): Promise<boolean> {
+        const existingUser = await this.dataAccess.user.getUserByUsername(username);
+        const userExsits = existingUser !== null;
+
+        return userExsits;
     }
 }

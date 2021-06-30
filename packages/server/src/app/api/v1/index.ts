@@ -3,7 +3,7 @@ import { getControllers, Controller, asyncErrorHandler } from "./util";
 
 import "./controller";
 import { HTTPMethod } from "@electric/shared/src/api/v1/util";
-import { ServiceFacade } from "../../services";
+import { ServiceFacade } from "../../../service";
 
 export class APIv1 {
     private _router = express.Router();

@@ -1,5 +1,5 @@
 import { EndpointEntry } from "@electric/shared/src/api/v1/util";
-import { ServiceFacade } from "../../../services";
+import { ServiceFacade } from "../../../../service";
 
 export interface Request<Data> {
     data: Data;

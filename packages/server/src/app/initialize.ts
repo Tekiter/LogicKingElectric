@@ -1,4 +1,4 @@
-import { ServiceFacade } from "./services";
+import { ServiceFacade } from "../service";
 
 export async function initialize(services: ServiceFacade): Promise<void> {
     const init = new Initializer(services);
