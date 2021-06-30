@@ -14,8 +14,9 @@ export class APIv1 {
         this.setFallbackController();
     }
 
-    getRouter(): express.Router {
-        return this._router;
+    private setRequestDataParser() {
+        this._router.use(express.json());
+        this._router.use(express.urlencoded({ extended: true }));
     }
 
     private setControllers() {
@@ -24,7 +25,12 @@ export class APIv1 {
     }
 
     private setController(controller: Controller) {
-        const { method, path } = controller.endpoint;
+        const middleware = this.createMiddleware(controller);
+        this.setMiddleware(controller, middleware);
+    }
+
+    private createMiddleware(controller: Controller) {
+        const { method } = controller.endpoint;
 
         const middleware = (req: express.Request, res: express.Response) => {
             const request = {
@@ -36,7 +42,11 @@ export class APIv1 {
                 .then(response => res.status(200).json(response))
                 .catch(asyncErrorHandler(res));
         };
+        return middleware;
+    }
 
+    private setMiddleware(controller: Controller, middleware: (req: express.Request, res: express.Response) => void) {
+        const { method, path } = controller.endpoint;
         switch (method) {
             case "GET":
                 this._router.get(path, middleware);
@@ -59,9 +69,8 @@ export class APIv1 {
         this._router.use("*", (_, res) => res.status(404).json({ message: "invalid API route" }));
     }
 
-    private setRequestDataParser() {
-        this._router.use(express.json());
-        this._router.use(express.urlencoded({ extended: true }));
+    getRouter(): express.Router {
+        return this._router;
     }
 }
 
