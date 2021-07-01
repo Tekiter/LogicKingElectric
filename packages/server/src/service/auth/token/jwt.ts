@@ -9,7 +9,7 @@ export class JWTTokenManager<AuthInfo> implements AuthTokenManager<AuthInfo> {
         return jwt.sign(authInfoObj, this.secretKey);
     }
 
-    async check(token: AuthToken): Promise<boolean> {
+    async isValidToken(token: AuthToken): Promise<boolean> {
         try {
             jwt.verify(token, this.secretKey);
         } catch {
