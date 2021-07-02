@@ -1,4 +1,4 @@
-import { ServiceFacade } from "./services";
+import { ServiceFacade } from "../service";
 
 export async function initialize(services: ServiceFacade): Promise<void> {
     const init = new Initializer(services);
@@ -9,10 +9,7 @@ class Initializer {
     constructor(private readonly services: ServiceFacade) {}
 
     async init(): Promise<void> {
-        await this.tryCreateDefaultAdmin();
-    }
-
-    async tryCreateDefaultAdmin() {
-        //
+        await this.services.initialize.initConfig();
+        await this.services.initialize.initDefaultAdmin();
     }
 }

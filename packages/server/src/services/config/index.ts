@@ -1,5 +1,4 @@
 import { DataAccess } from "../../core/dataAccess/types";
-import { ConfigData } from "../../entity/config";
 
 export interface ConfigService {
     setupIfNoConfig(): Promise<void>;
@@ -7,8 +6,16 @@ export interface ConfigService {
     setConfig<Key extends keyof ConfigData>(key: Key, value: ConfigData[Key]): Promise<void>;
 }
 
+export interface ConfigData {
+    adminUsername: string;
+    adminPassword: string;
+}
+
+export type ConfigDataKey = keyof ConfigData;
+
 export const defaultConfig = {
     adminUsername: "admin",
+    adminPassword: "helloworld",
 } as ConfigData;
 
 export class ConfigServiceImpl implements ConfigService {

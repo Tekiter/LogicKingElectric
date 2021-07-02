@@ -1,10 +1,21 @@
 import { RawAuthToken } from "../../data/auth";
-import type { User } from "../../data/user";
+import { defineEndpoint, defineError } from "../../util";
 
-export interface AuthorizeRequest {
+export interface Request {
     accessToken: RawAuthToken;
 }
 
-export interface AuthorizeResponse {
-    user: User;
+export interface Response {
+    username: string;
 }
+
+export const endpoint = defineEndpoint({
+    path: "/auth/authorize",
+    method: "POST",
+});
+
+export const invalidTokenError = defineError({
+    key: "InvalidTokenError",
+    status: 401,
+    message: "Invalid auth token",
+});

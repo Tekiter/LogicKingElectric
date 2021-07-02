@@ -8,8 +8,8 @@ export interface RequestHandler<RequestData, ResponseData> {
     (request: Request<RequestData>, services: ServiceFacade): Promise<ResponseData>;
 }
 
-export interface Controller<Req = unknown, Res = unknown> {
-    handler: RequestHandler<Req, Res>;
+export interface Controller<Handler = RequestHandler<unknown, unknown>> {
+    handler: Handler;
     endpoint: EndpointEntry;
     flags: {
         needAuth: boolean;
@@ -25,6 +25,16 @@ export function createNoAuthController<Req, Res>(
         endpoint: endpoint,
         flags: {
             needAuth: false,
+        },
+    };
+}
+
+export function createAuthController<Req, Res>(endpoint: EndpointEntry, handler: RequestHandler<Req, Res>): Controller {
+    return {
+        handler: handler as RequestHandler<unknown, unknown>,
+        endpoint: endpoint,
+        flags: {
+            needAuth: true,
         },
     };
 }

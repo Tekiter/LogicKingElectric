@@ -16,6 +16,10 @@ export class AuthMemoryDataAccess implements AuthDataAccess {
         store.push(authData);
     }
 
+    async updateAuth(username: string, authData: AuthData): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
     static clear(): void {
         store.length = 0;
     }

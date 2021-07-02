@@ -1,4 +1,4 @@
-import { ConfigData } from "../../../entity/config";
+import { ConfigData } from "../../../service/config";
 import { ConfigDataAccess } from "../types/config";
 
 const store = {} as Partial<ConfigData>;

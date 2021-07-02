@@ -14,4 +14,8 @@ export class UserMemoryDataAccess implements UserDataAccess {
     async saveOrCreateUser(user: User): Promise<void> {
         store.set(user.username, user);
     }
+
+    static clear(): void {
+        store.clear();
+    }
 }

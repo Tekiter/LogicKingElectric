@@ -24,14 +24,14 @@ describe("Auth JWT Token", () => {
     });
 
     test("check fail on invalid token", async () => {
-        const isValid = await jwt.check("an invalid token");
+        const isValid = await jwt.isValidToken("an invalid token");
         expect(isValid).toBeFalsy();
     });
 
     test("check success on valid token", async () => {
         const token = await jwt.issue(testInfo);
 
-        const isValid = await jwt.check(token);
+        const isValid = await jwt.isValidToken(token);
         expect(isValid).toBeTruthy();
     });
 
