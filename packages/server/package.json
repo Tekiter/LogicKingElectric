@@ -8,6 +8,9 @@
             "^.+\\.ts$": "ts-jest"
         },
         "testRegex": "\\.test\\.ts$",
+        "comments":{
+            "1":"testRegex는 필요없으면 삭제 가능"
+        },
         "moduleFileExtensions": [
             "ts",
             "tsx",
