@@ -9,6 +9,7 @@ export class ServerRequestAPIService implements APIService {
     constructor() {
         this.axios = axios.create({
             baseURL: "/api/v1/",
+            validateStatus: status => status >= 200 && status < 500,
         });
     }
     async request<Request, Response>(
@@ -20,6 +21,11 @@ export class ServerRequestAPIService implements APIService {
             url: endpoint.path,
             ...setupRequestData(endpoint, requestData),
         });
+
+        if (ret.status >= 400 && ret.status < 500) {
+            const errorData = ret.data as { key: string; message: string };
+            throw new APIError(errorData);
+        }
 
         return ret.data as Response;
     }
@@ -40,5 +46,16 @@ function setupRequestData<Request>(endpoint: EndpointEntry<Request, unknown>, da
             };
         default:
             throw new Error("Invalid method type : " + method);
+    }
+}
+
+class APIError extends Error {
+    key: string;
+    message: string;
+
+    constructor({ key, message }: { key: string; message: string }) {
+        super();
+        this.key = key;
+        this.message = message;
     }
 }

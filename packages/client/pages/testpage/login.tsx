@@ -17,7 +17,9 @@ export default function LoginTest(): JSX.Element {
             });
             setResponse(res.accessToken);
         } catch (error) {
-            setResponse("ERROR");
+            if (issueToken.authFailError(error)) {
+                setResponse("Auth Failed : " + error.message);
+            }
         }
     }
     return (
