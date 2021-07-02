@@ -17,7 +17,6 @@
         "coverage": "jest --coverage"
     },
     "lint-staged": {
-        "version":"12.13.0",
         "packages/**/*.(js|jsx|ts|tsx)": [
             "npm run lint"
         ]
