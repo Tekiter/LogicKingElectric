@@ -5,10 +5,13 @@ export interface EndpointEntryRaw {
     readonly method: HTTPMethod;
 }
 
-export type EndpointEntry = Readonly<EndpointEntryRaw>;
+export interface EndpointEntry<Request, Response> extends EndpointEntryRaw {
+    readonly __Request?: Request;
+    readonly __Response?: Response;
+}
 
-export function defineEndpoint(entry: EndpointEntryRaw): EndpointEntry {
-    return Object.freeze(entry);
+export function defineEndpoint<Request, Response>(entry: EndpointEntryRaw): EndpointEntry<Request, Response> {
+    return Object.freeze(entry) as EndpointEntry<Request, Response>;
 }
 
 export interface ErrorObjectRaw {

@@ -9,7 +9,7 @@ export interface Response {
     username: string;
 }
 
-export const endpoint = defineEndpoint({
+export const endpoint = defineEndpoint<Request, Response>({
     path: "/auth/authorize",
     method: "POST",
 });

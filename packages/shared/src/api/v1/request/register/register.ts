@@ -9,7 +9,7 @@ export interface Response {
     success: boolean;
 }
 
-export const endpoint = defineEndpoint({
+export const endpoint = defineEndpoint<Request, Response>({
     path: "/register",
     method: "POST",
 });

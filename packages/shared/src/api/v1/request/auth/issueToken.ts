@@ -10,7 +10,7 @@ export interface Response {
     accessToken: RawAuthToken;
 }
 
-export const endpoint = defineEndpoint({
+export const endpoint = defineEndpoint<Request, Response>({
     path: "/auth/issue",
     method: "POST",
 });

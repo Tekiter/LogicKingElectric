@@ -1,31 +1,25 @@
 import { authorize, issueToken } from "@electric/shared/src/api/v1/request/auth";
 import { APIError, createNoAuthController } from "../util";
 
-export const issueTokenController = createNoAuthController<issueToken.Request, issueToken.Response>(
-    issueToken.endpoint,
-    async (req, services) => {
-        const { data } = req;
+export const issueTokenController = createNoAuthController(issueToken.endpoint, async (req, services) => {
+    const { data } = req;
 
-        const result = await services.auth.authorize(data.username, data.password);
+    const result = await services.auth.authorize(data.username, data.password);
 
-        if (result.success) {
-            return {
-                accessToken: result.accessToken,
-            };
-        } else {
-            throw new APIError(issueToken.authFailError);
-        }
-    },
-);
+    if (result.success) {
+        return {
+            accessToken: result.accessToken,
+        };
+    } else {
+        throw new APIError(issueToken.authFailError);
+    }
+});
 
-export const authorizeController = createNoAuthController<authorize.Request, authorize.Response>(
-    authorize.endpoint,
-    async (req, services) => {
-        const token = req.data.accessToken;
-        const authInfo = await services.auth.getAuthInfo(token);
-        if (!authInfo.success) {
-            throw new APIError(authorize.invalidTokenError);
-        }
-        return { username: authInfo.authInfo.username };
-    },
-);
+export const authorizeController = createNoAuthController(authorize.endpoint, async (req, services) => {
+    const token = req.data.accessToken;
+    const authInfo = await services.auth.getAuthInfo(token);
+    if (!authInfo.success) {
+        throw new APIError(authorize.invalidTokenError);
+    }
+    return { username: authInfo.authInfo.username };
+});
