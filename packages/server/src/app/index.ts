@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import { createMemoryDataAccessFacade } from "../core/dataAccess/memory";
-import { createServices } from "../service";
+import { createServices } from "../services";
 import APIv1 from "./api/v1";
 import { initialize } from "./initialize";
 
