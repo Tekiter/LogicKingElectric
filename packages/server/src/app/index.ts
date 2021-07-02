@@ -1,6 +1,6 @@
 import express from "express";
 import { createMemoryDataAccessFacade } from "../core/dataAccess/memory";
-import { createServices } from "../service";
+import { createServices } from "../services";
 import APIv1 from "./api/v1";
 
 export function createApp(): express.Express {
