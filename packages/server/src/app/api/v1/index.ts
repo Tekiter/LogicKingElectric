@@ -2,7 +2,7 @@ import express from "express";
 import { getControllers, Controller, asyncErrorHandler } from "./util";
 
 import { HTTPMethod } from "@electric/shared/src/api/v1/util";
-import { ServiceFacade } from "../../../service";
+import { ServiceFacade } from "../../../services";
 
 import "./registerControllers";
 export class APIv1 {
