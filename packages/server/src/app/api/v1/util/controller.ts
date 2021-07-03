@@ -10,14 +10,14 @@ export interface RequestHandler<RequestData, ResponseData> {
 
 export interface Controller<Handler = RequestHandler<unknown, unknown>> {
     handler: Handler;
-    endpoint: EndpointEntry;
+    endpoint: EndpointEntry<unknown, unknown>;
     flags: {
         needAuth: boolean;
     };
 }
 
 export function createNoAuthController<Req, Res>(
-    endpoint: EndpointEntry,
+    endpoint: EndpointEntry<Req, Res>,
     handler: RequestHandler<Req, Res>,
 ): Controller {
     return {
@@ -29,7 +29,10 @@ export function createNoAuthController<Req, Res>(
     };
 }
 
-export function createAuthController<Req, Res>(endpoint: EndpointEntry, handler: RequestHandler<Req, Res>): Controller {
+export function createAuthController<Req, Res>(
+    endpoint: EndpointEntry<Req, Res>,
+    handler: RequestHandler<Req, Res>,
+): Controller {
     return {
         handler: handler as RequestHandler<unknown, unknown>,
         endpoint: endpoint,
