@@ -2516,7 +2516,6 @@ babel-plugin-jest-hoist@^27.0.1:
     "@types/babel__core" "^7.0.0"
     "@types/babel__traverse" "^7.0.6"
 
-<<<<<<< HEAD
 babel-plugin-jest-hoist@^27.0.6:
   version "27.0.6"
   resolved "https://registry.yarnpkg.com/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-27.0.6.tgz#f7c6b3d764af21cb4a2a1ab6870117dbde15b456"
@@ -2527,8 +2526,6 @@ babel-plugin-jest-hoist@^27.0.6:
     "@types/babel__core" "^7.0.0"
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-syntax-jsx@6.18.0:
-=======
 "babel-plugin-styled-components@>= 1.12.0":
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.13.1.tgz#5ecd28b207627c2a26ef8d5da401e9644065095a"
@@ -2540,7 +2537,6 @@ babel-plugin-syntax-jsx@6.18.0:
     lodash "^4.17.11"
 
 babel-plugin-syntax-jsx@6.18.0, babel-plugin-syntax-jsx@^6.18.0:
->>>>>>> 4970936d464e455c8215e3bd502a678eae3f6823
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
   integrity sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY=
@@ -9106,7 +9102,6 @@ stylis@3.5.4:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
   integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
 
-<<<<<<< HEAD
 superagent@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-6.1.0.tgz#09f08807bc41108ef164cfb4be293cebd480f4a6"
@@ -9132,10 +9127,7 @@ supertest@^6.1.3:
     methods "^1.1.2"
     superagent "^6.1.0"
 
-supports-color@^5.3.0:
-=======
 supports-color@^5.3.0, supports-color@^5.5.0:
->>>>>>> 4970936d464e455c8215e3bd502a678eae3f6823
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
   integrity sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
