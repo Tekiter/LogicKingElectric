@@ -1,15 +1,10 @@
-import { RawAuthToken } from "../../data/auth";
 import { defineEndpoint, defineError } from "../../util";
-
-export interface Request {
-    accessToken: RawAuthToken;
-}
 
 export interface Response {
     username: string;
 }
 
-export const endpoint = defineEndpoint<Request, Response>({
+export const endpoint = defineEndpoint<unknown, Response>({
     path: "/auth/authorize",
     method: "POST",
 });

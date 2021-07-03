@@ -1,7 +1,6 @@
 import express from "express";
-import { getControllers, Controller, asyncErrorHandler } from "./util";
+import { getControllers, Controller } from "./util";
 
-import { HTTPMethod } from "@electric/shared/src/api/v1/util";
 import { ServiceFacade } from "../../../services";
 
 import "./registerControllers";
@@ -30,18 +29,7 @@ export class APIv1 {
     }
 
     private createMiddleware(controller: Controller) {
-        const { method } = controller.endpoint;
-
-        const middleware = (req: express.Request, res: express.Response) => {
-            const request = {
-                data: extractData(method, req),
-            };
-
-            controller
-                .handler(request, this.services)
-                .then(response => res.status(200).json(response))
-                .catch(asyncErrorHandler(res));
-        };
+        const middleware = controller.middleware(this.services);
         return middleware;
     }
 
@@ -72,24 +60,6 @@ export class APIv1 {
     getRouter(): express.Router {
         return this._router;
     }
-}
-
-function extractData<T>(method: HTTPMethod, req: express.Request): T {
-    let dataSource = req.body;
-    switch (method) {
-        case "GET":
-        case "DELETE":
-            dataSource = req.query;
-            break;
-        case "PATCH":
-        case "POST":
-            dataSource = req.body;
-            break;
-        default:
-            throw new Error("Invalid method type : " + method);
-    }
-
-    return dataSource as T;
 }
 
 export default APIv1;
