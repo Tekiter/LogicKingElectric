@@ -60,4 +60,20 @@ describe("Auth With Username & Password", () => {
         const result = await auth.authorize(SAMPLE_USERNAME, "OTHER_PW");
         expect(result.success).toBeFalsy();
     });
+
+    test("getAuthInfo failure on invalid token", async () => {
+        expect(auth.getAuthInfo("INVALID_TOKEN")).resolves.toEqual({ success: false });
+    });
+
+    test("getAuthInfo success", async () => {
+        await auth.register(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+        const token = await auth.authorize(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+        if (token.success) {
+            expect(auth.getAuthInfo(token.accessToken)).resolves.toEqual({
+                success: true,
+                authInfo: { username: SAMPLE_USERNAME },
+            });
+        }
+        expect.assertions(1);
+    });
 });
