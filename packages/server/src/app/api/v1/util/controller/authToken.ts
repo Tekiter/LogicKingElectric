@@ -2,9 +2,8 @@ import { ServiceFacade } from "../../../../../services";
 import { AuthInfo } from "../../../../../services/auth/auth";
 import { HandleableError } from "../error";
 
-class AuthFailError extends HandleableError {
+export class AuthFailError extends HandleableError {
     key = "AuthFailError";
-    message = "Authorization Failed.";
     status = 401;
     data = undefined;
 }
@@ -17,16 +16,10 @@ class NotValidAuthTokenError extends AuthFailError {
     message = "Not a valid authorization token";
 }
 
-export class AuthTokenParser {
+export class AuthTokenExtractor {
     constructor(private readonly services: ServiceFacade) {}
 
-    async getAuthInfo(authHeader: string | undefined): Promise<AuthInfo> {
-        if (!this.isValidAuthHeader(authHeader)) {
-            throw new AuthorizationParseError();
-        }
-
-        const token = this.parseToken(authHeader);
-
+    async getAuthInfo(token: string): Promise<AuthInfo> {
         const authInfoResult = await this.services.auth.getAuthInfo(token);
         if (authInfoResult.success === false) {
             throw new NotValidAuthTokenError();
@@ -34,13 +27,27 @@ export class AuthTokenParser {
 
         return authInfoResult.authInfo;
     }
+}
+
+export class AuthHeaderParser {
+    static parse(authHeader: string | undefined): string {
+        const parser = new AuthHeaderParser();
+        return parser.parse(authHeader);
+    }
+
+    parse(authHeader: string | undefined): string {
+        if (!this.isValidAuthHeader(authHeader)) {
+            throw new AuthorizationParseError();
+        }
+        return this.parseToken(authHeader);
+    }
 
     private isValidAuthHeader(authHeader: string | undefined): authHeader is string {
         if (authHeader === undefined) return false;
         if (!authHeader.startsWith("Bearer ")) return false;
 
         const parts = authHeader.split(" ");
-        if (parts.length != 2) return false;
+        if (parts.length != 2 || parts[1] === "") return false;
 
         return true;
     }

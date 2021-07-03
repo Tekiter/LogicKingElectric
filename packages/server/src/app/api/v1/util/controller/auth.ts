@@ -2,7 +2,7 @@ import express from "express";
 import { EndpointEntry } from "@electric/shared/src/api/v1/util";
 import { ServiceFacade } from "../../../../../services";
 import { Controller, Request, RequestHandler } from "./controller";
-import { AuthTokenParser } from "./authTokenParser";
+import { AuthTokenExtractor, AuthHeaderParser } from "./authToken";
 import { extractData } from "./common";
 import { asyncErrorHandler } from "../error";
 import { AuthInfo } from "../../../../../services/auth/auth";
@@ -28,10 +28,12 @@ class AuthController<ReqData, Res> implements Controller {
 
     middleware(services: ServiceFacade): (req: express.Request, res: express.Response) => void {
         const middleware = (req: express.Request, res: express.Response): void => {
-            const tokenParser = new AuthTokenParser(services);
+            const tokenExtractor = new AuthTokenExtractor(services);
 
-            tokenParser
-                .getAuthInfo(req.headers.authorization)
+            const token = AuthHeaderParser.parse(req.headers.authorization);
+
+            tokenExtractor
+                .getAuthInfo(token)
                 .then(authInfo => {
                     const request = {
                         data: extractData(this.endpoint.method, req),
