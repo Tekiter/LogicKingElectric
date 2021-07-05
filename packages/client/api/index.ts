@@ -1,6 +1,3 @@
-import { ServerRequestAPIService } from "./serverRequest";
-import { APIService } from "./service";
-
-const apiService: APIService = new ServerRequestAPIService();
+import { apiService } from "./service";
 
 export default apiService;

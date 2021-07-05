@@ -28,23 +28,23 @@ class AuthController<ReqData, Res> implements Controller {
 
     middleware(services: ServiceFacade): (req: express.Request, res: express.Response) => void {
         const middleware = (req: express.Request, res: express.Response): void => {
-            const tokenExtractor = new AuthTokenExtractor(services);
-
-            const token = AuthHeaderParser.parse(req.headers.authorization);
-
-            tokenExtractor
-                .getAuthInfo(token)
-                .then(authInfo => {
+            (async () => {
+                try {
+                    const tokenExtractor = new AuthTokenExtractor(services);
+                    const token = AuthHeaderParser.parse(req.headers.authorization);
+                    const authInfo = await tokenExtractor.getAuthInfo(token);
                     const request = {
                         data: extractData(this.endpoint.method, req),
                         auth: authInfo,
                     } as RequestWithAuth<ReqData>;
 
-                    this.handler(request, services)
-                        .then(response => res.status(200).json(response))
-                        .catch(asyncErrorHandler(res));
-                })
-                .catch(asyncErrorHandler(res));
+                    const response = await this.handler(request, services);
+                    res.status(200).json(response);
+                } catch (error) {
+                    const handleError = asyncErrorHandler(res);
+                    handleError(error);
+                }
+            })();
         };
         return middleware;
     }

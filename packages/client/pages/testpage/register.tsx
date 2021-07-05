@@ -1,5 +1,5 @@
 import apiService from "@/api";
-import { register } from "@electric/shared/dist/api/v1/request/register";
+import { register } from "@/api/endpoint";
 import { Button, Container, TextField } from "@material-ui/core";
 import { useState } from "react";
 

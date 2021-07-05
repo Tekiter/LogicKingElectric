@@ -4,14 +4,16 @@ import { EndpointEntry } from "@electric/shared/dist/api/v1/util";
 import { APIService } from "./service";
 
 export class ServerRequestAPIService implements APIService {
-    readonly axios;
+    private readonly axios;
+    private authToken: string | null = null;
 
-    constructor() {
+    constructor({ url }: { url: string }) {
         this.axios = axios.create({
-            baseURL: "/api/v1/",
+            baseURL: url,
             validateStatus: status => status >= 200 && status < 500,
         });
     }
+
     async request<Request, Response>(
         endpoint: EndpointEntry<Request, Response>,
         requestData: Request,
@@ -19,6 +21,9 @@ export class ServerRequestAPIService implements APIService {
         const ret = await this.axios.request({
             method: endpoint.method,
             url: endpoint.path,
+            headers: {
+                ...setupAuthHeader(this.authToken),
+            },
             ...setupRequestData(endpoint, requestData),
         });
 
@@ -28,6 +33,10 @@ export class ServerRequestAPIService implements APIService {
         }
 
         return ret.data as Response;
+    }
+
+    setAuthToken(token: string | null): void {
+        this.authToken = token;
     }
 }
 
@@ -49,7 +58,7 @@ function setupRequestData<Request>(endpoint: EndpointEntry<Request, unknown>, da
     }
 }
 
-class APIError extends Error {
+export class APIError extends Error {
     key: string;
     message: string;
 
@@ -58,4 +67,11 @@ class APIError extends Error {
         this.key = key;
         this.message = message;
     }
+}
+
+function setupAuthHeader(token: string | null) {
+    if (token === null) {
+        return {};
+    }
+    return { Authorization: `Bearer ${token}` };
 }
