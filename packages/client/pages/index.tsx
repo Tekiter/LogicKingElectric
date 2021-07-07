@@ -1,5 +1,5 @@
 import Head from "next/head";
-import MainPage from "./routers/mainPage";
+import MainPage from "./login/login";
 
 export default function Home(): JSX.Element {
     // Ctrl+Space : check children
