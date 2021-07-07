@@ -1,4 +1,5 @@
 import Head from "next/head";
+import MainPage from "./routers/mainPage";
 
 export default function Home(): JSX.Element {
     // Ctrl+Space : check children
@@ -12,7 +13,7 @@ export default function Home(): JSX.Element {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main></main>
-
+            <MainPage></MainPage>
             <footer></footer>
         </div>
     );

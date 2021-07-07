@@ -1,4 +1,4 @@
-import { ConfigData, ConfigDataKey } from "../../../entity/config";
+import { ConfigData, ConfigDataKey } from "../../../services/config";
 
 export interface ConfigDataAccess {
     getConfig<KeyType extends ConfigDataKey>(key: KeyType): Promise<ConfigData[KeyType] | null>;
