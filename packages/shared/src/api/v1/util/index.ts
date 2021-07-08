@@ -1,41 +1,32 @@
+import { getDummyValidator, Validator } from "./validation";
+
 export type HTTPMethod = "GET" | "POST" | "DELETE" | "PATCH";
 
-export interface EndpointEntryRaw {
-    readonly path: string;
-    readonly method: HTTPMethod;
+export interface EndpointEntryObject<Request> {
+    path: string;
+    method: HTTPMethod;
+    validator: Validator<Request>;
 }
 
-export interface EndpointEntry<Request, Response> extends EndpointEntryRaw {
+type EndpointEntryObjectWithoutValidator = Omit<EndpointEntryObject<null>, "validator">;
+
+export interface EndpointEntry<Request, Response> {
+    readonly path: string;
+    readonly method: HTTPMethod;
+    readonly validator: Validator<Request>;
     readonly __Request?: Request;
     readonly __Response?: Response;
 }
 
-export function defineEndpoint<Request, Response>(entry: EndpointEntryRaw): EndpointEntry<Request, Response> {
-    return Object.freeze(entry) as EndpointEntry<Request, Response>;
+type EP<T> = T extends null | undefined ? EndpointEntryObjectWithoutValidator : EndpointEntryObject<T>;
+
+export function defineEndpoint<Request, Response>(entryObj: EP<Request>): EndpointEntry<Request, Response> {
+    const entry: EndpointEntry<Request, Response> = {
+        path: entryObj.path,
+        method: entryObj.method,
+        validator: (entryObj as EndpointEntryObject<Request>).validator ?? getDummyValidator(),
+    };
+    return Object.freeze(entry);
 }
 
-export interface ErrorObjectRaw {
-    key: string;
-    status: number;
-    message?: string;
-}
-
-export interface ErrorObject<ErrorData> extends Readonly<ErrorObjectRaw> {
-    (error: unknown): error is ErrorObjectRaw;
-    __dataType?: ErrorData;
-}
-
-export function defineError<ErrorData = null>(errorObj: ErrorObjectRaw): ErrorObject<ErrorData> {
-    const error = Object.assign(function (error: unknown): error is ErrorObjectRaw {
-        if (isErrorObject(error)) {
-            return error.key === errorObj.key;
-        }
-        return false;
-    }, errorObj);
-
-    return Object.freeze(error);
-}
-
-function isErrorObject(error: unknown): error is ErrorObjectRaw {
-    return (error as ErrorObjectRaw).key !== undefined;
-}
+export * from "./error";

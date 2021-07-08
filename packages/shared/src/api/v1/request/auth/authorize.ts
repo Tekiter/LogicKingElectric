@@ -4,7 +4,7 @@ export interface Response {
     username: string;
 }
 
-export const endpoint = defineEndpoint<unknown, Response>({
+export const endpoint = defineEndpoint<null, Response>({
     path: "/auth/authorize",
     method: "POST",
 });
