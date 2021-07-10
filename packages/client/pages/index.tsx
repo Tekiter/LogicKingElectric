@@ -12,7 +12,6 @@ export default function Home(): JSX.Element {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main></main>
-
             <footer></footer>
         </div>
     );
