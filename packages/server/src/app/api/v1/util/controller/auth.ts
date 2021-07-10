@@ -3,7 +3,7 @@ import { EndpointEntry } from "@electric/shared/src/api/v1/util";
 import { ServiceFacade } from "../../../../../services";
 import { Controller, Request, RequestHandler } from "./controller";
 import { AuthTokenExtractor, AuthHeaderParser } from "./authToken";
-import { extractData } from "./common";
+import { getValidData } from "./handleData";
 import { asyncErrorHandler } from "../error";
 import { AuthInfo } from "../../../../../services/auth/auth";
 
@@ -33,10 +33,13 @@ class AuthController<ReqData, Res> implements Controller {
                     const tokenExtractor = new AuthTokenExtractor(services);
                     const token = AuthHeaderParser.parse(req.headers.authorization);
                     const authInfo = await tokenExtractor.getAuthInfo(token);
-                    const request = {
-                        data: extractData(this.endpoint.method, req),
+
+                    const data = getValidData(this.endpoint, req);
+
+                    const request: RequestWithAuth<ReqData> = {
+                        data,
                         auth: authInfo,
-                    } as RequestWithAuth<ReqData>;
+                    };
 
                     const response = await this.handler(request, services);
                     res.status(200).json(response);

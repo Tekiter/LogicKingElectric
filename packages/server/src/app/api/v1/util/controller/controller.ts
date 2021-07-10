@@ -2,7 +2,7 @@ import express from "express";
 import { EndpointEntry } from "@electric/shared/src/api/v1/util";
 import { ServiceFacade } from "../../../../../services";
 import { asyncErrorHandler } from "../error";
-import { extractData } from "./common";
+import { getValidData } from "./handleData";
 
 export interface Controller {
     endpoint: EndpointEntry<unknown, unknown>;
@@ -28,19 +28,26 @@ export function createNoAuthController<ReqData, Res>(
 
 class NoAuthController<ReqData, Res> implements Controller {
     constructor(
-        public readonly endpoint: EndpointEntry<unknown, unknown>,
+        public readonly endpoint: EndpointEntry<ReqData, unknown>,
         public readonly handler: PlainRequestHandler<ReqData, Res>,
     ) {}
 
     middleware(services: ServiceFacade): (req: express.Request, res: express.Response) => void {
         const middleware = (req: express.Request, res: express.Response): void => {
-            const request = {
-                data: extractData(this.endpoint.method, req),
-            } as Request<ReqData>;
+            (async () => {
+                try {
+                    const data = getValidData(this.endpoint, req);
+                    const request: Request<ReqData> = {
+                        data,
+                    };
 
-            this.handler(request, services)
-                .then(response => res.status(200).json(response))
-                .catch(asyncErrorHandler(res));
+                    const response = await this.handler(request, services);
+                    res.status(200).json(response);
+                } catch (error) {
+                    const handleError = asyncErrorHandler(res);
+                    handleError(error);
+                }
+            })();
         };
         return middleware;
     }

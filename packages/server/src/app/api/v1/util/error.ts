@@ -22,6 +22,13 @@ export class APIError<ErrorData> extends HandleableError<ErrorData> {
     }
 }
 
+export class RequestError extends HandleableError {
+    key = "RequestError";
+    status = 400;
+    data = undefined;
+    message = "Request format is not valid.";
+}
+
 export function asyncErrorHandler(res: express.Response) {
     return (error: Error): void => {
         if (error instanceof HandleableError) {

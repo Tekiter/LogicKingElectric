@@ -5,7 +5,7 @@ export interface ValidateChecker {
 }
 
 export interface Validator<T> {
-    check(obj: Record<string, unknown>): boolean;
+    check(obj: unknown): boolean;
     field: CheckerObject<T>;
 }
 
@@ -21,10 +21,12 @@ export function getDummyValidator(): Validator<null> {
 export function defineValidator<Req>(checkerObject: CheckerObject<Req>): Validator<Req> {
     return {
         check(obj) {
+            if (!isRecord(obj)) return false;
+
             for (const key in checkerObject) {
                 const checker = checkerObject[key];
 
-                if (checker.check(obj[key])) {
+                if (!(key in obj) || !checker.check(obj[key])) {
                     return false;
                 }
             }
@@ -32,4 +34,8 @@ export function defineValidator<Req>(checkerObject: CheckerObject<Req>): Validat
         },
         field: { ...checkerObject },
     };
+}
+
+function isRecord(obj: unknown): obj is Record<string, unknown> {
+    return typeof obj === "object" && obj !== null;
 }
