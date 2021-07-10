@@ -10,7 +10,7 @@ export default function MainPageHome(): JSX.Element {
         <div>
             <AppBar position="static" style={{ background: "#ffffff" }}>
                 <Toolbar>
-                    <Logo width={"70%"} height={"50%"}></Logo>
+                    <Logo width={"50%"} height={"50%"}></Logo>
                     <SearchBar />
                 </Toolbar>
             </AppBar>

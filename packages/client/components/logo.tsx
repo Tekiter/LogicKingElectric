@@ -1,5 +1,5 @@
 import Img from "next/image";
-import logo from "../statics/logo01.png";
+import logo from "../statics/logo02.png";
 
 export interface LogoSize {
     width: number | string;
