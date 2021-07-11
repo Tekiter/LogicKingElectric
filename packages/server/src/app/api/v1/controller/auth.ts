@@ -11,7 +11,7 @@ export const issueTokenController = createNoAuthController(issueToken.endpoint, 
             accessToken: result.accessToken,
         };
     } else {
-        throw new APIError(issueToken.authFailError);
+        throw new APIError(issueToken.errors.authFailError);
     }
 });
 
