@@ -9,7 +9,7 @@
         "server": "yarn workspace @electric/server",
         "client": "yarn workspace @electric/client",
         "shared": "yarn workspace @electric/shared",
-        "client-type": "yarn shared build && yarn server tsc --noEmit",
+        "client-type": "yarn shared build && yarn client tsc --noEmit",
         "server-type": "yarn shared build && yarn server tsc --noEmit",
         "lint": "npm run lint-eslint && npm run lint-prettier",
         "lint-eslint": "eslint . --ext js,jsx,ts,tsx --ignore-path .gitignore --max-warnings=0 --fix",

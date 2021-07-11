@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withImages = require("next-images");
+
 module.exports = {
     async rewrites() {
         return [
@@ -13,7 +16,5 @@ module.exports = {
             loader: "file-loader",
         },
     ],
+    ...withImages(),
 };
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withImages = require("next-images");
-module.exports = withImages();

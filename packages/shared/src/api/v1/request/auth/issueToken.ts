@@ -15,14 +15,12 @@ export interface Response {
     accessToken: RawAuthToken;
 }
 
-export const authFailError = defineError({
-    key: "AuthFailError",
-    status: 401,
-    message: "Invalid username or password",
-});
-
 export const errors = defineErrors({
-    authFailError,
+    authFailError: defineError({
+        key: "AuthFailError",
+        status: 401,
+        message: "Invalid username or password",
+    }),
 });
 
 export const endpoint = defineEndpoint<Request, Response>({

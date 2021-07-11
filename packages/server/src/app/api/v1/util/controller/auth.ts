@@ -4,7 +4,7 @@ import { ServiceFacade } from "../../../../../services";
 import { Controller, Request, RequestHandler } from "./controller";
 import { AuthTokenExtractor, AuthHeaderParser } from "./authToken";
 import { getValidData } from "./handleData";
-import { asyncErrorHandler } from "../error";
+import { asyncErrorHandler, AuthorizeFailError } from "../error";
 import { AuthInfo } from "../../../../../services/auth/auth";
 
 interface RequestWithAuth<ReqData> extends Request<ReqData> {
@@ -30,9 +30,14 @@ class AuthController<ReqData, Res> implements Controller {
         const middleware = (req: express.Request, res: express.Response): void => {
             (async () => {
                 try {
-                    const tokenExtractor = new AuthTokenExtractor(services);
-                    const token = AuthHeaderParser.parse(req.headers.authorization);
-                    const authInfo = await tokenExtractor.getAuthInfo(token);
+                    let authInfo;
+                    try {
+                        const tokenExtractor = new AuthTokenExtractor(services);
+                        const token = AuthHeaderParser.parse(req.headers.authorization);
+                        authInfo = await tokenExtractor.getAuthInfo(token);
+                    } catch (error) {
+                        throw new AuthorizeFailError();
+                    }
 
                     const data = getValidData(this.endpoint, req);
 

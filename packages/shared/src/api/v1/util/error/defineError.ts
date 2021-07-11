@@ -1,5 +1,3 @@
-import { CommonErrors, commonErrors } from "./commonErrors";
-
 interface ErrorObjectRaw {
     key: string;
     status: number;
@@ -24,10 +22,4 @@ export function defineError<ErrorData = null>(errorObj: ErrorObjectRaw): ErrorOb
 
 function isErrorObject(error: unknown): error is ErrorObjectRaw {
     return (error as ErrorObjectRaw).key !== undefined;
-}
-
-export function defineErrors<ErrorCollection extends Record<string, ErrorObject<unknown>>>(
-    obj: ErrorCollection,
-): Readonly<ErrorCollection & CommonErrors> {
-    return Object.freeze({ ...obj, ...commonErrors });
 }

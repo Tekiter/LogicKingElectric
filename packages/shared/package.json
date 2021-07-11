@@ -4,7 +4,8 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "tsc"
+	"clean": "tsc -b --clean",
+        "build": "yarn clean && tsc -b"
     },
     "license": "MIT",
     "devDependencies": {

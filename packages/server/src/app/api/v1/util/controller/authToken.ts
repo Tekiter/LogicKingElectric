@@ -1,12 +1,7 @@
 import { ServiceFacade } from "../../../../../services";
 import { AuthInfo } from "../../../../../services/auth/auth";
-import { HandleableError } from "../error";
 
-export class AuthFailError extends HandleableError {
-    key = "AuthFailError";
-    status = 401;
-    data = undefined;
-}
+export class AuthFailError extends Error {}
 
 class AuthorizationParseError extends AuthFailError {
     message = "Invalid authorization header.";

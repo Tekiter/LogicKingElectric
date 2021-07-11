@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Router from "next/router";
-import { EndpointEntry, authorize } from "./endpoint";
+import { useRouter } from "next/router";
+import { EndpointEntry, authorize, commonErrors } from "./endpoint";
 import { apiService } from "./service";
 import { APIError } from "./service";
 
@@ -24,6 +24,8 @@ export function useAPIRequest<Req, Res>(
     const [data, setData] = useState<Res>();
     const [error, setError] = useState<APIError>();
 
+    const router = useRouter();
+
     const request = async (requestData: Req): Promise<void> => {
         setIsLoading(true);
         setError(undefined);
@@ -33,11 +35,9 @@ export function useAPIRequest<Req, Res>(
             setData(response);
             options?.onSuccess?.call(undefined, response);
         } catch (error) {
-            if (error instanceof APIError) {
-                if (error.key === "AuthFailError") {
-                    Router.push("/testpage/login");
-                    return;
-                }
+            if (commonErrors.authorizeFailError(error)) {
+                router.push("/testpage/login");
+                return;
             }
             setError(error);
             options?.onError?.call(undefined, error);
@@ -53,7 +53,7 @@ export function useAuth(): { username: string | undefined } {
     const authorizeAPI = useAPIRequest(authorize.endpoint);
 
     useEffect(() => {
-        authorizeAPI.request({});
+        authorizeAPI.request(null);
     }, []);
 
     return { username: authorizeAPI.data?.username };

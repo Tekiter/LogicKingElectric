@@ -1,5 +1,5 @@
 import express from "express";
-import { ErrorObject } from "@electric/shared/src/api/v1/util";
+import { commonErrors, ErrorObject } from "@electric/shared/src/api/v1/util";
 
 export abstract class HandleableError<ErrorData = undefined> extends Error {
     public abstract key: string;
@@ -22,11 +22,16 @@ export class APIError<ErrorData> extends HandleableError<ErrorData> {
     }
 }
 
-export class RequestError extends HandleableError {
-    key = "RequestError";
-    status = 400;
-    data = undefined;
-    message = "Request format is not valid.";
+export class RequestError extends APIError<null> {
+    constructor() {
+        super(commonErrors.invalidRequestError);
+    }
+}
+
+export class AuthorizeFailError extends APIError<null> {
+    constructor() {
+        super(commonErrors.authorizeFailError);
+    }
 }
 
 export function asyncErrorHandler(res: express.Response) {

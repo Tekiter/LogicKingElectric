@@ -1,4 +1,4 @@
-import { defineError, defineErrors, ErrorObject } from ".";
+import { defineError, ErrorObject } from "./defineError";
 
 export const authorizeFailError = defineError({
     key: "AuthorizeFailError",
@@ -17,7 +17,7 @@ export interface CommonErrors {
     invalidRequestError: ErrorObject<null>;
 }
 
-export const commonErrors: Readonly<CommonErrors> = defineErrors({
+export const commonErrors: Readonly<CommonErrors> = {
     authorizeFailError,
     invalidRequestError,
-});
+};

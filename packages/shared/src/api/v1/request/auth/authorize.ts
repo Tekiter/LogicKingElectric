@@ -1,4 +1,4 @@
-import { defineEndpoint, defineError } from "../../util";
+import { defineEndpoint, defineError, defineErrors } from "../../util";
 
 export interface Response {
     username: string;
@@ -9,8 +9,10 @@ export const endpoint = defineEndpoint<null, Response>({
     method: "POST",
 });
 
-export const invalidTokenError = defineError({
-    key: "InvalidTokenError",
-    status: 401,
-    message: "Invalid auth token",
+export const errors = defineErrors({
+    invalidTokenError: defineError({
+        key: "InvalidTokenError",
+        status: 401,
+        message: "Invalid auth token",
+    }),
 });
