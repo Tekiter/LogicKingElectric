@@ -1,5 +1,5 @@
 import { RawAuthToken } from "../../data/auth";
-import { defineError, defineEndpoint } from "../../util";
+import { defineError, defineEndpoint, defineErrors } from "../../util";
 import { defineValidator, va } from "../../util/validation";
 
 export interface Request {
@@ -7,7 +7,7 @@ export interface Request {
     password: string;
 }
 
-export const requestValidator = defineValidator<Request>({
+const requestValidator = defineValidator<Request>({
     username: va().stringRegex(/.+/i),
     password: va().stringRegex(/.+/i),
 });
@@ -15,14 +15,18 @@ export interface Response {
     accessToken: RawAuthToken;
 }
 
-export const endpoint = defineEndpoint<Request, Response>({
-    path: "/auth/issue",
-    method: "POST",
-    validator: requestValidator,
-});
-
 export const authFailError = defineError({
     key: "AuthFailError",
     status: 401,
     message: "Invalid username or password",
+});
+
+export const errors = defineErrors({
+    authFailError,
+});
+
+export const endpoint = defineEndpoint<Request, Response>({
+    path: "/auth/issue",
+    method: "POST",
+    validator: requestValidator,
 });

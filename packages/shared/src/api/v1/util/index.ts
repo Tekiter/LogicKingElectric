@@ -8,8 +8,6 @@ export interface EndpointEntryObject<Request> {
     validator: Validator<Request>;
 }
 
-type EndpointEntryObjectWithoutValidator = Omit<EndpointEntryObject<null>, "validator">;
-
 export interface EndpointEntry<Request, Response> {
     readonly path: string;
     readonly method: HTTPMethod;
@@ -18,9 +16,15 @@ export interface EndpointEntry<Request, Response> {
     readonly __Response?: Response;
 }
 
-type EP<T> = T extends null | undefined ? EndpointEntryObjectWithoutValidator : EndpointEntryObject<T>;
+type RemoveValidatorIfNotNeeded<EntryObject, Request> = Request extends null | undefined
+    ? Omit<EntryObject, "validator">
+    : EntryObject;
 
-export function defineEndpoint<Request, Response>(entryObj: EP<Request>): EndpointEntry<Request, Response> {
+type EntryObjectBuilt<Request> = RemoveValidatorIfNotNeeded<EndpointEntryObject<Request>, Request>;
+
+export function defineEndpoint<Request, Response>(
+    entryObj: EntryObjectBuilt<Request>,
+): EndpointEntry<Request, Response> {
     const entry: EndpointEntry<Request, Response> = {
         path: entryObj.path,
         method: entryObj.method,
