@@ -11,6 +11,7 @@
         "shared": "yarn workspace @electric/shared",
         "client-type": "yarn shared build && yarn client tsc --noEmit",
         "server-type": "yarn shared build && yarn server tsc --noEmit",
+        "type": "yarn shared build && yarn client tsc --noEmit && yarn server tsc --noEmit",
         "lint": "npm run lint-eslint && npm run lint-prettier",
         "lint-eslint": "eslint . --ext js,jsx,ts,tsx --ignore-path .gitignore --max-warnings=0 --fix",
         "lint-prettier": "prettier --write \"packages/**/*.(js|jsx|ts|tsx)\"",
