@@ -1,9 +1,10 @@
 import { DataAccess } from "../../core/dataAccess/types";
-import { User } from "../../entity/user";
+import { User, UserIdentifier } from "../../entity/user";
 
 export interface UserService {
     createNewUser(userInfo: User): Promise<CreateNewUserResult>;
     isUserExists(username: string): Promise<boolean>;
+    getUserIdentifier(username: string): Promise<UserIdentifier>;
 }
 
 interface CreateNewUserResult {
@@ -32,5 +33,21 @@ export class UserServiceImpl implements UserService {
         const userExsits = existingUser !== null;
 
         return userExsits;
+    }
+
+    async getUserIdentifier(username: string): Promise<UserIdentifier> {
+        const user = await this.dataAccess.user.getUserByUsername(username);
+        if (user === null) {
+            throw new UserNotFoundError(username);
+        }
+        return Object.freeze({
+            username: user.username,
+        });
+    }
+}
+
+class UserNotFoundError extends Error {
+    constructor(username: string) {
+        super(`User of username '${username}' not found.`);
     }
 }

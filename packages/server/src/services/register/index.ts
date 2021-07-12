@@ -26,7 +26,6 @@ export class RegisterServiceImpl implements RegisterService {
         }
 
         const registerResult = await this.authService.register(username, password);
-
         if (registerResult.success === false) {
             return { success: false };
         }
