@@ -1,6 +1,6 @@
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
-import { alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { fade as alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
