@@ -4,8 +4,14 @@ import { defineValidator, va } from "../../util/validation";
 export interface Request {
     name: string;
     type: "solar" | "wind";
+
+    /** 발전소 위치 위도 */
     latitude: number;
+
+    /** 발전소 위치 경도 */
     longitude: number;
+
+    /** 발전소 위치 이름 */
     locationName: string;
 }
 
@@ -23,6 +29,11 @@ export interface Response {
 
 export const errors = defineErrors({});
 
+/**
+ * 현재 유저의 발전소 정보를 생성하거나 업데이트하는 Endpoint.
+ *
+ * 발전소 정보가 없으면 새로 생성하고, 이미 있다면 기존 값을 덮어씌우면서 업데이트한다.
+ */
 export const endpoint = defineEndpoint<Request, Response>({
     path: "/plant",
     method: "POST",
