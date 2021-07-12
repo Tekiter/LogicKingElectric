@@ -9,7 +9,7 @@ const authTokenState = atom({
 
 export function useAuthToken(): string {
     const authState = useRecoilValue(authTokenState);
-
+    console.log(authState);
     return authState;
 }
 

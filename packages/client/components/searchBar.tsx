@@ -13,15 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
             "&:hover": {
                 backgroundColor: alpha(theme.palette.common.black, 0.15),
             },
-            marginRight: theme.spacing(2),
-            marginLeft: 0,
             [theme.breakpoints.up("md")]: {
-                marginLeft: theme.spacing(50),
-                width: "auto",
+                marginLeft: theme.spacing(55),
+                width: "100%",
             },
         },
         searchIcon: {
-            padding: theme.spacing(0, 2),
+            padding: theme.spacing(0, 1),
             height: "100%",
             position: "absolute",
             pointerEvents: "none",
@@ -43,11 +41,12 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         sectionDesktop: {
-            display: "none",
+            display: "flex",
             [theme.breakpoints.up("md")]: {
                 display: "flex",
             },
-            marginLeft: "30%",
+            width: "100%",
+            justifyContent: "flex-end",
             color: alpha(theme.palette.common.black, 1.0),
         },
     }),

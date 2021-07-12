@@ -7,10 +7,10 @@ export interface LogoSize {
 }
 export default function Logo(props: LogoSize): JSX.Element {
     return (
-        <>
+        <div style={{ width: "20%", display: "flex" }}>
             <a href="./mainpage">
                 <Img src={logo} width={props.width} height={props.height} alt="logo" />
             </a>
-        </>
+        </div>
     );
 }
