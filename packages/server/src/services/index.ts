@@ -2,6 +2,7 @@ import { DataAccess } from "../core/dataAccess/types";
 import { AuthService, AuthWithPassword } from "./auth/auth";
 import { ConfigService, ConfigServiceImpl } from "./config";
 import { InitializeService, InitializeServiceImpl } from "./initialize";
+import { PlantService, PlantServiceImpl } from "./plant";
 import { RegisterService, RegisterServiceImpl } from "./register";
 import { UserService, UserServiceImpl } from "./user";
 
@@ -11,6 +12,7 @@ export interface ServiceFacade {
     user: UserService;
     register: RegisterService;
     initialize: InitializeService;
+    plant: PlantService;
 }
 
 export function createServices(dataAccess: DataAccess): ServiceFacade {
@@ -18,6 +20,7 @@ export function createServices(dataAccess: DataAccess): ServiceFacade {
     const config = new ConfigServiceImpl(dataAccess);
     const user = new UserServiceImpl(dataAccess);
     const register = new RegisterServiceImpl(auth, user);
+    const plant = new PlantServiceImpl(dataAccess);
 
     const initialize = new InitializeServiceImpl(config, register);
 
@@ -27,5 +30,6 @@ export function createServices(dataAccess: DataAccess): ServiceFacade {
         user,
         register,
         initialize,
+        plant,
     };
 }

@@ -26,6 +26,16 @@ class ChainChecker extends CheckerBase {
         this.setChecker(data => typeof data === "string" && exp.test(data));
         return this;
     }
+
+    number() {
+        this.setChecker(data => typeof data === "number");
+        return this;
+    }
+
+    in(values: unknown[]) {
+        this.setChecker(data => values.includes(data));
+        return this;
+    }
 }
 
 export function getChecker(): ChainChecker {

@@ -6,9 +6,11 @@ import { AuthTokenExtractor, AuthHeaderParser } from "./authToken";
 import { getValidData } from "./handleData";
 import { asyncErrorHandler, AuthorizeFailError } from "../error";
 import { AuthInfo } from "../../../../../services/auth/auth";
+import { UserIdentifier } from "../../../../../entity/user";
 
 interface RequestWithAuth<ReqData> extends Request<ReqData> {
     auth: AuthInfo;
+    user: UserIdentifier;
 }
 
 type RequestHandlerWithAuth<ReqData, Res> = RequestHandler<RequestWithAuth<ReqData>, Res>;
@@ -40,9 +42,11 @@ class AuthController<ReqData, Res> implements Controller {
                     }
 
                     const data = getValidData(this.endpoint, req);
+                    const user = await services.user.getUserIdentifier(authInfo.username);
 
                     const request: RequestWithAuth<ReqData> = {
                         data,
+                        user,
                         auth: authInfo,
                     };
 
