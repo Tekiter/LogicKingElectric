@@ -1,7 +1,8 @@
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles, Theme, createStyles, withStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
-import Logo from "../../components/logo";
+import Link from "next/link";
+import Logo from "../components/logo";
 
 const loginStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -77,13 +78,11 @@ export default function Login(): JSX.Element {
                                 <TextField label="password"></TextField>
                             </div>
                             <div className={`${loginStyle.above_all} ${loginStyle.login_button}`}>
-                                <ColorButton
-                                    color="primary"
-                                    onClick={() => {
-                                        alert("hi");
-                                    }}>
-                                    <span style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>로그인</span>
-                                </ColorButton>
+                                <Link href="/mainpage">
+                                    <ColorButton color="primary">
+                                        <span style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>로그인</span>
+                                    </ColorButton>
+                                </Link>
                             </div>
                         </div>
                     </div>
