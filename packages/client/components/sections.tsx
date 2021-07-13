@@ -50,6 +50,18 @@ const sectionStyles = makeStyles((theme: Theme) =>
             color: "red",
             fontSize: 30,
         },
+        report: {
+            paddingTop: "2%",
+            marginTop: "5%",
+            borderTop: "1px solid black",
+        },
+        report_link: {
+            fontSize: 28,
+            textDecoration: "none",
+            color: "black",
+            display: "flex",
+            alignItems: "center",
+        },
     }),
 );
 
@@ -66,18 +78,10 @@ export default function Sections(): JSX.Element {
                             <div className={sectionStyle.now_points}>6.6 %</div>
                             <div className={sectionStyle.change_points}>↑ 1.2%</div>
                         </div>
-                        <div style={{ paddingTop: "2%", marginTop: "5%", borderTop: "1px solid black" }}>
-                            <a
-                                href="#"
-                                style={{
-                                    fontSize: 28,
-                                    textDecoration: "none",
-                                    color: "black",
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}>
+                        <div className={sectionStyle.report}>
+                            <a className={sectionStyle.report_link} href="#">
                                 <div>Full Report</div>
-                                <div style={{ display: "inherit" }}>
+                                <div style={{ marginLeft: 10, display: "inherit" }}>
                                     <ArrowForward />
                                 </div>
                             </a>
@@ -90,18 +94,10 @@ export default function Sections(): JSX.Element {
                             <div className={sectionStyle.now_points}>123 원</div>
                             <div className={sectionStyle.change_points}>↑ 1.2%</div>
                         </div>
-                        <div style={{ paddingTop: "2%", marginTop: "5%", borderTop: "1px solid black" }}>
-                            <a
-                                href="#"
-                                style={{
-                                    fontSize: 28,
-                                    textDecoration: "none",
-                                    color: "black",
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}>
+                        <div className={sectionStyle.report}>
+                            <a className={sectionStyle.report_link} href="#">
                                 <div>Full Report</div>
-                                <div style={{ display: "inherit" }}>
+                                <div style={{ marginLeft: 10, display: "inherit" }}>
                                     <ArrowForward />
                                 </div>
                             </a>
