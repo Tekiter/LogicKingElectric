@@ -8,10 +8,13 @@
     },
     "dependencies": {
         "@electric/shared": "^1.0.0",
+        "axios": "^0.21.1",
         "bcrypt": "^5.0.1",
+        "date-fns": "^2.22.1",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
-        "morgan": "^1.10.0"
+        "morgan": "^1.10.0",
+        "qs": "^6.10.1"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
