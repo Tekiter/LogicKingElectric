@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import qs from "qs";
 import { format, parse } from "date-fns";
-import { SimulationAPI, SimulationPerTimeEntry, SimulationRequest, SimulationResponse } from "./types";
+import { SolarSimulationAPI, SimulationPerTimeEntry, SimulationRequest, SimulationResponse } from "./types";
 
 interface APIRequest {
     hostKey: string;
@@ -38,7 +38,7 @@ interface PerTimeEntry {
     WSPD: number;
 }
 
-export class SolarSimulationAxiosCall implements SimulationAPI {
+export class SolarSimulationAxiosCall implements SolarSimulationAPI {
     api: AxiosInstance;
     constructor() {
         this.api = axios.create({

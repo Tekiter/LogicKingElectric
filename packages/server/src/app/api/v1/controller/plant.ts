@@ -12,7 +12,7 @@ export const getPlantInfoController = createAuthController(getPlantInfo.endpoint
     return {
         name: plant.name,
         type: plant.type,
-        latitude: plant.location.coordinate.laditude,
+        latitude: plant.location.coordinate.latitude,
         longitude: plant.location.coordinate.longitude,
         locationName: plant.location.name,
     };
@@ -26,7 +26,7 @@ export const updatePlantInfoController = createAuthController(updatePlantInfo.en
         location: {
             name: data.locationName,
             coordinate: {
-                laditude: data.latitude,
+                latitude: data.latitude,
                 longitude: data.longitude,
             },
         },

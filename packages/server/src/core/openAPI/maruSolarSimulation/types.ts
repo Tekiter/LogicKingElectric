@@ -21,6 +21,6 @@ export interface SimulationPerTimeEntry {
     windSpeed: number;
 }
 
-export interface SimulationAPI {
+export interface SolarSimulationAPI {
     request(query: SimulationRequest): Promise<SimulationResponse>;
 }

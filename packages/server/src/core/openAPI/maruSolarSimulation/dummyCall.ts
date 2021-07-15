@@ -1,8 +1,8 @@
 import { dummyData } from "./dummyData";
 import { addHours, startOfDay } from "date-fns";
-import { SimulationAPI, SimulationRequest, SimulationResponse } from "./types";
+import { SolarSimulationAPI, SimulationRequest, SimulationResponse } from "./types";
 
-export class SolarSimulationDummyCall implements SimulationAPI {
+export class SolarSimulationDummyCall implements SolarSimulationAPI {
     async request(query: SimulationRequest): Promise<SimulationResponse> {
         const response: SimulationResponse = {
             data: [],

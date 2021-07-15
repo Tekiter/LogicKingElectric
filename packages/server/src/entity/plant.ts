@@ -10,6 +10,16 @@ export interface Plant {
 
 export type PlantTypes = "solar" | "wind";
 export type Coordinate = {
-    laditude: number;
+    latitude: number;
     longitude: number;
 };
+
+export interface SolarPlant {
+    arrayType: SolarPlantArrayType;
+    capacity: number;
+    meridianAngle: number;
+    temperatureCoefficientPmpp: number;
+    tiltAngle: number;
+}
+
+type SolarPlantArrayType = "fixed" | "track";

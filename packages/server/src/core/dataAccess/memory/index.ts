@@ -2,6 +2,7 @@ import { DataAccessFacade } from "../types";
 import { AuthMemoryDataAccess } from "./auth";
 import { ConfigMemoryDataAccess } from "./config";
 import { PlantMemoryDataAccess } from "./plant";
+import { SolarPlantMemoryDataAccess } from "./solarPlant";
 import { UserMemoryDataAccess } from "./user";
 
 export function createMemoryDataAccessFacade(): DataAccessFacade {
@@ -10,5 +11,6 @@ export function createMemoryDataAccessFacade(): DataAccessFacade {
         config: new ConfigMemoryDataAccess(),
         user: new UserMemoryDataAccess(),
         plant: new PlantMemoryDataAccess(),
+        solarPlant: new SolarPlantMemoryDataAccess(),
     };
 }
