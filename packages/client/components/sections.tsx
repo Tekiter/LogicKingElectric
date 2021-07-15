@@ -1,4 +1,5 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { ArrowForward } from "@material-ui/icons";
 
 const sectionStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -14,7 +15,6 @@ const sectionStyles = makeStyles((theme: Theme) =>
         wrapper: {
             display: "table-cell",
             verticalAlign: "top",
-            paddingRight: "2.14%",
         },
         info: {
             boxShadow: "3px 3px 0px 0px #e8e8e8",
@@ -23,7 +23,7 @@ const sectionStyles = makeStyles((theme: Theme) =>
             paddingLeft: 25,
             paddingRight: 25,
             display: "inline-block",
-            width: 680,
+            width: "32%",
             marginLeft: 25,
         },
         label: {
@@ -39,15 +39,28 @@ const sectionStyles = makeStyles((theme: Theme) =>
             marginTop: 5,
         },
         now_points: {
-            display: "inline-block",
+            display: "flex",
             fontSize: 50,
             fontWeight: 800,
         },
         change_points: {
-            float: "right",
-            marginRight: 20,
+            display: "flex",
+            width: "72%",
+            justifyContent: "flex-end",
             color: "red",
             fontSize: 30,
+        },
+        report: {
+            paddingTop: "2%",
+            marginTop: "5%",
+            borderTop: "1px solid black",
+        },
+        report_link: {
+            fontSize: 28,
+            textDecoration: "none",
+            color: "black",
+            display: "flex",
+            alignItems: "center",
         },
     }),
 );
@@ -61,17 +74,33 @@ export default function Sections(): JSX.Element {
                     <div className={sectionStyle.info}>
                         <div className={sectionStyle.label}>오차율</div>
                         <div className={sectionStyle.desc}>7월1일 ~ 7월14일</div>
-                        <div style={{ marginTop: 40 }}>
+                        <div style={{ display: "flex", flexFlow: "row wrap", marginTop: 40 }}>
                             <div className={sectionStyle.now_points}>6.6 %</div>
                             <div className={sectionStyle.change_points}>↑ 1.2%</div>
+                        </div>
+                        <div className={sectionStyle.report}>
+                            <a className={sectionStyle.report_link} href="#">
+                                <div>Full Report</div>
+                                <div style={{ marginLeft: 10, display: "inherit" }}>
+                                    <ArrowForward />
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <div className={sectionStyle.info}>
                         <div className={sectionStyle.label}>인센티브</div>
                         <div className={sectionStyle.desc}>7월1일 ~ 7월14일</div>
-                        <div style={{ marginTop: 40 }}>
+                        <div style={{ display: "flex", flexFlow: "row wrap", marginTop: 40 }}>
                             <div className={sectionStyle.now_points}>123 원</div>
                             <div className={sectionStyle.change_points}>↑ 1.2%</div>
+                        </div>
+                        <div className={sectionStyle.report}>
+                            <a className={sectionStyle.report_link} href="#">
+                                <div>Full Report</div>
+                                <div style={{ marginLeft: 10, display: "inherit" }}>
+                                    <ArrowForward />
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

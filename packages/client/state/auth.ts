@@ -9,7 +9,7 @@ const authTokenState = atom({
 
 export function useAuthToken(): string {
     const authState = useRecoilValue(authTokenState);
-
+    // authToken getter
     return authState;
 }
 
@@ -24,7 +24,7 @@ export function useAuthTokenLoader(): void {
 
 export function useAuthTokenSetter(): (token: string) => void {
     const setAuthState = useSetRecoilState(authTokenState);
-
+    // authToken setter
     return (token: string) => {
         setAuthState(token);
         setAuthTokenToLocalStorage(token);

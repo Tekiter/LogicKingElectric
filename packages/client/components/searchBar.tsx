@@ -1,8 +1,12 @@
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import { fade as alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import React from "react";
+import { useAuthTokenDestroyer } from "@/state/auth";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -13,15 +17,13 @@ const useStyles = makeStyles((theme: Theme) =>
             "&:hover": {
                 backgroundColor: alpha(theme.palette.common.black, 0.15),
             },
-            marginRight: theme.spacing(2),
-            marginLeft: 0,
             [theme.breakpoints.up("md")]: {
-                marginLeft: theme.spacing(50),
-                width: "auto",
+                marginLeft: theme.spacing(55),
+                width: "100%",
             },
         },
         searchIcon: {
-            padding: theme.spacing(0, 2),
+            padding: theme.spacing(0, 1),
             height: "100%",
             position: "absolute",
             pointerEvents: "none",
@@ -43,17 +45,44 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         sectionDesktop: {
-            display: "none",
+            display: "flex",
             [theme.breakpoints.up("md")]: {
                 display: "flex",
             },
-            marginLeft: "30%",
+            width: "100%",
+            justifyContent: "flex-end",
             color: alpha(theme.palette.common.black, 1.0),
         },
     }),
 );
 
 export default function SearchBar(): JSX.Element {
+    const logout = useAuthTokenDestroyer();
+    const Logout = () => {
+        logout();
+        location.href = "/";
+    };
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const isMenuOpen = Boolean(anchorEl);
+    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+    const menuId = "primary-search-account-menu";
+    const renderMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}>
+            <MenuItem onClick={Logout}>Log out</MenuItem>
+        </Menu>
+    );
     const classes = useStyles();
     return (
         <>
@@ -71,10 +100,11 @@ export default function SearchBar(): JSX.Element {
                 />
             </div>
             <div className={classes.sectionDesktop}>
-                <IconButton edge="end" color="inherit" aria-haspopup="true">
+                <IconButton edge="end" color="inherit" aria-haspopup="true" onClick={handleProfileMenuOpen}>
                     <AccountCircle fontSize="large" />
                 </IconButton>
             </div>
+            {renderMenu}
         </>
     );
 }
