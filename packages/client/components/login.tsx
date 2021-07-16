@@ -1,11 +1,18 @@
+import Head from "next/head";
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles, Theme, createStyles, withStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
 import { useAPIRequest } from "@/api/hooks";
-import { useAuthTokenSetter } from "@/state/auth";
-import { issueToken } from "@/api/endpoint";
+import { useAuthTokenSetter, useAuthToken } from "@/state/auth";
+import { issueToken, register } from "@/api/endpoint";
+import { useRouter } from "next/router";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const loginStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -54,6 +61,13 @@ const loginStyles = makeStyles((theme: Theme) =>
             background: "green",
             color: "white",
         },
+        optional_box: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 10,
+            fontWeight: "bold",
+        },
     }),
 );
 const ColorButton = withStyles((theme: Theme) => ({
@@ -66,33 +80,63 @@ const ColorButton = withStyles((theme: Theme) => ({
     },
 }))(Button);
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export default function Login(): JSX.Element {
+    const router = useRouter();
     const loginStyle = loginStyles();
+    const [open, setOpen] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [new_username, setNewUsername] = useState("");
+    const [new_password, setNewPassword] = useState("");
+    const [new_password_sub, setNewPasswordSub] = useState("");
+    const authToken = useAuthToken();
     const setAuthToken = useAuthTokenSetter(); // setter
     // const authToken = useAuthToken(); // getter
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const confirm = (main_pass: string, sub_pass: string) => {
+        if (main_pass != sub_pass) {
+            alert("비밀번호가 일치하지않습니다.");
+        } else {
+            requestRegister.request({ username: new_username, password: new_password });
+            alert("회원가입 완료!");
+            handleClose();
+        }
+    };
+    const requestRegister = useAPIRequest(register.endpoint);
+
     const { request } = useAPIRequest(issueToken.endpoint, {
         onSuccess(res) {
-            // 성공시, 수행함수 error 시에도 지정가능 유의하기.
-            // error modal 구현 요함 (21.07.15.) - goseungduk
             setAuthToken(res.accessToken);
+            alert("로그인 성공!");
+            router.push("/");
+        },
+        onError(err) {
+            alert("아이디혹은 패스워드가 틀렸습니다.");
         },
     });
     useEffect(() => {
-        if (localStorage["AUTH_TOKEN"] != undefined && localStorage.getItem("AUTH_TOKEN") != "")
-            location.href = "/mainpage";
-    }, []); // componentWillMount hook 적용 고려 (21.07.15.) - goseungduk
-
+        if (authToken != "") {
+            router.push("/");
+        }
+    }, [authToken]);
     function do_Login(username: string, password: string) {
         request({ username, password });
-        if (localStorage["AUTH_TOKEN"] != undefined && localStorage.getItem("AUTH_TOKEN") != "")
-            location.href = "/mainpage";
     }
 
     return (
         <div style={{ backgroundColor: "#fafafa" }}>
+            <Head>
+                <title>논리왕전기에너지:신재생에너지 발전량 예측시스템</title>
+                <meta name="description" content="" />
+                <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             <section className={`${loginStyle.above_all} ${loginStyle.section_all}`}>
                 <main className={`${loginStyle.above_all} ${loginStyle.main}`}>
                     <div className={`${loginStyle.above_all} ${loginStyle.login_boxBK}`}>
@@ -106,6 +150,7 @@ export default function Login(): JSX.Element {
                                     value={username}
                                     onChange={e => setUsername(e.target.value)}></TextField>
                                 <TextField
+                                    type="password"
                                     label="password"
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}></TextField>
@@ -119,8 +164,51 @@ export default function Login(): JSX.Element {
                                     <span style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>로그인</span>
                                 </ColorButton>
                             </div>
+                            <div className={`${loginStyle.above_all} ${loginStyle.optional_box}`}>
+                                <span onClick={handleClickOpen}>회원가입</span>
+                            </div>
                         </div>
                     </div>
+                    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">회원가입</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>계정과 비밀번호를 적어주세요</DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id={new_username}
+                                label="아이디"
+                                fullWidth
+                                onChange={e => setNewUsername(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id={new_password}
+                                type="password"
+                                label="비밀번호"
+                                fullWidth
+                                onChange={e => setNewPassword(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id={new_password_sub}
+                                type="password"
+                                label="비밀번호 재입력"
+                                fullWidth
+                                onChange={e => setNewPasswordSub(e.target.value)}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={() => confirm(new_password, new_password_sub)} color="primary">
+                                Confirm
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </main>
             </section>
         </div>

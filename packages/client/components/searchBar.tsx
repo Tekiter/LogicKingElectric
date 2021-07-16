@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import React from "react";
 import { useAuthTokenDestroyer } from "@/state/auth";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,10 +58,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function SearchBar(): JSX.Element {
+    const router = useRouter();
     const logout = useAuthTokenDestroyer();
     const Logout = () => {
         logout();
-        location.href = "/";
+        alert("로그아웃 완료");
+        router.push("/login");
     };
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);

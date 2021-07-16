@@ -36,7 +36,7 @@ export function useAPIRequest<Req, Res>(
             options?.onSuccess?.call(undefined, response);
         } catch (error) {
             if (commonErrors.authorizeFailError(error)) {
-                router.push("/testpage/login");
+                router.push("/login");
                 return;
             }
             setError(error);
