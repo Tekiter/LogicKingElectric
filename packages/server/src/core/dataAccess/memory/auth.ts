@@ -1,10 +1,10 @@
 import { AuthData, AuthDataAccess } from "../types/auth";
 
-const store: AuthData[] = [];
+const store = new Map<string, AuthData>();
 
 export class AuthMemoryDataAccess implements AuthDataAccess {
     async getAuthByUsername(username: string): Promise<AuthData | null> {
-        const foundAuthData = store.find(value => value.username == username);
+        const foundAuthData = store.get(username);
         if (foundAuthData === undefined) {
             return null;
         } else {
@@ -13,7 +13,7 @@ export class AuthMemoryDataAccess implements AuthDataAccess {
     }
 
     async registerAuth(authData: AuthData): Promise<void> {
-        store.push(authData);
+        store.set(authData.username, authData);
     }
 
     async updateAuth(username: string, authData: AuthData): Promise<void> {
@@ -21,6 +21,6 @@ export class AuthMemoryDataAccess implements AuthDataAccess {
     }
 
     static clear(): void {
-        store.length = 0;
+        store.clear();
     }
 }
