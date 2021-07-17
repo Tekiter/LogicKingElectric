@@ -121,6 +121,8 @@ export default function Login(): JSX.Element {
     const confirm = (main_pass: string, sub_pass: string) => {
         if (main_pass != sub_pass) {
             handleAlertClick("비밀번호가 일치하지않습니다.", "error");
+        } else if (main_pass == "" || sub_pass == "") {
+            handleAlertClick("올바른 비밀번호를 입력해주세요", "error");
         } else {
             requestRegister.request({ username: new_username, password: new_password });
             handleAlertClick("회원가입 완료!", "success");
@@ -228,7 +230,7 @@ export default function Login(): JSX.Element {
                     </Dialog>
                 </main>
             </section>
-            <Snackbar open={alert_open} autoHideDuration={6000} onClose={handleAlertClose}>
+            <Snackbar open={alert_open} autoHideDuration={1000} onClose={handleAlertClose}>
                 <Alert onClose={handleAlertClose} severity={alert_state}>
                     {alert_string}
                 </Alert>

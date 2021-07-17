@@ -6,7 +6,6 @@ const store = new Map<string, User>();
 export class UserMemoryDataAccess implements UserDataAccess {
     async getUserByUsername(username: string): Promise<User | null> {
         const user = store.get(username);
-        console.log(store);
         if (user === undefined) {
             return null;
         }
