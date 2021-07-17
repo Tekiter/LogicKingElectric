@@ -6,15 +6,16 @@ import Logo from "../components/logo";
 import MainSections from "../components/sections";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useAuthToken } from "@/state/auth";
 
 export default function Home(): JSX.Element {
     // Ctrl+Space : check children
     // Don't use arrow function
+    const authToken = useAuthToken();
     const router = useRouter();
     useEffect(() => {
-        if (localStorage.getItem("AUTH_TOKEN") == "" || localStorage.getItem("AUTH_TOKEN") == null)
-            router.push("/login");
-    }, []);
+        if (authToken == "") router.push("/login");
+    }, [authToken]);
     return (
         <div>
             <Head>

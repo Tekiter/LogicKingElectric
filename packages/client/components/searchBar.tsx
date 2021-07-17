@@ -5,9 +5,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { fade as alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import React from "react";
+import React, { useState } from "react";
 import { useAuthTokenDestroyer } from "@/state/auth";
 import { useRouter } from "next/router";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,16 +59,32 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function SearchBar(): JSX.Element {
     const router = useRouter();
     const logout = useAuthTokenDestroyer();
     const Logout = () => {
         logout();
-        alert("로그아웃 완료");
+        handleAlertClick("정상적으로 로그아웃 되었습니다.");
         router.push("/login");
     };
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [alert_open, setAlertOpen] = useState(false);
+    const [alert_string, setAlertString] = useState("");
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorEl);
+    const handleAlertClick = (notice: string) => {
+        setAlertOpen(true);
+        setAlertString(notice);
+    };
+    const handleAlertClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setAlertOpen(false);
+    };
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -108,6 +126,11 @@ export default function SearchBar(): JSX.Element {
                 </IconButton>
             </div>
             {renderMenu}
+            <Snackbar open={alert_open} autoHideDuration={6000} onClose={handleAlertClose}>
+                <Alert onClose={handleAlertClose} severity="success">
+                    {alert_string}
+                </Alert>
+            </Snackbar>
         </>
     );
 }

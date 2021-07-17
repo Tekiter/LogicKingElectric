@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import { Button, TextField } from "@material-ui/core";
 import { makeStyles, Theme, createStyles, withStyles } from "@material-ui/core/styles";
@@ -13,6 +14,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 const loginStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -80,18 +83,34 @@ const ColorButton = withStyles((theme: Theme) => ({
     },
 }))(Button);
 
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 export default function Login(): JSX.Element {
     const router = useRouter();
     const loginStyle = loginStyles();
     const [open, setOpen] = useState(false);
+    const [alert_open, setAlertOpen] = useState(false);
+    const [alert_string, setAlertString] = useState("");
+    const [alert_state, setAlertState] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [new_username, setNewUsername] = useState("");
     const [new_password, setNewPassword] = useState("");
     const [new_password_sub, setNewPasswordSub] = useState("");
     const authToken = useAuthToken();
-    const setAuthToken = useAuthTokenSetter(); // setter
-    // const authToken = useAuthToken(); // getter
+    const setAuthToken = useAuthTokenSetter(); // sette
+    const handleAlertClick = (notice: string, state: string) => {
+        setAlertOpen(true);
+        setAlertState(state);
+        setAlertString(notice);
+    };
+    const handleAlertClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setAlertOpen(false);
+    };
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -101,10 +120,10 @@ export default function Login(): JSX.Element {
     };
     const confirm = (main_pass: string, sub_pass: string) => {
         if (main_pass != sub_pass) {
-            alert("비밀번호가 일치하지않습니다.");
+            handleAlertClick("비밀번호가 일치하지않습니다.", "error");
         } else {
             requestRegister.request({ username: new_username, password: new_password });
-            alert("회원가입 완료!");
+            handleAlertClick("회원가입 완료!", "success");
             handleClose();
         }
     };
@@ -113,11 +132,11 @@ export default function Login(): JSX.Element {
     const { request } = useAPIRequest(issueToken.endpoint, {
         onSuccess(res) {
             setAuthToken(res.accessToken);
-            alert("로그인 성공!");
+            handleAlertClick("로그인 성공", "success");
             router.push("/");
         },
         onError(err) {
-            alert("아이디혹은 패스워드가 틀렸습니다.");
+            handleAlertClick("아이디 혹은 패스워드가 틀렸습니다", "error");
         },
     });
     useEffect(() => {
@@ -182,7 +201,6 @@ export default function Login(): JSX.Element {
                                 onChange={e => setNewUsername(e.target.value)}
                             />
                             <TextField
-                                autoFocus
                                 margin="dense"
                                 id={new_password}
                                 type="password"
@@ -191,7 +209,6 @@ export default function Login(): JSX.Element {
                                 onChange={e => setNewPassword(e.target.value)}
                             />
                             <TextField
-                                autoFocus
                                 margin="dense"
                                 id={new_password_sub}
                                 type="password"
@@ -211,6 +228,11 @@ export default function Login(): JSX.Element {
                     </Dialog>
                 </main>
             </section>
+            <Snackbar open={alert_open} autoHideDuration={6000} onClose={handleAlertClose}>
+                <Alert onClose={handleAlertClose} severity={alert_state}>
+                    {alert_string}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
