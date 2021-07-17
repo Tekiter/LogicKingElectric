@@ -51,6 +51,7 @@ export class SolarSimulationAxiosCall implements SolarSimulationAPI {
 
     async request(query: SimulationRequest): Promise<SimulationResponse> {
         const convertedQuery = qs.stringify(ToRequestConverter.convert(query));
+        console.log(convertedQuery);
         const res = await this.api.post<APIResponse>(
             "https://bd.kma.go.kr/kma2020/api/httpURLConnection.do",
             convertedQuery,
