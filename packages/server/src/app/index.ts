@@ -13,6 +13,7 @@ export async function createApp(): Promise<express.Express> {
 
     const dataAccess = createMemoryDataAccessFacade();
     const solarSimulationAPI = new SolarSimulationDummyCall();
+    // const solarSimulationAPI = new SolarSimulationAxiosCall();
     const services = createServices(dataAccess, solarSimulationAPI);
 
     await initialize(services);

@@ -15,6 +15,13 @@ export class SolarSimulationDummyCall implements SolarSimulationAPI {
             currentDate = addHours(currentDate, 1);
         }
 
+        await wait(2000);
         return response;
     }
+}
+
+function wait(timeout: number): Promise<void> {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(), timeout);
+    });
 }
