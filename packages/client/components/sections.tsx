@@ -1,5 +1,6 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { ArrowForward } from "@material-ui/icons";
+import EnvTab from "./envTab";
 
 const sectionStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -65,7 +66,7 @@ const sectionStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function Sections(): JSX.Element {
+export default function MainSections(): JSX.Element {
     const sectionStyle = sectionStyles();
     return (
         <div>
@@ -103,6 +104,7 @@ export default function Sections(): JSX.Element {
                             </a>
                         </div>
                     </div>
+                    <EnvTab></EnvTab>
                 </div>
             </div>
         </div>
