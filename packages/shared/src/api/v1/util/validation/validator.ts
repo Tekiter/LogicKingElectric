@@ -5,14 +5,18 @@ export interface ValidateChecker {
 }
 
 export interface Validator<T> {
-    check(obj: unknown): boolean;
+    check(obj: unknown): [true, undefined] | [false, ErrorReason];
     field: CheckerObject<T>;
 }
+type ErrorReason = {
+    notValidObject?: boolean;
+    errorFields: string[];
+};
 
 export function getDummyValidator(): Validator<null> {
     return {
         check() {
-            return true;
+            return [true, undefined];
         },
         field: {},
     };
@@ -21,16 +25,22 @@ export function getDummyValidator(): Validator<null> {
 export function defineValidator<Req>(checkerObject: CheckerObject<Req>): Validator<Req> {
     return {
         check(obj) {
-            if (!isRecord(obj)) return false;
+            if (!isRecord(obj)) return [false, { notValidObject: true, errorFields: [] }];
+
+            const errorFields: string[] = [];
 
             for (const key in checkerObject) {
                 const checker = checkerObject[key];
 
                 if (!(key in obj) || !checker.check(obj[key])) {
-                    return false;
+                    errorFields.push(key);
                 }
             }
-            return true;
+            if (errorFields.length > 0) {
+                return [false, { errorFields }];
+            }
+
+            return [true, undefined];
         },
         field: { ...checkerObject },
     };

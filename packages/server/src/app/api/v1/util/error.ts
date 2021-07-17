@@ -22,11 +22,13 @@ export class APIError<ErrorData> extends HandleableError<ErrorData> {
     }
 }
 
-export class RequestError extends APIError<null> {
-    constructor() {
+export class RequestError extends APIError<RequestErrorReason> {
+    constructor(reason?: RequestErrorReason) {
         super(commonErrors.invalidRequestError);
+        this.data = reason;
     }
 }
+type RequestErrorReason = { invalidObject?: boolean; errorFields?: string[] };
 
 export class AuthorizeFailError extends APIError<null> {
     constructor() {

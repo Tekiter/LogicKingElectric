@@ -22,6 +22,7 @@ export function extractData(method: HTTPMethod, req: express.Request): Record<st
 
 export function getValidData<T>(endpoint: EndpointEntry<T, unknown>, req: express.Request): T {
     const data = extractData(endpoint.method, req);
+
     if (!checkValidity(endpoint, data)) {
         throw new RequestError();
     }
@@ -29,8 +30,9 @@ export function getValidData<T>(endpoint: EndpointEntry<T, unknown>, req: expres
 }
 
 function checkValidity<T>(endpoint: EndpointEntry<T, unknown>, data: unknown): data is T {
-    if (endpoint.validator.check(data)) {
-        return true;
+    const [checkSuccess, errorReason] = endpoint.validator.check(data);
+    if (!checkSuccess) {
+        throw new RequestError({ invalidObject: errorReason?.notValidObject, errorFields: errorReason?.errorFields });
     }
-    return false;
+    return true;
 }
