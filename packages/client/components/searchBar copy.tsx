@@ -1,3 +1,5 @@
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { fade as alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
@@ -11,11 +13,26 @@ import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        menus: {
+        search: {
+            position: "relative",
+            borderRadius: theme.shape.borderRadius,
+            backgroundColor: alpha(theme.palette.common.black, 0.3),
+            "&:hover": {
+                backgroundColor: alpha(theme.palette.common.black, 0.15),
+            },
+            [theme.breakpoints.up("md")]: {
+                marginLeft: theme.spacing(55),
+                width: "100%",
+            },
+        },
+        searchIcon: {
+            padding: theme.spacing(0, 1),
+            height: "100%",
+            position: "absolute",
+            pointerEvents: "none",
             display: "flex",
-            flexGrow: 1,
-            justifyContent: "flex-end",
-            marginLeft: "25%",
+            alignItems: "center",
+            justifyContent: "center",
         },
         inputRoot: {
             color: "inherit",
@@ -90,67 +107,18 @@ export default function SearchBar(): JSX.Element {
     const classes = useStyles();
     return (
         <>
-            <div className={classes.menus}>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>메인페이지</div>
+            <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                    <SearchIcon />
                 </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>데이터 제출</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>인센티브</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>오차율</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>SMP/REC</div>
-                </div>
+                <InputBase
+                    placeholder="검색"
+                    classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                />
             </div>
             <div className={classes.sectionDesktop}>
                 <IconButton edge="end" color="inherit" aria-haspopup="true" onClick={handleProfileMenuOpen}>
