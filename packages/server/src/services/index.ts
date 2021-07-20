@@ -1,5 +1,6 @@
 import { DataAccess } from "../core/dataAccess/types";
 import { SolarSimulationAPI } from "../core/openAPI/maruSolarSimulation";
+import { AnalysisService, AnalysisServiceImpl } from "./analysis";
 import { AuthService, AuthWithPassword } from "./auth/auth";
 import { ConfigService, ConfigServiceImpl } from "./config";
 import { InitializeService, InitializeServiceImpl } from "./initialize";
@@ -18,6 +19,7 @@ export interface ServiceFacade {
     plant: PlantService;
     solarPlant: SolarPlantService;
     predictSolarPlant: PredictSolarPlantService;
+    analysisService: AnalysisService;
 }
 
 export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimulationAPI): ServiceFacade {
@@ -30,6 +32,8 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
     const solarPlant = new SolarPlantServiceImpl(dataAccess);
     const predictSolarPlant = new PredictSolarPlantServiceImpl(solarApiCall, plant, solarPlant);
 
+    const analysisService = new AnalysisServiceImpl(dataAccess);
+
     const initialize = new InitializeServiceImpl(config, register);
 
     return {
@@ -41,5 +45,6 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
         plant,
         solarPlant,
         predictSolarPlant,
+        analysisService,
     };
 }
