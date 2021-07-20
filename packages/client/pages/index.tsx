@@ -1,9 +1,9 @@
 import Head from "next/head";
-import SearchBar from "../components/searchBar";
+import SearchBar from "@/components/searchBar";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Logo from "../components/logo";
-import MainSections from "../components/sections";
+import Logo from "@/components/logo";
+import MainSections from "@/components/sections";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthToken } from "@/state/auth";
