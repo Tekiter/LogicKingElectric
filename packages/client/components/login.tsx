@@ -15,7 +15,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import Alert from "./alert";
 
 const loginStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -83,9 +83,6 @@ const ColorButton = withStyles((theme: Theme) => ({
     },
 }))(Button);
 
-function Alert(props: AlertProps) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 export default function Login(): JSX.Element {
     const router = useRouter();
     const loginStyle = loginStyles();
@@ -231,9 +228,10 @@ export default function Login(): JSX.Element {
                 </main>
             </section>
             <Snackbar open={alert_open} autoHideDuration={1000} onClose={handleAlertClose}>
-                <Alert onClose={handleAlertClose} severity={alert_state}>
-                    {alert_string}
-                </Alert>
+                <Alert
+                    handleAlertClose={handleAlertClose}
+                    alert_string={alert_string}
+                    alert_state={alert_state}></Alert>
             </Snackbar>
         </div>
     );

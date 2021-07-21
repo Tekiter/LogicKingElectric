@@ -15,7 +15,7 @@ describe("PlantService", () => {
         name: "Sample Plant",
         location: {
             coordinate: {
-                laditude: 30,
+                latitude: 30,
                 longitude: 40,
             },
             name: "Seoul",

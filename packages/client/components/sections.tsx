@@ -1,6 +1,7 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { ArrowForward } from "@material-ui/icons";
 import EnvTab from "./envTab";
+import Graph from "./graph";
 
 const sectionStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -106,6 +107,9 @@ export default function MainSections(): JSX.Element {
                     </div>
                     <EnvTab></EnvTab>
                 </div>
+            </div>
+            <div>
+                <Graph width="75%" height={500}></Graph>
             </div>
         </div>
     );
