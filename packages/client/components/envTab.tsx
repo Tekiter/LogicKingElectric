@@ -1,4 +1,6 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { format } from "date-fns";
+
 const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
@@ -40,6 +42,29 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
+const month = format(new Date(), "MM");
+const day = format(new Date(), "dd");
+const day_week = () => {
+    const tmp_day = format(new Date(), "EEE");
+    switch (tmp_day) {
+        case "Mon":
+            return "월";
+        case "Tue":
+            return "화";
+        case "Wed":
+            return "수";
+        case "Thu":
+            return "목";
+        case "Fri":
+            return "금";
+        case "Sat":
+            return "토";
+        case "Sun":
+            return "일";
+        default:
+            return "Nan";
+    }
+};
 export default function EnvTab(): JSX.Element {
     const mainSectionStyle = mainSectionStyles();
     return (
@@ -48,7 +73,9 @@ export default function EnvTab(): JSX.Element {
                 <div className={mainSectionStyle.weather}>날씨 정보</div>
             </div>
             <div className={mainSectionStyle.envtab_child}>
-                <div className={mainSectionStyle.today}>7월 16일 (금)</div>
+                <div className={mainSectionStyle.today}>
+                    {month}월 {day}일 ({day_week()})
+                </div>
             </div>
             <div className={mainSectionStyle.real_weather}>
                 <div style={{ marginTop: 10, fontSize: 30, fontWeight: "bold" }}>31°C</div>

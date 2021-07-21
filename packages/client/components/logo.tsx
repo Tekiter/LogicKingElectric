@@ -10,7 +10,9 @@ export default function Logo(props: LogoSize): JSX.Element {
     return (
         <div style={{ width: "20%", display: "flex" }}>
             <Link href="/">
-                <Img src={logo} width={props.width} height={props.height} alt="logo" />
+                <a>
+                    <Img src={logo} width={props.width} height={props.height} alt="logo" />
+                </a>
             </Link>
         </div>
     );

@@ -1,21 +1,20 @@
 import Head from "next/head";
-import SearchBar from "../components/searchBar";
+import MenuBar from "@/components/menuBar";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Logo from "../components/logo";
-import MainSections from "../components/sections";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useAuthToken } from "@/state/auth";
+import Logo from "@/components/logo";
+import MainSections from "@/components/sections";
+import { useMemo } from "react";
+import { useAPIRequest } from "@/api/hooks";
+import { authorize } from "@/api/endpoint";
 
 export default function Home(): JSX.Element {
     // Ctrl+Space : check children
     // Don't use arrow function
-    const authToken = useAuthToken();
-    const router = useRouter();
-    useEffect(() => {
-        if (authToken == "") router.push("/login");
-    }, [authToken]);
+    const authorization = useAPIRequest(authorize.endpoint);
+    useMemo(() => {
+        authorization.request(null);
+    }, []);
     return (
         <div>
             <Head>
@@ -27,7 +26,7 @@ export default function Home(): JSX.Element {
             <AppBar position="static" style={{ background: "#ffffff" }}>
                 <Toolbar>
                     <Logo width={"50%"} height={"50%"}></Logo>
-                    <SearchBar />
+                    <MenuBar />
                 </Toolbar>
             </AppBar>
             <MainSections></MainSections>
