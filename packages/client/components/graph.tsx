@@ -102,13 +102,13 @@ export default function Graph(props: Size): JSX.Element {
                 groupMode="grouped"
                 valueScale={{ type: "linear" }}
                 indexScale={{ type: "band", round: true }}
-                colors={{ scheme: "nivo" }}
+                colors={["#009900", "#72D23D"]}
                 defs={[
                     {
                         id: "dots",
                         type: "patternDots",
                         background: "inherit",
-                        color: "#38bcb2",
+                        color: "#72D23D",
                         size: 4,
                         padding: 1,
                         stagger: true,
@@ -117,7 +117,7 @@ export default function Graph(props: Size): JSX.Element {
                         id: "lines",
                         type: "patternLines",
                         background: "inherit",
-                        color: "#eed312",
+                        color: "#72D23D",
                         rotation: -45,
                         lineWidth: 6,
                         spacing: 10,

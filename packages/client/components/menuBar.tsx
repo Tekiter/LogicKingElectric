@@ -102,10 +102,10 @@ export default function MenuBar(): JSX.Element {
         <>
             <div className={classes.menus}>
                 <MenuItemCustomed menuString="메인페이지" pageURL="/"></MenuItemCustomed>
-                <MenuItemCustomed menuString="데이터 제출"></MenuItemCustomed>
-                <MenuItemCustomed menuString="인센티브"></MenuItemCustomed>
-                <MenuItemCustomed menuString="오차율"></MenuItemCustomed>
-                <MenuItemCustomed menuString="SMP/REC"></MenuItemCustomed>
+                <MenuItemCustomed menuString="데이터 제출" pageURL="#"></MenuItemCustomed>
+                <MenuItemCustomed menuString="인센티브" pageURL="#"></MenuItemCustomed>
+                <MenuItemCustomed menuString="오차율" pageURL="#"></MenuItemCustomed>
+                <MenuItemCustomed menuString="SMP/REC" pageURL="#"></MenuItemCustomed>
             </div>
             <div className={classes.sectionDesktop}>
                 <IconButton edge="end" color="inherit" aria-haspopup="true" onClick={handleProfileMenuOpen}>
