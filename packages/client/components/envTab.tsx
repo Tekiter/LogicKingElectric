@@ -4,12 +4,10 @@ import { format } from "date-fns";
 const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
-            display: "inline-block",
             marginLeft: "1.5%",
             maxWidth: "100%",
             boxShadow: "2px 2px 2px #e2e2e2",
             height: 800,
-            position: "absolute",
             flexWrap: "wrap",
         },
         envtab_child: {
