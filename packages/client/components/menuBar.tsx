@@ -1,6 +1,7 @@
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { fade as alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import MenuItemCustomed from "./menuItem";
+import { alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import React, { useState } from "react";
@@ -14,8 +15,17 @@ const useStyles = makeStyles((theme: Theme) =>
         menus: {
             display: "flex",
             flexGrow: 1,
-            justifyContent: "flex-end",
+            justifyContent: "center",
             marginLeft: "25%",
+        },
+        menu_text: {
+            height: 64,
+            display: "inherit",
+            alignItems: "center",
+            borderTop: "1px solid black",
+            color: "#000",
+            textAlign: "center",
+            marginRight: 20,
         },
         inputRoot: {
             color: "inherit",
@@ -46,7 +56,7 @@ function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SearchBar(): JSX.Element {
+export default function MenuBar(): JSX.Element {
     const router = useRouter();
     const logout = useAuthTokenDestroyer();
     const Logout = () => {
@@ -91,66 +101,11 @@ export default function SearchBar(): JSX.Element {
     return (
         <>
             <div className={classes.menus}>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>메인페이지</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>데이터 제출</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>인센티브</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>오차율</div>
-                </div>
-                <div
-                    style={{
-                        height: 64,
-                        display: "inherit",
-                        alignItems: "center",
-                        borderTop: "1px solid black",
-                        color: "#000",
-                        width: 100,
-                        textAlign: "center",
-                    }}>
-                    <div style={{ width: 100, textAlign: "center" }}>SMP/REC</div>
-                </div>
+                <MenuItemCustomed menuString="메인페이지" pageURL="/"></MenuItemCustomed>
+                <MenuItemCustomed menuString="데이터 제출"></MenuItemCustomed>
+                <MenuItemCustomed menuString="인센티브"></MenuItemCustomed>
+                <MenuItemCustomed menuString="오차율"></MenuItemCustomed>
+                <MenuItemCustomed menuString="SMP/REC"></MenuItemCustomed>
             </div>
             <div className={classes.sectionDesktop}>
                 <IconButton edge="end" color="inherit" aria-haspopup="true" onClick={handleProfileMenuOpen}>
