@@ -8,6 +8,7 @@ import {
     predictSolarPlantController,
     updateSolarPlantInfoController,
 } from "./controller/solarPlant";
+import { monthlyHistoryReportController } from "./controller/analysis";
 
 registerController(issueTokenController);
 registerController(authorizeController);
@@ -19,3 +20,5 @@ registerController(updatePlantInfoController);
 registerController(getSolarPlantInfoController);
 registerController(updateSolarPlantInfoController);
 registerController(predictSolarPlantController);
+
+registerController(monthlyHistoryReportController);
