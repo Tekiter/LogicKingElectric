@@ -2,7 +2,7 @@ import { startOfDay } from "date-fns";
 import { DataAccess } from "../../core/dataAccess/types";
 import { UserIdentifier } from "../../entity/user";
 
-export interface SubmitService {
+export interface SubmitPredictionService {
     submitPredicted(user: UserIdentifier, predicted: Predicted): Promise<SubmitResult>;
 }
 
@@ -15,7 +15,7 @@ interface SubmitResult {
     success: boolean;
 }
 
-export class SubmitServiceImpl implements SubmitService {
+export class SubmitPredictionServiceImpl implements SubmitPredictionService {
     constructor(private readonly dataAccess: DataAccess<"generationHistory">) {}
 
     async submitPredicted(user: UserIdentifier, predicted: Predicted): Promise<SubmitResult> {

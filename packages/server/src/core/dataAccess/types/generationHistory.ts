@@ -6,5 +6,5 @@ export interface GenerationHistoryDataAccess {
     getMonthlyActual(user: UserIdentifier): Promise<GenerationActual[]>;
 
     addPrediction(user: UserIdentifier, prediction: GenerationPrediction): Promise<void>;
-    addActual(user: UserIdentifier, prediction: GenerationActual): Promise<void>;
+    addActual(user: UserIdentifier, actual: GenerationActual): Promise<void>;
 }

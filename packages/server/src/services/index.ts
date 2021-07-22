@@ -8,6 +8,8 @@ import { PlantService, PlantServiceImpl } from "./plant";
 import { PredictSolarPlantService, PredictSolarPlantServiceImpl } from "./predictSolarPlant";
 import { RegisterService, RegisterServiceImpl } from "./register";
 import { SolarPlantService, SolarPlantServiceImpl } from "./solarPlant";
+import { SubmitActualService, SubmitActualServiceImpl } from "./submitActual";
+import { SubmitPredictionService, SubmitPredictionServiceImpl } from "./submitPrediciton";
 import { UserService, UserServiceImpl } from "./user";
 
 export interface ServiceFacade {
@@ -20,6 +22,8 @@ export interface ServiceFacade {
     solarPlant: SolarPlantService;
     predictSolarPlant: PredictSolarPlantService;
     analysisService: AnalysisService;
+    submitPrediction: SubmitPredictionService;
+    submitActual: SubmitActualService;
 }
 
 export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimulationAPI): ServiceFacade {
@@ -31,6 +35,9 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
     const plant = new PlantServiceImpl(dataAccess);
     const solarPlant = new SolarPlantServiceImpl(dataAccess);
     const predictSolarPlant = new PredictSolarPlantServiceImpl(solarApiCall, plant, solarPlant);
+
+    const submitPrediction = new SubmitPredictionServiceImpl(dataAccess);
+    const submitActual = new SubmitActualServiceImpl(dataAccess);
 
     const analysisService = new AnalysisServiceImpl(dataAccess);
 
@@ -46,5 +53,7 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
         solarPlant,
         predictSolarPlant,
         analysisService,
+        submitPrediction,
+        submitActual,
     };
 }
