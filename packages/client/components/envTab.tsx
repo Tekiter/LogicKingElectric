@@ -8,7 +8,7 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
             maxWidth: "100%",
             boxShadow: "2px 2px 2px #e2e2e2",
             height: 800,
-            flexWrap: "wrap",
+            flexBasis: 480,
         },
         envtab_child: {
             width: 480,

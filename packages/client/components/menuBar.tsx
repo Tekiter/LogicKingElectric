@@ -94,6 +94,12 @@ export default function MenuBar(): JSX.Element {
             transformOrigin={{ vertical: "top", horizontal: "right" }}
             open={isMenuOpen}
             onClose={handleMenuClose}>
+            <MenuItem
+                onClick={() => {
+                    router.push("/mypage", undefined, { shallow: true });
+                }}>
+                My Page
+            </MenuItem>
             <MenuItem onClick={Logout}>Log out</MenuItem>
         </Menu>
     );

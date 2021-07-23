@@ -11,15 +11,17 @@ const menuItemStyles = makeStyles((theme: Theme) =>
             color: "#000",
             textAlign: "center",
             marginRight: 20,
+            textDecoration: "none",
         },
         menu_text_selected: {
-            height: 64,
+            height: 60,
             display: "inherit",
             alignItems: "center",
-            borderTop: "5px solid #72D23D",
+            borderTop: "3px solid #72D23D",
             color: "#000",
             textAlign: "center",
             marginRight: 20,
+            textDecoration: "none",
         },
     }),
 );
@@ -34,21 +36,17 @@ export default function MenuItemCustomed(props: MenuItemProps): JSX.Element {
     if (props.pageURL == this_page) {
         return (
             <Link href={props.pageURL}>
-                <div className={menuItem.menu_text_selected}>
-                    <div style={{ fontSize: 20, whiteSpace: "nowrap", textAlign: "center" }}>
-                        <a>{props.menuString}</a>
-                    </div>
-                </div>
+                <a className={menuItem.menu_text_selected}>
+                    <div style={{ fontSize: 20, whiteSpace: "nowrap", textAlign: "center" }}>{props.menuString}</div>
+                </a>
             </Link>
         );
     } else {
         return (
             <Link href={props.pageURL}>
-                <div className={menuItem.menu_text}>
-                    <div style={{ fontSize: 20, whiteSpace: "nowrap", textAlign: "center" }}>
-                        <a>{props.menuString}</a>
-                    </div>
-                </div>
+                <a className={menuItem.menu_text}>
+                    <div style={{ fontSize: 20, whiteSpace: "nowrap", textAlign: "center" }}>{props.menuString}</div>
+                </a>
             </Link>
         );
     }
