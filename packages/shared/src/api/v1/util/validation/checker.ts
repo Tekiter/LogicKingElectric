@@ -27,6 +27,20 @@ class ChainChecker extends CheckerBase {
         return this;
     }
 
+    dateString() {
+        this.setChecker(data => {
+            if (typeof data !== "string") {
+                return false;
+            }
+            const parsed = Date.parse(data);
+            if (isNaN(parsed)) {
+                return false;
+            }
+            return true;
+        });
+        return this;
+    }
+
     number() {
         this.setChecker(data => typeof data === "number");
         return this;
