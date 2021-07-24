@@ -44,7 +44,7 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
     const analysisService = new AnalysisServiceImpl(dataAccess);
 
     const initialize = new InitializeServiceImpl(config, register);
-    const demo = new DemoServiceImpl(user, register, plant, solarPlant);
+    const demo = new DemoServiceImpl(user, register, plant, solarPlant, submitActual, submitPrediction);
 
     return {
         auth,
