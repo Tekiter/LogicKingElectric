@@ -102,4 +102,17 @@ describe("MonthlyGenerationHistory", () => {
         expect(typeof report.records[0].errorRate).toBe("number");
         expect(report.records[10 - 1].errorRate).toBe(undefined);
     });
+
+    test("incentive", () => {
+        const report = createMonthlyHistoryReport({
+            year: YEAR,
+            month: MONTH,
+            actualMonthly: actualMock,
+            predictionMonthly: predictionMock,
+        });
+
+        expect(report.records[0].incentive).not.toBe(undefined);
+        expect(typeof report.records[0].incentive).toBe("number");
+        expect(report.records[10 - 1].incentive).toBe(undefined);
+    });
 });

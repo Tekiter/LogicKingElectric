@@ -11,6 +11,7 @@ interface DateRecord {
     actual?: number;
     prediction?: number;
     errorRate?: number;
+    incentive?: number;
 }
 
 export const endpoint = defineEndpoint<null, Response>({
