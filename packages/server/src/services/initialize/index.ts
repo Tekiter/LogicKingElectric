@@ -2,18 +2,22 @@ import { ConfigService } from "../config";
 import { RegisterService } from "../register";
 
 export interface InitializeService {
-    initConfig(): Promise<void>;
-    initDefaultAdmin(): Promise<void>;
+    initialize(): Promise<void>;
 }
 
 export class InitializeServiceImpl implements InitializeService {
     constructor(private readonly configService: ConfigService, private readonly registerService: RegisterService) {}
 
-    async initConfig(): Promise<void> {
+    async initialize(): Promise<void> {
+        await this.initConfig();
+        await this.initDefaultAdmin();
+    }
+
+    private async initConfig(): Promise<void> {
         this.configService.setupIfNoConfig();
     }
 
-    async initDefaultAdmin(): Promise<void> {
+    private async initDefaultAdmin(): Promise<void> {
         const defaultAdminUsername = await this.configService.getConfig("adminUsername");
         const defaultAdminPassword = await this.configService.getConfig("adminPassword");
 
