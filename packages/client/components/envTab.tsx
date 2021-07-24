@@ -5,8 +5,9 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
             marginLeft: "1.5%",
+            paddingRight: 5,
             maxWidth: "100%",
-            boxShadow: "2px 2px 2px #e2e2e2",
+            boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
             height: 800,
             flexBasis: 480,
         },

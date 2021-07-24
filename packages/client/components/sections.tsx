@@ -24,7 +24,7 @@ const sectionStyles = makeStyles((theme: Theme) =>
         },
         info: {
             flexBasis: 600,
-            boxShadow: "3px 3px 0px 0px #e8e8e8",
+            boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
             paddingTop: 38,
             paddingBottom: 28,
             paddingLeft: 25,

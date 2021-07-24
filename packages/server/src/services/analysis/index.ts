@@ -12,7 +12,7 @@ export class AnalysisServiceImpl implements AnalysisService {
 
     async createMonthlyGenerationHistory(user: UserIdentifier): Promise<MonthlyGenerationHistory> {
         const year = getYear(new Date());
-        const month = getMonth(new Date());
+        const month = getMonth(new Date()) + 1;
         const actualMonthly = await this.dataAccess.generationHistory.getMonthlyActual(user);
         const predictionMonthly = await this.dataAccess.generationHistory.getMonthlyPrediction(user);
 

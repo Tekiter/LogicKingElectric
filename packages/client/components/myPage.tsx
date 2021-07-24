@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import EnvTab from "./envTab";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -9,6 +9,9 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
+import { authorize } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import Typography from "@material-ui/core/Typography";
 
 const formStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +42,15 @@ const GreenButton = withStyles({
     },
 })(Button);
 export default function MyPage(): JSX.Element {
+    const { request } = useAPIRequest(authorize.endpoint, {
+        onSuccess(res) {
+            setUserName(res.username);
+        },
+    });
+    useEffect(() => {
+        request(null);
+    }, []);
+    const [userName, setUserName] = useState("No login");
     const [plantType, setPlantType] = useState({
         solar: false,
         wind: false,
@@ -55,7 +67,7 @@ export default function MyPage(): JSX.Element {
         setGeneratorType({ ...generatorType, [event.target.name]: event.target.checked });
     };
     return (
-        <div style={{ display: "flex", marginTop: 7 }}>
+        <div style={{ display: "flex", marginTop: "1.5%" }}>
             <div style={{ display: "inherit", flexDirection: "row" }}>
                 <div style={{ marginLeft: "53%", minWidth: 600, flexBasis: 600 }}>
                     <div style={{ textAlign: "center", fontSize: 35 }}>마이페이지</div>
@@ -72,10 +84,10 @@ export default function MyPage(): JSX.Element {
                                 </IconButton>
                             </div>
                         </div>
-                        <div className={formStyle.formLine}>
+                        <div style={{ display: "flex" }}>
                             <div style={{ fontSize: 16, color: "gray" }}>아이디</div>
-                            <div style={{ marginRight: "46%" }}>
-                                <TextField label="username"></TextField>
+                            <div style={{ marginLeft: 83 }}>
+                                <Typography variant="subtitle1">{userName}</Typography>
                             </div>
                         </div>
                         <div className={formStyle.formLine}>
