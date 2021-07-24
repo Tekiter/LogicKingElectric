@@ -1,5 +1,10 @@
 import { getDate, getDaysInMonth } from "date-fns";
-import { GenerationActual, GenerationPrediction } from "../../entity/generationHistory";
+import {
+    calculateErrorRate,
+    calculateIncentive,
+    GenerationActual,
+    GenerationPrediction,
+} from "../../entity/generationHistory";
 
 export interface MonthlyGenerationHistory {
     year: number;
@@ -12,6 +17,7 @@ interface DateRecord {
     actual?: number;
     prediction?: number;
     errorRate?: number;
+    incentive?: number;
 }
 
 interface RawData {
@@ -43,7 +49,8 @@ export function createMonthlyHistoryReport({
 
     dateList.forEach(entry => {
         if (entry.actual !== undefined && entry.prediction !== undefined) {
-            entry.errorRate = calcErrorRate(entry.actual, entry.prediction);
+            entry.errorRate = calculateErrorRate(entry.actual, entry.prediction);
+            entry.incentive = calculateIncentive(entry.actual, entry.prediction);
         }
     });
 
@@ -62,11 +69,4 @@ function makeEmptyDateList(size: number): DateRecord[] {
     });
 
     return result;
-}
-
-function calcErrorRate(actual: number, prediction: number) {
-    const error = Math.abs(actual - prediction);
-    const errorRate = error / prediction;
-
-    return errorRate;
 }
