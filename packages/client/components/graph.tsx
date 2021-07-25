@@ -1,7 +1,7 @@
 import { ResponsiveBar } from "@nivo/bar";
-// import { monthlyHistoryReport } from "@/api/endpoint";
-// import { useAPIRequest } from "@/api/hooks";
-// import { useEffect } from "react";
+import { monthlyHistoryReport } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import { useEffect } from "react";
 interface Size {
     width: number | string;
     height: number | string;
@@ -94,14 +94,14 @@ const datas = [
 ];
 
 export default function Graph(props: Size): JSX.Element {
-    // const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
-    //     onSuccess(res) {
-    //         console.log(res);
-    //     },
-    // });
-    // useEffect(() => {
-    //     request(null);
-    // }, []);
+    const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
+        onSuccess(res) {
+            //console.log(res);
+        },
+    });
+    useEffect(() => {
+        request(null);
+    }, []);
     return (
         <div style={{ width: props.width, height: props.height }}>
             <ResponsiveBar

@@ -74,7 +74,11 @@ export default function MyPage(): JSX.Element {
                     <div style={{ textAlign: "center", fontSize: 20, color: "gray" }}>
                         아이디, 비밀번호 등의 개인정보를 수정할 수 있습니다
                     </div>
-                    <div style={{ boxShadow: "3px 3px 0px 0px #e8e8e8", padding: 8 }}>
+                    <div
+                        style={{
+                            boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
+                            padding: 8,
+                        }}>
                         <div className={formStyle.formLine}>
                             <div style={{ fontSize: 16, color: "gray" }}>사진</div>
                             <div>설정하지 않을 시 기본이미지로 설정됩니다.</div>
