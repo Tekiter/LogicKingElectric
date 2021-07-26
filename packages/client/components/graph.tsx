@@ -1,4 +1,7 @@
 import { ResponsiveBar } from "@nivo/bar";
+import { monthlyHistoryReport } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import { useEffect } from "react";
 interface Size {
     width: number | string;
     height: number | string;
@@ -6,79 +9,79 @@ interface Size {
 const datas = [
     {
         month: "1월",
-        "예측 발전량": 144,
+        "예측 발전량": 3500,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 120,
+        "실제 발전량": 3600,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "2월",
-        "예측 발전량": 124,
+        "예측 발전량": 4000,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 120,
+        "실제 발전량": 4120,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "3월",
-        "예측 발전량": 114,
+        "예측 발전량": 3114,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 3523,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "4월",
-        "예측 발전량": 114,
+        "예측 발전량": 4114,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 4231,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "5월",
-        "예측 발전량": 114,
+        "예측 발전량": 4010,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 4312,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "6월",
-        "예측 발전량": 114,
+        "예측 발전량": 4300,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 4400,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "7월",
-        "예측 발전량": 114,
+        "예측 발전량": 4900,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 4930,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "8월",
-        "예측 발전량": 114,
+        "예측 발전량": 5000,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 5000,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "9월",
-        "예측 발전량": 114,
+        "예측 발전량": 4300,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 4403,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "10월",
-        "예측 발전량": 114,
+        "예측 발전량": 4000,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 4000,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
         month: "11월",
-        "예측 발전량": 114,
+        "예측 발전량": 3200,
         "예측 발전량Color": "hsl(357, 70%, 50%)",
-        "실제 발전량": 123,
+        "실제 발전량": 3100,
         "실제 발전량Color": "hsl(357, 70%, 50%)",
     },
     {
@@ -91,6 +94,25 @@ const datas = [
 ];
 
 export default function Graph(props: Size): JSX.Element {
+    const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
+        onSuccess(res) {
+            let actual_avg = 0;
+            let predict_avg = 0;
+            res.records.map((daily, idx) => {
+                if (daily.actual != undefined && daily.prediction != undefined) {
+                    actual_avg += daily.actual;
+                    predict_avg += daily.prediction;
+                }
+            });
+            actual_avg /= res.records.length;
+            predict_avg /= res.records.length;
+            datas[res.month]["실제 발전량"] = actual_avg;
+            datas[res.month]["예측 발전량"] = predict_avg;
+        },
+    });
+    useEffect(() => {
+        request(null);
+    }, []);
     return (
         <div style={{ width: props.width, height: props.height }}>
             <ResponsiveBar

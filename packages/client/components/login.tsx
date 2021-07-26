@@ -132,7 +132,7 @@ export default function Login(): JSX.Element {
         onSuccess(res) {
             setAuthToken(res.accessToken);
             handleAlertClick("로그인 성공", "success");
-            router.push("/");
+            router.push("/", undefined, { shallow: true });
         },
         onError(err) {
             handleAlertClick("아이디 혹은 패스워드가 틀렸습니다", "error");
@@ -140,7 +140,7 @@ export default function Login(): JSX.Element {
     });
     useEffect(() => {
         if (authToken != "") {
-            router.push("/");
+            router.push("/", undefined, { shallow: true });
         }
     }, [authToken]);
     function do_Login(username: string, password: string) {

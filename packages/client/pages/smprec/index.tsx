@@ -1,9 +1,8 @@
 import Head from "next/head";
+import MenuBar from "@/components/menuBar";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Logo from "@/components/logo";
-import MenuBar from "@/components/menuBar";
-import MyPage from "@/components/myPage";
 
 export default function Home(): JSX.Element {
     return (
@@ -20,7 +19,6 @@ export default function Home(): JSX.Element {
                     <MenuBar />
                 </Toolbar>
             </AppBar>
-            <MyPage></MyPage>
         </div>
     );
 }

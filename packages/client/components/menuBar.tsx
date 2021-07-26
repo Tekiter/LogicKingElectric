@@ -4,11 +4,14 @@ import MenuItemCustomed from "./menuItem";
 import { alpha, makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthTokenDestroyer } from "@/state/auth";
 import { useRouter } from "next/router";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { authorize } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,6 +60,14 @@ function Alert(props: AlertProps) {
 }
 
 export default function MenuBar(): JSX.Element {
+    const { request } = useAPIRequest(authorize.endpoint, {
+        onSuccess(res) {
+            setUserName(res.username);
+        },
+    });
+    useEffect(() => {
+        request(null);
+    }, []);
     const router = useRouter();
     const logout = useAuthTokenDestroyer();
     const Logout = () => {
@@ -64,6 +75,7 @@ export default function MenuBar(): JSX.Element {
         handleAlertClick("정상적으로 로그아웃 되었습니다.");
         router.push("/login");
     };
+    const [userName, setUserName] = useState("No login");
     const [alert_open, setAlertOpen] = useState(false);
     const [alert_string, setAlertString] = useState("");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -94,6 +106,15 @@ export default function MenuBar(): JSX.Element {
             transformOrigin={{ vertical: "top", horizontal: "right" }}
             open={isMenuOpen}
             onClose={handleMenuClose}>
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+                {userName}
+            </Typography>
+            <MenuItem
+                onClick={() => {
+                    router.push("/mypage", undefined, { shallow: true });
+                }}>
+                My Page
+            </MenuItem>
             <MenuItem onClick={Logout}>Log out</MenuItem>
         </Menu>
     );
@@ -102,10 +123,10 @@ export default function MenuBar(): JSX.Element {
         <>
             <div className={classes.menus}>
                 <MenuItemCustomed menuString="메인페이지" pageURL="/"></MenuItemCustomed>
-                <MenuItemCustomed menuString="데이터 제출" pageURL="#"></MenuItemCustomed>
-                <MenuItemCustomed menuString="인센티브" pageURL="#"></MenuItemCustomed>
-                <MenuItemCustomed menuString="오차율" pageURL="#"></MenuItemCustomed>
-                <MenuItemCustomed menuString="SMP/REC" pageURL="#"></MenuItemCustomed>
+                <MenuItemCustomed menuString="데이터 제출" pageURL="/submitData"></MenuItemCustomed>
+                <MenuItemCustomed menuString="인센티브" pageURL="/incentive"></MenuItemCustomed>
+                <MenuItemCustomed menuString="오차율" pageURL="/errorRate"></MenuItemCustomed>
+                <MenuItemCustomed menuString="SMP/REC" pageURL="/smprec"></MenuItemCustomed>
             </div>
             <div className={classes.sectionDesktop}>
                 <IconButton edge="end" color="inherit" aria-haspopup="true" onClick={handleProfileMenuOpen}>
