@@ -1,5 +1,6 @@
 import { DataAccess } from "../core/dataAccess/types";
 import { SolarSimulationAPI } from "../core/openAPI/maruSolarSimulation";
+import { OpenWeatherAPI } from "../core/openAPI/openWeather";
 import { AnalysisService, AnalysisServiceImpl } from "./analysis";
 import { AuthService, AuthWithPassword } from "./auth/auth";
 import { ConfigService, ConfigServiceImpl } from "./config";
@@ -12,6 +13,7 @@ import { SolarPlantService, SolarPlantServiceImpl } from "./solarPlant";
 import { SubmitActualService, SubmitActualServiceImpl } from "./submitActual";
 import { SubmitPredictionService, SubmitPredictionServiceImpl } from "./submitPrediciton";
 import { UserService, UserServiceImpl } from "./user";
+import { WeatherService, WeatherServiceImpl } from "./weather";
 
 export interface ServiceFacade {
     auth: AuthService;
@@ -26,9 +28,14 @@ export interface ServiceFacade {
     submitPrediction: SubmitPredictionService;
     submitActual: SubmitActualService;
     demo: DemoService;
+    weather: WeatherService;
 }
 
-export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimulationAPI): ServiceFacade {
+export function createServices(
+    dataAccess: DataAccess,
+    solarApiCall: SolarSimulationAPI,
+    weatherApiCall: OpenWeatherAPI,
+): ServiceFacade {
     const auth = new AuthWithPassword(dataAccess);
     const config = new ConfigServiceImpl(dataAccess);
     const user = new UserServiceImpl(dataAccess);
@@ -40,6 +47,8 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
 
     const submitPrediction = new SubmitPredictionServiceImpl(dataAccess);
     const submitActual = new SubmitActualServiceImpl(dataAccess);
+
+    const weather = new WeatherServiceImpl(weatherApiCall, plant);
 
     const analysisService = new AnalysisServiceImpl(dataAccess);
 
@@ -59,5 +68,6 @@ export function createServices(dataAccess: DataAccess, solarApiCall: SolarSimula
         submitPrediction,
         submitActual,
         demo,
+        weather,
     };
 }
