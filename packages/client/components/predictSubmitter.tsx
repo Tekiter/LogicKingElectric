@@ -1,0 +1,82 @@
+import { makeStyles, Theme, createStyles, withStyles } from "@material-ui/core/styles";
+import { format } from "date-fns";
+import Button from "@material-ui/core/Button";
+import { TextField } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+
+const predictSubmitStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        outline: {
+            width: 987,
+        },
+        title: {
+            fontSize: 33,
+            fontWeight: 700,
+            color: "#369700",
+            marginTop: 23,
+            marginLeft: 16,
+            borderBottom: "2px solid #d7d7d7",
+            paddingBottom: 10,
+        },
+        inner: {
+            marginTop: 27,
+            marginLeft: 16,
+        },
+        inner_line: {
+            display: "flex",
+            flexDirection: "row",
+        },
+        inner_text: {
+            marginRight: 21,
+            height: 57,
+            fontWeight: 400,
+            fontSize: 20,
+            textAlign: "center",
+        },
+        inner_text_sub: {
+            marginTop: 10,
+        },
+    }),
+);
+const month = format(new Date(), "MM");
+const day = format(new Date(), "dd");
+const GreenButton = withStyles({
+    root: {
+        color: "white",
+        backgroundColor: green[500],
+        "&:hover": {
+            backgroundColor: green[700],
+        },
+    },
+})(Button);
+export default function PredictSubmitter(): JSX.Element {
+    const predictSubmitStyle = predictSubmitStyles();
+    return (
+        <div>
+            <div className={predictSubmitStyle.outline}>
+                <div className={predictSubmitStyle.title}>예측 발전량 수동입력</div>
+                <div className={predictSubmitStyle.inner}>
+                    <div className={predictSubmitStyle.inner_line}>
+                        <div className={predictSubmitStyle.inner_text}>2021 년</div>
+                        <div className={predictSubmitStyle.inner_text}>{month} 월</div>
+                        <div className={predictSubmitStyle.inner_text}>{day} 일</div>
+                    </div>
+                    <div className={predictSubmitStyle.inner_line}>
+                        <TextField
+                            id="full-width-text-field"
+                            label="발전량(kW)"
+                            placeholder="ex) 100"
+                            helperText="발전량 입력"
+                        />
+                        <div className={`${predictSubmitStyle.inner_text} ${predictSubmitStyle.inner_text_sub}`}>
+                            kW
+                        </div>
+                        <div style={{ marginTop: 10 }}>
+                            <GreenButton>제출</GreenButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
