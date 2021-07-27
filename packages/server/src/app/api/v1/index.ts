@@ -1,21 +1,41 @@
 import express from "express";
+import nocache from "nocache";
 import { getControllers, Controller } from "./util";
 
-import { ServiceFacade } from "../../../services";
+import { createServices, ServiceFacade } from "../../../services";
 
 import "./registerControllers";
+import { createMemoryDataAccessFacade } from "../../../core/dataAccess/memory";
+import { initialize } from "../../initialize";
+import { SolarSimulationAPI } from "../../../core/openAPI/maruSolarSimulation";
+import { OpenWeatherAPI, OpenWeatherAPIAxios, OpenWeatherAPIDummy } from "../../../core/openAPI/openWeather";
+import { SolarSimulationAxiosCall } from "../../../core/openAPI/maruSolarSimulation/axiosCall";
+import { SolarSimulationDummyCall } from "../../../core/openAPI/maruSolarSimulation/dummyCall";
 export class APIv1 {
+    private readonly services: ServiceFacade;
     private _router = express.Router();
 
-    constructor(private readonly services: ServiceFacade) {
+    constructor() {
+        this.services = this.createServices();
         this.setRequestDataParser();
         this.setControllers();
         this.setFallbackController();
     }
 
+    async initialize(): Promise<void> {
+        await initialize(this.services);
+    }
+
+    private createServices() {
+        const dataAccess = createMemoryDataAccessFacade();
+        const [solarSimulationAPI, openWeatherAPI] = createOpenAPI();
+        return createServices(dataAccess, solarSimulationAPI, openWeatherAPI);
+    }
+
     private setRequestDataParser() {
         this._router.use(express.json());
         this._router.use(express.urlencoded({ extended: true }));
+        this._router.use(nocache());
     }
 
     private setControllers() {
@@ -60,6 +80,26 @@ export class APIv1 {
     getRouter(): express.Router {
         return this._router;
     }
+}
+
+function createOpenAPI(): [SolarSimulationAPI, OpenWeatherAPI] {
+    if (process.env.USE_REAL_API === "TRUE") {
+        console.log("[info]: Now using real open API calls.");
+        return [new SolarSimulationAxiosCall(), createOpenWeatherAPI()];
+    } else {
+        console.log("[info]: Now using dummy API calls.");
+        return [new SolarSimulationDummyCall(), new OpenWeatherAPIDummy()];
+    }
+}
+
+function createOpenWeatherAPI(): OpenWeatherAPI {
+    const key = process.env.OPEN_WEATHER_API_KEY;
+    if (key === undefined || key === "") {
+        console.info("[warn]: OpenWeather API Key is not set in environment value. Now using dummy API.");
+        return new OpenWeatherAPIDummy();
+    }
+
+    return new OpenWeatherAPIAxios(key);
 }
 
 export default APIv1;
