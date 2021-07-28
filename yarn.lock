@@ -3725,6 +3725,11 @@ dot-prop@^6.0.1:
   dependencies:
     is-obj "^2.0.0"
 
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
+
 duplexer@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6"
@@ -6653,6 +6658,11 @@ next@10.2.3:
     util "0.12.3"
     vm-browserify "1.1.2"
     watchpack "2.1.1"
+
+nocache@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/nocache/-/nocache-3.0.1.tgz#54d8b53a7e0a0aa1a288cfceab8a3cefbcde67d4"
+  integrity sha512-Gh39xwJwBKy0OvFmWfBs/vDO4Nl7JhnJtkqNP76OUinQz7BiMoszHYrIDHHAaqVl/QKVxCEy4ZxC/XZninu7nQ==
 
 node-addon-api@^3.1.0:
   version "3.2.1"

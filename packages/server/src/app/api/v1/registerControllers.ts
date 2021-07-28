@@ -10,6 +10,7 @@ import {
 } from "./controller/solarPlant";
 import { monthlyHistoryReportController } from "./controller/analysis";
 import { submitActualController, submitPredictionController } from "./controller/submit";
+import { getCurrentWeatherController } from "./controller/weather";
 
 registerController(issueTokenController);
 registerController(authorizeController);
@@ -26,3 +27,5 @@ registerController(monthlyHistoryReportController);
 
 registerController(submitActualController);
 registerController(submitPredictionController);
+
+registerController(getCurrentWeatherController);

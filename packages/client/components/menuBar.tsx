@@ -25,10 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
             height: 64,
             display: "inherit",
             alignItems: "center",
-            borderTop: "1px solid black",
+            /* borderTop: "1px solid black", */
             color: "#000",
             textAlign: "center",
-            marginRight: 20,
         },
         inputRoot: {
             color: "inherit",

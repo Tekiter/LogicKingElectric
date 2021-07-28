@@ -18,9 +18,9 @@ export function calculateErrorRate(actual: number, prediction: number): number {
 export function calculateIncentive(actual: number, prediction: number): number {
     const error = calculateErrorRate(actual, prediction);
     let w = 0;
-    if (error <= 0.6) {
+    if (error <= 0.06) {
         w = 4;
-    } else if (error <= 8) {
+    } else if (error <= 0.08) {
         w = 3;
     }
     return actual * w;

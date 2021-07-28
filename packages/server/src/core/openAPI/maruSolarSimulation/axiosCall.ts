@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import qs from "qs";
 import { format, parse } from "date-fns";
 import { SolarSimulationAPI, SimulationPerTimeEntry, SimulationRequest, SimulationResponse } from "./types";
+import { RequestCache } from "../../cache";
 
 interface APIRequest {
     hostKey: string;
@@ -39,7 +40,12 @@ interface PerTimeEntry {
 }
 
 export class SolarSimulationAxiosCall implements SolarSimulationAPI {
-    api: AxiosInstance;
+    private api: AxiosInstance;
+    private cache = new RequestCache<
+        Omit<SimulationRequest, "currentDatetime"> & { currentDatetime: undefined },
+        SimulationResponse
+    >();
+
     constructor() {
         this.api = axios.create({
             headers: {
@@ -50,13 +56,20 @@ export class SolarSimulationAxiosCall implements SolarSimulationAPI {
     }
 
     async request(query: SimulationRequest): Promise<SimulationResponse> {
+        const cached = this.cache.get({ ...query, currentDatetime: undefined });
+        if (cached !== undefined) {
+            return cached;
+        }
+
         const convertedQuery = qs.stringify(ToRequestConverter.convert(query));
-        console.log(convertedQuery);
+
         const res = await this.api.post<APIResponse>(
             "https://bd.kma.go.kr/kma2020/api/httpURLConnection.do",
             convertedQuery,
         );
-        return ToResponseConverter.convert(res.data);
+        const response = ToResponseConverter.convert(res.data);
+        this.cache.set({ ...query, currentDatetime: undefined }, response);
+        return response;
     }
 }
 

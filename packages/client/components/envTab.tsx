@@ -4,10 +4,12 @@ import { format } from "date-fns";
 const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
+            width: "24.5%",
+            display: "inline-block",
             marginLeft: "1.5%",
             paddingRight: 5,
             maxWidth: "100%",
-            boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
+            boxShadow: "4px 4px 4px #e2e2e2",
             height: 800,
             flexBasis: 480,
         },
@@ -23,7 +25,7 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
             marginBottom: "3%",
         },
         real_weather: {
-            width: 480,
+            width: "100%",
             borderBottom: "1px solid #dbdbdb",
             display: "flex",
             flexDirection: "row",
