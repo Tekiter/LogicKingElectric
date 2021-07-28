@@ -17,7 +17,7 @@ const menuItemStyles = makeStyles((theme: Theme) =>
             height: 60,
             display: "inherit",
             alignItems: "center",
-            borderTop: "3px solid #72D23D",
+            borderBottom: "3px solid #72D23D",
             color: "#000",
             /* textAlign: "center",*/
             marginRight: 100,
