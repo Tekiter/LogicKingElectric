@@ -10,6 +10,10 @@ export interface MonthlyGenerationHistory {
     year: number;
     month: number;
     records: DateRecord[];
+    error: {
+        average: number;
+        deviation: number;
+    };
 }
 
 interface DateRecord {
@@ -54,10 +58,16 @@ export function createMonthlyHistoryReport({
         }
     });
 
+    const error = {
+        average: calcErrorAverage(dateList),
+        deviation: calcErrorDeviation(dateList),
+    };
+
     return {
         year,
         month,
         records: dateList,
+        error,
     };
 }
 
@@ -69,4 +79,41 @@ function makeEmptyDateList(size: number): DateRecord[] {
     });
 
     return result;
+}
+
+function calcErrorAverage(records: DateRecord[]): number {
+    let sum = 0;
+    let count = 0;
+    for (const record of records) {
+        if (record.errorRate !== undefined) {
+            sum += record.errorRate;
+            count++;
+        }
+    }
+
+    if (count === 0) {
+        return 0;
+    }
+
+    return sum / count;
+}
+
+function calcErrorDeviation(records: DateRecord[]): number {
+    const average = calcErrorAverage(records);
+
+    let sum = 0;
+    let count = 0;
+    for (const record of records) {
+        if (record.errorRate !== undefined) {
+            const diff = Math.abs(average - record.errorRate);
+            sum += diff * diff;
+            count++;
+        }
+    }
+
+    if (count === 0) {
+        return 0;
+    }
+
+    return sum / count;
 }

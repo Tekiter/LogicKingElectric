@@ -9,6 +9,10 @@ export const monthlyHistoryReportController = createAuthController(
             year: report.year,
             month: report.month,
             records: report.records,
+            error: {
+                average: report.error.average,
+                deviation: report.error.deviation,
+            },
         };
     },
 );

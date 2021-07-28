@@ -4,6 +4,10 @@ interface Response {
     year: number;
     month: number;
     records: DateRecord[];
+    error: {
+        average: number;
+        deviation: number;
+    };
 }
 
 interface DateRecord {
