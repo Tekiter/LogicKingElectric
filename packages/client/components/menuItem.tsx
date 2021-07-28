@@ -10,7 +10,7 @@ const menuItemStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             color: "#000",
             textAlign: "center",
-            marginRight: 20,
+            marginRight: 100,
             textDecoration: "none",
         },
         menu_text_selected: {
@@ -19,8 +19,8 @@ const menuItemStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             borderTop: "3px solid #72D23D",
             color: "#000",
-            textAlign: "center",
-            marginRight: 20,
+            /* textAlign: "center",*/
+            marginRight: 100,
             textDecoration: "none",
         },
     }),
