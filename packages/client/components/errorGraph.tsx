@@ -6,12 +6,12 @@ export interface GraphData {
     [key: string]: string | number;
 }
 const datas: GraphData[] = [];
-export default function IncentiveGraph(): JSX.Element {
+export default function ErrorGraph(): JSX.Element {
     const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
         onSuccess(res) {
             res.records.map((daily, idx) => {
-                if (daily.incentive != undefined) {
-                    datas.push({ day: idx + 1, incentive: daily.incentive });
+                if (daily.errorRate != undefined) {
+                    datas.push({ day: idx + 1, error: daily.errorRate });
                 }
             });
         },
@@ -25,7 +25,7 @@ export default function IncentiveGraph(): JSX.Element {
         <div style={{ width: 1200, height: 600 }}>
             <ResponsiveBar
                 data={datas}
-                keys={["incentive"]}
+                keys={["error"]}
                 indexBy="day"
                 margin={{ top: 50, right: 130, bottom: 50, left: 160 }}
                 padding={0.5}
@@ -68,7 +68,7 @@ export default function IncentiveGraph(): JSX.Element {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: "Incentives",
+                    legend: "Error",
                     legendPosition: "middle",
                     legendOffset: -50,
                 }}

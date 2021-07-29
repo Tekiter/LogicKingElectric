@@ -4,8 +4,6 @@ import { format } from "date-fns";
 const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
-            width: "24.5%",
-            display: "inline-block",
             marginLeft: "1.5%",
             paddingRight: 5,
             maxWidth: "100%",

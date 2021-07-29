@@ -4,6 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Logo from "@/components/logo";
 import IncenErrorShow from "@/components/incenErrorShow";
+import ErrorGraph from "@/components/errorGraph";
 import EnvTab from "@/components/envTab";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -12,7 +13,12 @@ const homeStyles = makeStyles((theme: Theme) =>
         home: {
             display: "flex",
             flexDirection: "row",
+            marginLeft: 40,
+        },
+        sub_section: {
+            display: "flex",
             marginTop: 48,
+            flexDirection: "column",
         },
     }),
 );
@@ -33,10 +39,13 @@ export default function Home(): JSX.Element {
                 </Toolbar>
             </AppBar>
             <div className={homeStyle.home}>
-                <div>
+                <div className={homeStyle.sub_section}>
                     <IncenErrorShow type="error"></IncenErrorShow>
+                    <ErrorGraph></ErrorGraph>
                 </div>
-                <EnvTab></EnvTab>
+                <div style={{ marginLeft: "5%", marginTop: 35 }}>
+                    <EnvTab></EnvTab>
+                </div>
             </div>
         </div>
     );
