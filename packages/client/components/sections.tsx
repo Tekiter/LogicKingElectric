@@ -81,12 +81,14 @@ export default function MainSections(): JSX.Element {
                             <div className={sectionStyle.change_points}>↑ 1.2%</div>
                         </div>
                         <div className={sectionStyle.report}>
-                            <a className={sectionStyle.report_link} href="#">
-                                <div>Full Report</div>
-                                <div style={{ marginLeft: 10, display: "inherit" }}>
-                                    <ArrowForward />
-                                </div>
-                            </a>
+                            <Link href="/errorRate">
+                                <a className={sectionStyle.report_link}>
+                                    <div>Full Report</div>
+                                    <div style={{ marginLeft: 10, display: "inherit" }}>
+                                        <ArrowForward />
+                                    </div>
+                                </a>
+                            </Link>
                         </div>
                     </div>
                     <div className={sectionStyle.info}>
@@ -97,7 +99,7 @@ export default function MainSections(): JSX.Element {
                             <div className={sectionStyle.change_points}>↑ 1.2%</div>
                         </div>
                         <div className={sectionStyle.report}>
-                            <Link href="#">
+                            <Link href="/incentive">
                                 <a className={sectionStyle.report_link}>
                                     <div>Full Report</div>
                                     <div style={{ marginLeft: 10, display: "inherit" }}>
