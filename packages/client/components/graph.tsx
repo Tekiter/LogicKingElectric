@@ -162,7 +162,7 @@ export default function Graph(props: Size): JSX.Element {
                     tickRotation: 0,
                     legend: "Solar Energy",
                     legendPosition: "middle",
-                    legendOffset: -40,
+                    legendOffset: -50,
                 }}
                 labelSkipWidth={12}
                 labelSkipHeight={12}
