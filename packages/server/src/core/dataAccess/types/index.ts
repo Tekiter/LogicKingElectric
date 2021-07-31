@@ -4,6 +4,7 @@ import { GenerationHistoryDataAccess } from "./generationHistory";
 import { PlantDataAccess } from "./plant";
 import { SolarPlantDataAccess } from "./solarPlant";
 import { UserDataAccess } from "./user";
+import { WindPlantDataAccess } from "./windPlant";
 
 export interface DataAccessFacade {
     auth: AuthDataAccess;
@@ -11,6 +12,7 @@ export interface DataAccessFacade {
     user: UserDataAccess;
     plant: PlantDataAccess;
     solarPlant: SolarPlantDataAccess;
+    windPlant: WindPlantDataAccess;
     generationHistory: GenerationHistoryDataAccess;
 }
 

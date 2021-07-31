@@ -23,3 +23,7 @@ export interface SolarPlant {
 }
 
 type SolarPlantArrayType = "fixed" | "track";
+
+export interface WindPlant {
+    size: number;
+}

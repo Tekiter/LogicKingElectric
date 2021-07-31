@@ -14,6 +14,7 @@ import { SubmitActualService, SubmitActualServiceImpl } from "./submitActual";
 import { SubmitPredictionService, SubmitPredictionServiceImpl } from "./submitPrediciton";
 import { UserService, UserServiceImpl } from "./user";
 import { WeatherService, WeatherServiceImpl } from "./weather";
+import { WindPlantService, WindPlantServiceImpl } from "./windPlant";
 
 export interface ServiceFacade {
     auth: AuthService;
@@ -23,6 +24,7 @@ export interface ServiceFacade {
     initialize: InitializeService;
     plant: PlantService;
     solarPlant: SolarPlantService;
+    windPlant: WindPlantService;
     predictSolarPlant: PredictSolarPlantService;
     analysisService: AnalysisService;
     submitPrediction: SubmitPredictionService;
@@ -43,6 +45,7 @@ export function createServices(
 
     const plant = new PlantServiceImpl(dataAccess);
     const solarPlant = new SolarPlantServiceImpl(dataAccess);
+    const windPlant = new WindPlantServiceImpl(dataAccess);
     const predictSolarPlant = new PredictSolarPlantServiceImpl(solarApiCall, plant, solarPlant);
 
     const submitPrediction = new SubmitPredictionServiceImpl(dataAccess);
@@ -63,6 +66,7 @@ export function createServices(
         initialize,
         plant,
         solarPlant,
+        windPlant,
         predictSolarPlant,
         analysisService,
         submitPrediction,
