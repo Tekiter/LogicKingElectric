@@ -40,12 +40,20 @@ const { FormLine } = (function () {
 
 interface FormTextFieldProps {
     label: string;
+    value?: string;
+    onChange?(value: string): void;
 }
 
 export function FormTextField(props: FormTextFieldProps): JSX.Element {
     return (
         <FormLine label={props.label}>
-            <TextField variant="outlined" size="small"></TextField>
+            <TextField
+                variant="outlined"
+                size="small"
+                value={props.value}
+                onChange={e => {
+                    props.onChange?.call(null, e.target.value);
+                }}></TextField>
         </FormLine>
     );
 }
@@ -119,18 +127,26 @@ const GreenCheckbox = withStyles({
 
 const LandscapeRadioGroup = styled(RadioGroup)`
     display: flex;
-    flex-direction: row !important;
+    && {
+        flex-direction: row;
+    }
 `;
 
 interface FormSelectableProps {
     label: string;
     items: { key: string; label: string }[];
+    value: string;
+    onChange(value: string): void;
 }
 
 export function FormSelectable(props: FormSelectableProps): JSX.Element {
     return (
         <FormLine label={props.label}>
-            <LandscapeRadioGroup>
+            <LandscapeRadioGroup
+                value={props.value}
+                onChange={e => {
+                    props.onChange?.call(null, e.target.value);
+                }}>
                 {props.items.map(item => (
                     <FormControlLabel key={item.key} value={item.key} control={<GreenCheckbox />} label={item.label} />
                 ))}
