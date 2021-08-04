@@ -69,7 +69,12 @@ export function FormPasswordField(props: FormTextFieldProps): JSX.Element {
 export function FormNumberField(props: FormTextFieldProps): JSX.Element {
     return (
         <FormLine label={props.label}>
-            <TextField variant="outlined" size="small" type="number"></TextField>
+            <TextField
+                variant="outlined"
+                size="small"
+                type="number"
+                value={props.value}
+                onChange={e => props.onChange?.call(null, e.target.value)}></TextField>
         </FormLine>
     );
 }

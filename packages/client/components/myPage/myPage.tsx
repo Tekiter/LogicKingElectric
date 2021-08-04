@@ -12,10 +12,19 @@ import {
 } from "./forms";
 import styled from "styled-components";
 import { Card } from "@material-ui/core";
-import { PlantInfoModifier, usePlantInfoModifier } from "./modifier";
+import { PlantInfoModifier, SolarPlantInfoModifier, usePlantInfoModifier, useSolarPlantInfoModifier } from "./modifier";
+import { usePlantInfoSubmitter } from "./submitter";
 
 export default function MyPage(): JSX.Element {
     const plantInfo = usePlantInfoModifier();
+    const solarPlantInfo = useSolarPlantInfoModifier();
+
+    const plantInfoSubmit = usePlantInfoSubmitter();
+    // const solarPlantInfoSubmit = useSolarPlantInfoSubmitter();
+
+    async function submit() {
+        await Promise.all([plantInfoSubmit.submit(plantInfo.data)]);
+    }
 
     return (
         <Centered>
@@ -24,12 +33,12 @@ export default function MyPage(): JSX.Element {
                 <InfoCard>
                     <BasicInfo />
                     <PlantInfo plant={plantInfo} />
-                    <SolarPlantInfo />
+                    <SolarPlantInfo solarPlant={solarPlantInfo} />
 
                     <FormTimePicker label="데이터 제출시각" />
                 </InfoCard>
                 <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
-                    <EditButton>수정</EditButton>
+                    <EditButton onClick={submit}>수정</EditButton>
                 </div>
             </MyPageBox>
         </Centered>
@@ -92,12 +101,19 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
     const { plant } = props;
 
     if (plant.isLoading) {
-        return <>로딩</>;
+        return <div>로딩</div>;
+    }
+
+    function plantTypeChanged(value: string) {
+        if (value === "wind") {
+            plant.modify("type", value);
+        } else if (value === "solar") {
+            plant.modify("type", value);
+        }
     }
 
     return (
         <>
-            {/* {JSON.stringify(plant.data)} */}
             <FormTextField
                 label="발전소 이름"
                 value={plant.data.name}
@@ -111,32 +127,60 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
                     { key: "hydro", label: "수력" },
                 ]}
                 value={plant.data.type}
-                onChange={value => plant.modify("type", value as "solar" | "wind")}
+                onChange={plantTypeChanged}
             />
             <FormLocationPicker label="발전소 위치" />
         </>
     );
 }
 
-function SolarPlantInfo(): JSX.Element {
+interface SolarPlantInfoProps {
+    solarPlant: SolarPlantInfoModifier;
+}
+
+function SolarPlantInfo(props: SolarPlantInfoProps): JSX.Element {
+    const { solarPlant } = props;
+
+    function arrayTypeChanged(value: string) {
+        if (value === "fixed") {
+            solarPlant.modify("arrayType", value);
+        } else if (value === "track") {
+            solarPlant.modify("arrayType", value);
+        }
+    }
+
     return (
         <>
             <FormSelectable
                 label="태양광 발전기 종류"
                 items={[
                     { key: "fixed", label: "고정형" },
-                    { key: "tracked", label: "추적형" },
+                    { key: "track", label: "추적형" },
                 ]}
-                value=""
-                onChange={value => {
-                    console.log(value);
-                }}
+                value={solarPlant.data.arrayType}
+                onChange={arrayTypeChanged}
             />
 
-            <FormNumberField label="발전 용량 (kW)" />
-            <FormNumberField label="방위각" />
-            <FormNumberField label="온도계수" />
-            <FormNumberField label="각도" />
+            <FormNumberField
+                label="발전 용량 (kW)"
+                value={solarPlant.data.capacity + ""}
+                onChange={value => solarPlant.modify("capacity", value)}
+            />
+            <FormNumberField
+                label="방위각"
+                value={solarPlant.data.meridianAngle}
+                onChange={value => solarPlant.modify("meridianAngle", value)}
+            />
+            <FormNumberField
+                label="온도계수"
+                value={solarPlant.data.temperatureCoefficientPmpp}
+                onChange={value => solarPlant.modify("temperatureCoefficientPmpp", value)}
+            />
+            <FormNumberField
+                label="각도"
+                value={solarPlant.data.tiltAngle}
+                onChange={value => solarPlant.modify("tiltAngle", value)}
+            />
         </>
     );
 }

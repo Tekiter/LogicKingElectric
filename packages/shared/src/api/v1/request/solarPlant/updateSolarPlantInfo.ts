@@ -1,7 +1,7 @@
 import { defineEndpoint, defineErrors } from "../../util";
 import { defineValidator, va } from "../../util/validation";
 
-interface Request {
+export interface Request {
     /** 태양광 발전기 타입 (고정형, 추적형) */
     arrayType: SolarPlantArrayType;
 

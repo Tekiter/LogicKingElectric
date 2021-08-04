@@ -1,6 +1,6 @@
 import { defineEndpoint, defineError, defineErrors } from "../../util";
 
-interface Response {
+export interface Response {
     /** 태양광 발전기 타입 (고정형, 추적형) */
     arrayType: SolarPlantArrayType;
 
