@@ -7,15 +7,17 @@ import { useEffect, useState } from "react";
 const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
+            width: 480,
             marginLeft: "1.5%",
             paddingRight: 5,
+            marginRight: 10,
             maxWidth: "100%",
-            boxShadow: "4px 4px 4px #e2e2e2",
+            boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
             height: 800,
-            flexBasis: 480,
+            /*flexBasis: 480,*/
         },
         envtab_child: {
-            width: 480,
+            width: "100%",
             borderBottom: "1px solid #dbdbdb",
         },
         weather: {
@@ -26,6 +28,7 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
             marginBottom: "3%",
         },
         real_weather: {
+            marginLeft: "1%",
             width: "100%",
             borderBottom: "1px solid #dbdbdb",
             display: "flex",

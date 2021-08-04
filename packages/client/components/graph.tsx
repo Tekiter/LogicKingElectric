@@ -2,10 +2,12 @@ import { ResponsiveBar } from "@nivo/bar";
 import { monthlyHistoryReport } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import { useEffect } from "react";
+
 interface Size {
     width: number | string;
     height: number | string;
 }
+
 const datas = [
     {
         month: "1월",
