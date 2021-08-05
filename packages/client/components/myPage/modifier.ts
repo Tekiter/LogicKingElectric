@@ -1,6 +1,7 @@
 import { getPlantInfo, getSolarPlantInfo } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { EditingSolarPlantInfo } from "./types";
 
 export interface Modifier<T> {
     isLoading: boolean;
@@ -52,14 +53,10 @@ export function usePlantInfoModifier(): PlantInfoModifier {
     };
 }
 
-type Stringify<T> = { [key in keyof T]: string };
-
-type StringifiedSolarPlantInfo = Stringify<getSolarPlantInfo.Response>;
-
-export type SolarPlantInfoModifier = Modifier<StringifiedSolarPlantInfo>;
+export type SolarPlantInfoModifier = Modifier<EditingSolarPlantInfo>;
 
 export function useSolarPlantInfoModifier(): SolarPlantInfoModifier {
-    const [plantData, setPlantData, modify] = useModifiableState<StringifiedSolarPlantInfo>({
+    const [plantData, setPlantData, modify] = useModifiableState<EditingSolarPlantInfo>({
         arrayType: "fixed",
         capacity: "",
         meridianAngle: "",

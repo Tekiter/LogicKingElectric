@@ -13,17 +13,27 @@ import {
 import styled from "styled-components";
 import { Card } from "@material-ui/core";
 import { PlantInfoModifier, SolarPlantInfoModifier, usePlantInfoModifier, useSolarPlantInfoModifier } from "./modifier";
-import { usePlantInfoSubmitter } from "./submitter";
+import { usePlantInfoSubmitter, useSolarPlantInfoSubmitter } from "./submitter";
+import { useState } from "react";
 
 export default function MyPage(): JSX.Element {
     const plantInfo = usePlantInfoModifier();
     const solarPlantInfo = useSolarPlantInfoModifier();
 
     const plantInfoSubmit = usePlantInfoSubmitter();
-    // const solarPlantInfoSubmit = useSolarPlantInfoSubmitter();
+    const solarPlantInfoSubmit = useSolarPlantInfoSubmitter();
+
+    const [isError, setIsError] = useState(false);
+
+    const isValid = solarPlantInfoSubmit.check(solarPlantInfo.data);
 
     async function submit() {
-        await Promise.all([plantInfoSubmit.submit(plantInfo.data)]);
+        try {
+            await plantInfoSubmit.submit(plantInfo.data);
+            await solarPlantInfoSubmit.submit(solarPlantInfo.data);
+        } catch {
+            setIsError(true);
+        }
     }
 
     return (
@@ -36,13 +46,25 @@ export default function MyPage(): JSX.Element {
                     <SolarPlantInfo solarPlant={solarPlantInfo} />
 
                     <FormTimePicker label="데이터 제출시각" />
+
+                    <FieldError showError={isError} />
                 </InfoCard>
                 <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
-                    <EditButton onClick={submit}>수정</EditButton>
+                    <EditButton onClick={submit} disabled={!isValid}>
+                        수정
+                    </EditButton>
                 </div>
             </MyPageBox>
         </Centered>
     );
+}
+
+function FieldError({ showError }: { showError: boolean }): JSX.Element {
+    if (showError) {
+        return <div>정보 저장에 실패했습니다.</div>;
+    } else {
+        return <>asdf</>;
+    }
 }
 
 const EditButton = styled(Button)`
