@@ -19,7 +19,7 @@ const predictSubmitStyles = makeStyles((theme: Theme) =>
             paddingBottom: 10,
         },
         inner: {
-            marginTop: 27,
+            marginTop: 10,
             marginLeft: 16,
         },
         inner_line: {
@@ -27,10 +27,11 @@ const predictSubmitStyles = makeStyles((theme: Theme) =>
             flexDirection: "row",
         },
         inner_text: {
-            marginRight: 21,
+            marginTop: 10,
+            marginRight: 25,
             height: 57,
             fontWeight: 400,
-            fontSize: 20,
+            fontSize: 30,
             textAlign: "center",
         },
         inner_text_sub: {
@@ -60,19 +61,19 @@ export default function PredictSubmitter(): JSX.Element {
                         <div className={predictSubmitStyle.inner_text}>2021 년</div>
                         <div className={predictSubmitStyle.inner_text}>{month} 월</div>
                         <div className={predictSubmitStyle.inner_text}>{day} 일</div>
-                    </div>
-                    <div className={predictSubmitStyle.inner_line}>
-                        <TextField
-                            id="full-width-text-field"
-                            label="발전량(kW)"
-                            placeholder="ex) 100"
-                            helperText="발전량 입력"
-                        />
-                        <div className={`${predictSubmitStyle.inner_text} ${predictSubmitStyle.inner_text_sub}`}>
-                            kW
-                        </div>
-                        <div style={{ marginTop: 10 }}>
-                            <GreenButton>제출</GreenButton>
+                        <div style={{ marginLeft: 250 }} className={predictSubmitStyle.inner_line}>
+                            <TextField
+                                style={{ width: 230 }}
+                                id="full-width-text-field"
+                                label="발전량(kW)"
+                                placeholder="ex) 100"
+                            />
+                            <div className={`${predictSubmitStyle.inner_text} ${predictSubmitStyle.inner_text_sub}`}>
+                                kW
+                            </div>
+                            <div style={{ marginTop: 10 }}>
+                                <GreenButton>제출</GreenButton>
+                            </div>
                         </div>
                     </div>
                 </div>
