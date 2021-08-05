@@ -78,6 +78,7 @@ export default function MyPage(): JSX.Element {
                         style={{
                             boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
                             padding: 8,
+                            marginTop: 20,
                         }}>
                         <div className={formStyle.formLine}>
                             <div style={{ fontSize: 16, color: "gray" }}>사진</div>
