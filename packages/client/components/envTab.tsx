@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const mainSectionStyles = makeStyles((theme: Theme) =>
     createStyles({
         envtab: {
-            width: 480,
+            width: 400,
             marginLeft: "1.5%",
             paddingRight: 5,
             marginRight: 10,
@@ -24,7 +24,6 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
             fontWeight: "bold",
             fontSize: 20,
             marginLeft: "1%",
-            marginTop: "3%",
             marginBottom: "3%",
         },
         real_weather: {

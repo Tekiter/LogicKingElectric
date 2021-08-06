@@ -112,7 +112,7 @@ export default function MainSections(): JSX.Element {
                     <EnvTab></EnvTab>
                 </div>
                 <div style={{ position: "absolute", marginTop: 350 }}>
-                    <Graph width={1400} height={500}></Graph>
+                    <Graph width={1200} height={500}></Graph>
                 </div>
             </div>
         </div>

@@ -3,6 +3,9 @@ import MenuBar from "@/components/menuBar";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Logo from "@/components/logo";
+import EnvTab from "@/components/envTab";
+import SmpRecSection from "@/components/smpRec/smpRecSection";
+import SmpRecGraph from "@/components/smpRec/smpRecGraph";
 
 export default function Home(): JSX.Element {
     return (
@@ -19,6 +22,21 @@ export default function Home(): JSX.Element {
                     <MenuBar />
                 </Toolbar>
             </AppBar>
+            <div style={{ display: "flex", flexDirection: "row", marginTop: 54, marginLeft: 38 }}>
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <div>
+                            <SmpRecSection></SmpRecSection>
+                        </div>
+                        <div>
+                            <SmpRecGraph></SmpRecGraph>
+                        </div>
+                    </div>
+                    <div>
+                        <EnvTab></EnvTab>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
