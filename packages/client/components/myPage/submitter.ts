@@ -1,7 +1,7 @@
 import { updatePlantInfo, updateSolarPlantInfo } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import { useState } from "react";
-import { EditingSolarPlantInfo, PlantInfo, SolarPlantInfo } from "./types";
+import { EditingPlantInfo, EditingSolarPlantInfo, PlantInfo, SolarPlantInfo } from "./types";
 
 export interface Submitter<Req> {
     submit(data: Req): Promise<void>;
@@ -10,22 +10,56 @@ export interface Submitter<Req> {
     isError: boolean;
 }
 
-export function usePlantInfoSubmitter(): Submitter<PlantInfo> {
+export function usePlantInfoSubmitter(): Submitter<EditingPlantInfo> {
     const [isProcessing, setIsProcessing] = useState(false);
     const { request, error } = useAPIRequest(updatePlantInfo.endpoint);
 
     const isError = error !== undefined;
 
-    async function submit(data: PlantInfo) {
+    async function submit(data: EditingPlantInfo) {
         setIsProcessing(true);
 
-        await request(data);
+        const converted = convert(data);
+
+        if (converted === null) {
+            throw new Error("Fail to convert");
+        }
+
+        await request(converted);
 
         setIsProcessing(false);
     }
 
-    function check(data: PlantInfo) {
+    function check(data: EditingPlantInfo) {
+        const res = convert(data);
+
+        if (res === null) {
+            return false;
+        }
+
         return true;
+    }
+
+    function convert(data: EditingPlantInfo): PlantInfo | null {
+        if (data.type !== "wind" && data.type !== "wind") {
+            return null;
+        }
+
+        const locationName = data.locationName;
+        const latitude = parseInt(data.latitude);
+        const longitude = parseInt(data.longitude);
+
+        if (isNaN(latitude) || isNaN(longitude)) {
+            return null;
+        }
+
+        return {
+            name: data.name,
+            type: data.type,
+            latitude,
+            longitude,
+            locationName,
+        };
     }
 
     return { submit, check, isProcessing, isError };
@@ -96,7 +130,7 @@ interface GeneralSubmitter {
     isValid: boolean;
 }
 
-export function useSubmitter(plantInfo: PlantInfo, solarPlantInfo: EditingSolarPlantInfo): GeneralSubmitter {
+export function useSubmitter(plantInfo: EditingPlantInfo, solarPlantInfo: EditingSolarPlantInfo): GeneralSubmitter {
     const plantSubmitter = usePlantInfoSubmitter();
     const solarPlantSubmitter = useSolarPlantInfoSubmitter();
 

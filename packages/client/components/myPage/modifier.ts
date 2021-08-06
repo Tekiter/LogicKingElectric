@@ -1,7 +1,7 @@
 import { getPlantInfo, getSolarPlantInfo } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { EditingSolarPlantInfo } from "./types";
+import { EditingPlantInfo, EditingSolarPlantInfo } from "./types";
 
 export interface Modifier<T> {
     isLoading: boolean;
@@ -25,12 +25,12 @@ export function useModifiableState<T>(initState: T): ModifiableState<T> {
     return [data, setData, modify];
 }
 
-export type PlantInfoModifier = Modifier<getPlantInfo.Response>;
+export type PlantInfoModifier = Modifier<EditingPlantInfo>;
 
 export function usePlantInfoModifier(): PlantInfoModifier {
-    const [plantData, setPlantData, modify] = useModifiableState<getPlantInfo.Response>({
-        latitude: 0,
-        longitude: 0,
+    const [plantData, setPlantData, modify] = useModifiableState<EditingPlantInfo>({
+        latitude: "",
+        longitude: "",
         locationName: "",
         name: "",
         type: "solar",
@@ -38,7 +38,13 @@ export function usePlantInfoModifier(): PlantInfoModifier {
 
     const { request, isLoading } = useAPIRequest(getPlantInfo.endpoint, {
         onSuccess(data) {
-            setPlantData(data);
+            setPlantData({
+                name: data.name,
+                type: data.type,
+                latitude: data.latitude + "",
+                longitude: data.longitude + "",
+                locationName: data.locationName,
+            });
         },
     });
 

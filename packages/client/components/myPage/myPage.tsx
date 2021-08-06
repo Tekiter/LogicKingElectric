@@ -115,7 +115,7 @@ const InfoCard = styled(Card)`
 function Title() {
     return (
         <>
-            <div style={{ textAlign: "center", fontSize: 35 }}>마이페이지</div>
+            <div style={{ textAlign: "center", fontSize: 35, marginTop: "1em" }}>마이페이지</div>
             <div style={{ textAlign: "center", fontSize: 20, color: "gray" }}>
                 아이디, 비밀번호 등의 개인정보를 수정할 수 있습니다
             </div>
@@ -162,7 +162,17 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
                 value={plant.data.name}
                 onChange={value => plant.modify("name", value)}
             />
-            <FormLocationPicker label="발전소 위치" />
+            <FormLocationPicker
+                label="발전소 위치"
+                latitude={plant.data.latitude}
+                longitude={plant.data.longitude}
+                name={plant.data.locationName}
+                onChange={(name, latitude, longitude) => {
+                    plant.modify("locationName", name);
+                    plant.modify("latitude", latitude);
+                    plant.modify("longitude", longitude);
+                }}
+            />
             <FormSelectable
                 label="발전 종류"
                 items={[

@@ -1,6 +1,18 @@
 import styled from "styled-components";
 import { green } from "@material-ui/core/colors";
-import { Radio, FormControlLabel, RadioGroup, TextField, Typography, withStyles } from "@material-ui/core";
+import {
+    Radio,
+    FormControlLabel,
+    RadioGroup,
+    TextField,
+    Typography,
+    withStyles,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+} from "@material-ui/core";
 import { TimePicker } from "@material-ui/pickers";
 import { ReactNode, useState } from "react";
 
@@ -123,10 +135,79 @@ export function FormTimePicker(props: FormTimePickerProps): JSX.Element {
 
 interface FormLocationPickerProps {
     label: string;
+    name: string;
+    latitude: string;
+    longitude: string;
+    onChange(name: string, latitude: string, longitude: string): void;
 }
 
 export function FormLocationPicker(props: FormLocationPickerProps): JSX.Element {
-    return <FormLine label={props.label}>위경도</FormLine>;
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const [name, setName] = useState(props.name);
+    const [latitude, setLatitude] = useState(props.latitude);
+    const [longitude, setLongitude] = useState(props.longitude);
+
+    const submitable = latitude !== "" && longitude !== "";
+
+    function openDialog() {
+        setIsDialogOpen(true);
+    }
+
+    function closeDialog() {
+        setIsDialogOpen(false);
+        setLatitude(props.latitude);
+        setLongitude(props.longitude);
+        setName(props.name);
+    }
+
+    function submitDialog() {
+        setIsDialogOpen(false);
+        props.onChange?.call(null, name, latitude, longitude);
+    }
+
+    return (
+        <FormLine label={props.label}>
+            <Button variant="outlined" onClick={openDialog}>
+                선택
+            </Button>
+            <Dialog open={isDialogOpen} onClose={closeDialog}>
+                <DialogTitle>발전소 위치</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        fullWidth
+                        label="위치 이름"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        margin="dense"
+                        variant="outlined"
+                    />
+                    <TextField
+                        type="number"
+                        label="위도"
+                        value={latitude}
+                        onChange={e => setLatitude(e.target.value)}
+                        margin="dense"
+                        variant="outlined"
+                    />
+                    <TextField
+                        type="number"
+                        label="경도"
+                        value={longitude}
+                        onChange={e => setLongitude(e.target.value)}
+                        margin="dense"
+                        variant="outlined"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeDialog}>취소</Button>
+                    <Button onClick={submitDialog} color="primary" disabled={!submitable}>
+                        확인
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </FormLine>
+    );
 }
 
 const GreenCheckbox = withStyles({
