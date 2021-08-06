@@ -41,7 +41,7 @@ export function usePlantInfoSubmitter(): Submitter<EditingPlantInfo> {
     }
 
     function convert(data: EditingPlantInfo): PlantInfo | null {
-        if (data.type !== "wind" && data.type !== "wind") {
+        if (data.type !== "solar" && data.type !== "wind" && data.type !== "hydro") {
             return null;
         }
 

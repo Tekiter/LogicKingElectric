@@ -146,14 +146,6 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
         return <div>로딩</div>;
     }
 
-    function plantTypeChanged(value: string) {
-        if (value === "wind") {
-            plant.modify("type", value);
-        } else if (value === "solar") {
-            plant.modify("type", value);
-        }
-    }
-
     return (
         <>
             <FormHeader>발전소 정보</FormHeader>
@@ -181,7 +173,7 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
                     { key: "hydro", label: "수력" },
                 ]}
                 value={plant.data.type}
-                onChange={plantTypeChanged}
+                onChange={value => plant.modify("type", value)}
             />
         </>
     );

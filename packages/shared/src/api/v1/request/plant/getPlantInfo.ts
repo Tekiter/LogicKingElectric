@@ -2,7 +2,7 @@ import { defineEndpoint, defineError, defineErrors } from "../../util";
 
 export interface Response {
     name: string;
-    type: "solar" | "wind";
+    type: "solar" | "wind" | "hydro";
 
     latitude: number;
     longitude: number;
