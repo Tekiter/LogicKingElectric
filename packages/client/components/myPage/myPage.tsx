@@ -3,26 +3,26 @@ import Button from "@material-ui/core/Button";
 import { useAuth } from "@/api/hooks";
 import {
     FormFixedText,
+    FormHeader,
     FormLocationPicker,
     FormNumberField,
     FormPasswordField,
     FormSelectable,
     FormTextField,
-    FormTimePicker,
 } from "./forms";
 import styled from "styled-components";
 import { Card, Snackbar, Typography } from "@material-ui/core";
 import { PlantInfoModifier, SolarPlantInfoModifier, usePlantInfoModifier, useSolarPlantInfoModifier } from "./modifier";
-import { usePlantInfoSubmitter, useSolarPlantInfoSubmitter } from "./submitter";
+import { useSubmitter } from "./submitter";
 import { useState } from "react";
 import Alert from "@material-ui/lab/Alert";
+import { Switcher } from "./switcher";
 
 export default function MyPage(): JSX.Element {
     const plantInfo = usePlantInfoModifier();
     const solarPlantInfo = useSolarPlantInfoModifier();
 
-    const plantInfoSubmit = usePlantInfoSubmitter();
-    const solarPlantInfoSubmit = useSolarPlantInfoSubmitter();
+    const submitter = useSubmitter(plantInfo.data, solarPlantInfo.data);
 
     const [isError, setIsError] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -32,13 +32,12 @@ export default function MyPage(): JSX.Element {
         setIsSuccessSnackOpen(false);
     }
 
-    const isValid = solarPlantInfoSubmit.check(solarPlantInfo.data);
+    const isValid = submitter.isValid;
 
     async function submit() {
         try {
             setIsProcessing(true);
-            await plantInfoSubmit.submit(plantInfo.data);
-            await solarPlantInfoSubmit.submit(solarPlantInfo.data);
+            await submitter.submit();
 
             setIsSuccessSnackOpen(true);
         } catch {
@@ -55,17 +54,20 @@ export default function MyPage(): JSX.Element {
                 <InfoCard>
                     <BasicInfo />
                     <PlantInfo plant={plantInfo} />
-                    <SolarPlantInfo solarPlant={solarPlantInfo} />
 
-                    <FormTimePicker label="데이터 제출시각" />
+                    <Switcher match={plantInfo.data.type}>
+                        <SolarPlantInfo key="solar" solarPlant={solarPlantInfo} />
+                        <WindPlantInfo key="wind" />
+                        <HydroPlantInfo key="hydro" />
+                    </Switcher>
 
                     <FieldError showError={isError} />
                 </InfoCard>
-                <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
+                <Centered style={{ marginTop: "1em" }}>
                     <EditButton onClick={submit} disabled={!isValid || isProcessing}>
                         수정
                     </EditButton>
-                </div>
+                </Centered>
             </MyPageBox>
             <Snackbar open={isSuccessSnackOpen} autoHideDuration={6000} onClose={closeSuccessSnack}>
                 <Alert onClose={closeSuccessSnack} severity="success">
@@ -125,6 +127,7 @@ function BasicInfo(): JSX.Element {
     const { username } = useAuth();
     return (
         <>
+            <FormHeader>기본 정보</FormHeader>
             <FormFixedText label="아이디">{username}</FormFixedText>
             <FormPasswordField label="비밀번호" />
             <FormPasswordField label="비밀번호 확인" />
@@ -153,11 +156,13 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
 
     return (
         <>
+            <FormHeader>발전소 정보</FormHeader>
             <FormTextField
                 label="발전소 이름"
                 value={plant.data.name}
                 onChange={value => plant.modify("name", value)}
             />
+            <FormLocationPicker label="발전소 위치" />
             <FormSelectable
                 label="발전 종류"
                 items={[
@@ -168,7 +173,6 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
                 value={plant.data.type}
                 onChange={plantTypeChanged}
             />
-            <FormLocationPicker label="발전소 위치" />
         </>
     );
 }
@@ -179,17 +183,9 @@ interface SolarPlantInfoProps {
 
 function SolarPlantInfo(props: SolarPlantInfoProps): JSX.Element {
     const { solarPlant } = props;
-
-    function arrayTypeChanged(value: string) {
-        if (value === "fixed") {
-            solarPlant.modify("arrayType", value);
-        } else if (value === "track") {
-            solarPlant.modify("arrayType", value);
-        }
-    }
-
     return (
         <>
+            <FormHeader>태양광 발전소 정보</FormHeader>
             <FormSelectable
                 label="태양광 발전기 종류"
                 items={[
@@ -197,7 +193,7 @@ function SolarPlantInfo(props: SolarPlantInfoProps): JSX.Element {
                     { key: "track", label: "추적형" },
                 ]}
                 value={solarPlant.data.arrayType}
-                onChange={arrayTypeChanged}
+                onChange={value => solarPlant.modify("arrayType", value)}
             />
 
             <FormNumberField
@@ -220,6 +216,22 @@ function SolarPlantInfo(props: SolarPlantInfoProps): JSX.Element {
                 value={solarPlant.data.tiltAngle}
                 onChange={value => solarPlant.modify("tiltAngle", value)}
             />
+        </>
+    );
+}
+
+function WindPlantInfo(): JSX.Element {
+    return (
+        <>
+            <FormHeader>풍력 발전소 정보</FormHeader>
+        </>
+    );
+}
+
+function HydroPlantInfo(): JSX.Element {
+    return (
+        <>
+            <FormHeader>수력 발전소 정보</FormHeader>
         </>
     );
 }

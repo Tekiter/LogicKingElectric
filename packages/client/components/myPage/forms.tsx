@@ -38,6 +38,15 @@ const { FormLine } = (function () {
     return { FormLine };
 })();
 
+export const FormHeader = styled.div`
+    color: black;
+    font-size: 1.2em;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.2em;
+    border-bottom: 1px solid grey;
+`;
+
 interface FormTextFieldProps {
     label: string;
     value?: string;
