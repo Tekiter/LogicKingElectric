@@ -11,7 +11,7 @@ const showStyles = makeStyles((theme: Theme) =>
             paddingTop: 13,
             paddingBottom: 20,
             marginLeft: 40,
-            width: 1016,
+            width: 900,
             boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
         },
         title: {

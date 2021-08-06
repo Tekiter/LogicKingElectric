@@ -22,7 +22,7 @@ export default function ErrorGraph(): JSX.Element {
         if (standard == "daily_in_Month") request(null);
     }, [standard]);
     return (
-        <div style={{ width: 1200, height: 600 }}>
+        <div style={{ width: 1000, height: 600 }}>
             <ResponsiveBar
                 data={datas}
                 keys={["error"]}

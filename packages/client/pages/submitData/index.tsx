@@ -43,7 +43,7 @@ export default function Home(): JSX.Element {
                     <PredictShow></PredictShow>
                     <PredictSubmitter></PredictSubmitter>
                 </div>
-                <div style={{ marginLeft: "20%" }}>
+                <div style={{ marginLeft: 35 }}>
                     <EnvTab></EnvTab>
                 </div>
             </div>

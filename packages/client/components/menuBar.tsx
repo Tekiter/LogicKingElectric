@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             flexGrow: 1,
             justifyContent: "center",
-            marginLeft: "25%",
+            marginLeft: "15%",
         },
         menu_text: {
             height: 64,

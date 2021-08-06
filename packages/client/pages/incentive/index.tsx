@@ -3,8 +3,8 @@ import MenuBar from "@/components/menuBar";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Logo from "@/components/logo";
-import IncenErrorShow from "@/components/incenErrorShow";
-import IncentiveGraph from "@/components/incentiveGraph";
+import IncenErrorShow from "@/components/incenError/incenErrorShow";
+import IncentiveGraph from "@/components/incenError/incentiveGraph";
 import EnvTab from "@/components/envTab";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -13,7 +13,6 @@ const homeStyles = makeStyles((theme: Theme) =>
         home: {
             display: "flex",
             flexDirection: "row",
-            marginLeft: 40,
         },
         sub_section: {
             display: "flex",
@@ -43,7 +42,7 @@ export default function Home(): JSX.Element {
                     <IncenErrorShow type="incentive"></IncenErrorShow>
                     <IncentiveGraph></IncentiveGraph>
                 </div>
-                <div style={{ marginLeft: "5%", marginTop: 35 }}>
+                <div style={{ marginTop: 35, marginLeft: 30 }}>
                     <EnvTab></EnvTab>
                 </div>
             </div>
