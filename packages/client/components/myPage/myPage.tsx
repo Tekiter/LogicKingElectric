@@ -11,10 +11,11 @@ import {
     FormTimePicker,
 } from "./forms";
 import styled from "styled-components";
-import { Card } from "@material-ui/core";
+import { Card, Snackbar, Typography } from "@material-ui/core";
 import { PlantInfoModifier, SolarPlantInfoModifier, usePlantInfoModifier, useSolarPlantInfoModifier } from "./modifier";
 import { usePlantInfoSubmitter, useSolarPlantInfoSubmitter } from "./submitter";
 import { useState } from "react";
+import Alert from "@material-ui/lab/Alert";
 
 export default function MyPage(): JSX.Element {
     const plantInfo = usePlantInfoModifier();
@@ -24,15 +25,26 @@ export default function MyPage(): JSX.Element {
     const solarPlantInfoSubmit = useSolarPlantInfoSubmitter();
 
     const [isError, setIsError] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const [isSuccessSnackOpen, setIsSuccessSnackOpen] = useState(false);
+    function closeSuccessSnack() {
+        setIsSuccessSnackOpen(false);
+    }
 
     const isValid = solarPlantInfoSubmit.check(solarPlantInfo.data);
 
     async function submit() {
         try {
+            setIsProcessing(true);
             await plantInfoSubmit.submit(plantInfo.data);
             await solarPlantInfoSubmit.submit(solarPlantInfo.data);
+
+            setIsSuccessSnackOpen(true);
         } catch {
             setIsError(true);
+        } finally {
+            setIsProcessing(false);
         }
     }
 
@@ -50,20 +62,25 @@ export default function MyPage(): JSX.Element {
                     <FieldError showError={isError} />
                 </InfoCard>
                 <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
-                    <EditButton onClick={submit} disabled={!isValid}>
+                    <EditButton onClick={submit} disabled={!isValid || isProcessing}>
                         수정
                     </EditButton>
                 </div>
             </MyPageBox>
+            <Snackbar open={isSuccessSnackOpen} autoHideDuration={6000} onClose={closeSuccessSnack}>
+                <Alert onClose={closeSuccessSnack} severity="success">
+                    정보를 저장했습니다!
+                </Alert>
+            </Snackbar>
         </Centered>
     );
 }
 
 function FieldError({ showError }: { showError: boolean }): JSX.Element {
     if (showError) {
-        return <div>정보 저장에 실패했습니다.</div>;
+        return <Typography color="error">정보 저장에 실패했습니다.</Typography>;
     } else {
-        return <>asdf</>;
+        return <></>;
     }
 }
 
