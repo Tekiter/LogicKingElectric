@@ -3,7 +3,7 @@ import { defineValidator, va } from "../../util/validation";
 
 export interface Request {
     name: string;
-    type: "solar" | "wind";
+    type: "solar" | "wind" | "hydro";
 
     /** 발전소 위치 위도 */
     latitude: number;

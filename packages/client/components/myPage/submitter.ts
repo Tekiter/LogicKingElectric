@@ -1,47 +1,83 @@
-import { EndpointEntry, updatePlantInfo, updateSolarPlantInfo } from "@/api/endpoint";
+import { updatePlantInfo, updateSolarPlantInfo } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import { useState } from "react";
-import { EditingSolarPlantInfo, SolarPlantInfo } from "./types";
+import { EditingPlantInfo, EditingSolarPlantInfo, PlantInfo, SolarPlantInfo } from "./types";
 
 export interface Submitter<Req> {
     submit(data: Req): Promise<void>;
+    check(data: Req): boolean;
     isProcessing: boolean;
     isError: boolean;
 }
 
-function createSubmitter<Request, Response>(endpoint: EndpointEntry<Request, Response>) {
-    return function usePlantInfoSubmitter(): Submitter<Request> {
-        const [isProcessing, setIsProcessing] = useState(false);
-        const { request, error } = useAPIRequest(endpoint);
+export function usePlantInfoSubmitter(): Submitter<EditingPlantInfo> {
+    const [isProcessing, setIsProcessing] = useState(false);
+    const { request, error } = useAPIRequest(updatePlantInfo.endpoint);
 
-        const isError = error !== undefined;
+    const isError = error !== undefined;
 
-        async function submit(data: Request) {
-            setIsProcessing(true);
+    async function submit(data: EditingPlantInfo) {
+        setIsProcessing(true);
 
-            await request(data);
+        const converted = convert(data);
 
-            setIsProcessing(false);
+        if (converted === null) {
+            throw new Error("Fail to convert");
         }
 
-        return { submit, isProcessing, isError };
-    };
+        await request(converted);
+
+        setIsProcessing(false);
+    }
+
+    function check(data: EditingPlantInfo) {
+        const res = convert(data);
+
+        if (res === null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function convert(data: EditingPlantInfo): PlantInfo | null {
+        if (data.type !== "solar" && data.type !== "wind" && data.type !== "hydro") {
+            return null;
+        }
+
+        const locationName = data.locationName;
+        const latitude = parseInt(data.latitude);
+        const longitude = parseInt(data.longitude);
+
+        if (isNaN(latitude) || isNaN(longitude)) {
+            return null;
+        }
+
+        return {
+            name: data.name,
+            type: data.type,
+            latitude,
+            longitude,
+            locationName,
+        };
+    }
+
+    return { submit, check, isProcessing, isError };
 }
 
-export const usePlantInfoSubmitter = createSubmitter(updatePlantInfo.endpoint);
-
-interface SolarPlantInfoSubmitter {
-    submit: (data: EditingSolarPlantInfo) => Promise<void>;
-    check: (data: EditingSolarPlantInfo) => boolean;
-}
-
-export function useSolarPlantInfoSubmitter(): SolarPlantInfoSubmitter {
+export function useSolarPlantInfoSubmitter(): Submitter<EditingSolarPlantInfo> {
     const apiRequest = useAPIRequest(updateSolarPlantInfo.endpoint);
 
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const isError = apiRequest.error !== undefined;
+
     async function submit(data: EditingSolarPlantInfo) {
+        setIsProcessing(true);
         const converted = convert(data);
 
         await apiRequest.request(converted);
+        setIsProcessing(false);
     }
 
     function check(data: EditingSolarPlantInfo) {
@@ -80,11 +116,38 @@ export function useSolarPlantInfoSubmitter(): SolarPlantInfoSubmitter {
         };
     }
 
-    return { submit, check };
+    return { submit, check, isProcessing, isError };
 }
 
 class ConvertError extends Error {}
 
 function isNumber(arr: string[]): boolean {
     return arr.every(str => isNaN(parseInt(str)) === false);
+}
+
+interface GeneralSubmitter {
+    submit(): Promise<void>;
+    isValid: boolean;
+}
+
+export function useSubmitter(plantInfo: EditingPlantInfo, solarPlantInfo: EditingSolarPlantInfo): GeneralSubmitter {
+    const plantSubmitter = usePlantInfoSubmitter();
+    const solarPlantSubmitter = useSolarPlantInfoSubmitter();
+
+    const isValid = (() => {
+        if (!plantSubmitter.check(plantInfo)) return false;
+        if (plantInfo.type === "solar") {
+            if (!solarPlantSubmitter.check(solarPlantInfo)) return false;
+        }
+        return true;
+    })();
+
+    async function submit() {
+        await plantSubmitter.submit(plantInfo);
+        if (plantInfo.type === "solar") {
+            await solarPlantSubmitter.submit(solarPlantInfo);
+        }
+    }
+
+    return { submit, isValid };
 }

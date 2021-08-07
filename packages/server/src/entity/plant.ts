@@ -8,7 +8,7 @@ export interface Plant {
     };
 }
 
-export type PlantTypes = "solar" | "wind";
+export type PlantTypes = "solar" | "wind" | "hydro";
 export type Coordinate = {
     latitude: number;
     longitude: number;
