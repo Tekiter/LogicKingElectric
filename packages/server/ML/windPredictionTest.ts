@@ -35,4 +35,4 @@ const dummy = tf.tensor3d([
 ]);
 // kWh 단위의 20일치 발전량
 const res = load(dummy);
-res.then((val)=>console.log(val));
+res.then(val => console.log(val));

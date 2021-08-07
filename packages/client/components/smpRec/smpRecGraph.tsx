@@ -4,64 +4,64 @@ const datas = [
     {
         month: "1월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "2월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "3월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "4월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "5월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "6월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "7월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "8월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "9월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "10월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "11월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "12월",
         value: 8,
-        valueColor:"hsl(357, 70%, 50%)",
+        valueColor: "hsl(357, 70%, 50%)",
     },
-]
+];
 export default function SmpRecGraph(): JSX.Element {
     return (
         <div style={{ width: 1000, height: 600 }}>
@@ -143,5 +143,5 @@ export default function SmpRecGraph(): JSX.Element {
                 ]}
             />
         </div>
-    )
+    );
 }
