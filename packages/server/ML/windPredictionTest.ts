@@ -2,7 +2,7 @@ import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-node";
 
 async function load(sample: tf.Tensor3D) {
-    const model = await tf.loadLayersModel("file://./tests/model.json");
+    const model = await tf.loadLayersModel("file://./ML/model.json");
     const res = model.predict(sample);
     //console.log((res as tf.Tensor).dataSync()[0]);
     const model_prediction = (res as tf.Tensor).dataSync()[0];
@@ -34,5 +34,7 @@ const dummy = tf.tensor3d([
     ],
 ]);
 // kWh 단위의 20일치 발전량
+const std = 10962.6830382078;
+const mean = 13009.62705882353;
 const res = load(dummy);
-res.then(val => console.log(val));
+res.then(val => console.log(val * std + mean));
