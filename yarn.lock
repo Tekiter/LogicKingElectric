@@ -1864,21 +1864,7 @@
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-layers/-/tfjs-layers-3.8.0.tgz#f8afbc375aacab7457ac5d6a83d5c5b292105681"
   integrity sha512-O7r0zkGFM2DTS2NdWhGUrKNgoY1GR7IX5aGIj50SQ8WnPWwY9gaVI7b+euP2Yg7A6kDiFXJIST+MY9EottyqSA==
 
-"@tensorflow/tfjs-node@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@tensorflow/tfjs-node/-/tfjs-node-3.8.0.tgz#124717d9886df07465e4565d365970126f4356d0"
-  integrity sha512-Z5OMbuZ5Fq8fVv68VcrspMpUHzyXDxB6vTeqDo/LQTBkokQsTS6+S7d5Xl1Se1l8O0UEOyS8jq5pDXv2sTnAsw==
-  dependencies:
-    "@mapbox/node-pre-gyp" "1.0.4"
-    "@tensorflow/tfjs" "3.8.0"
-    adm-zip "^0.4.11"
-    google-protobuf "^3.9.2"
-    https-proxy-agent "^2.2.1"
-    progress "^2.0.0"
-    rimraf "^2.6.2"
-    tar "^4.4.6"
-
-"@tensorflow/tfjs@3.8.0", "@tensorflow/tfjs@^3.8.0":
+"@tensorflow/tfjs@^3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@tensorflow/tfjs/-/tfjs-3.8.0.tgz#76e9e5447c1d1725bcc25904c2c8c21f615acb0f"
   integrity sha512-4tVMEfGT8l8JBei/O0K0j7pcNbWR7C9r6WAuvoFXQBiu6FkwUhnM+rNrBHoh1/UaYKKm1enVbiyAP9+sbSFRaw==

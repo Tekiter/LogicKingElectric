@@ -9,7 +9,6 @@
     "dependencies": {
         "@electric/shared": "^1.0.0",
         "@tensorflow/tfjs": "^3.8.0",
-        "@tensorflow/tfjs-node": "^3.8.0",
         "axios": "^0.21.1",
         "bcrypt": "^5.0.1",
         "date-fns": "^2.22.1",

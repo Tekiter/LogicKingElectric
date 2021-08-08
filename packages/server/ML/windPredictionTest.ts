@@ -2,7 +2,7 @@ import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-node";
 
 async function load(sample: tf.Tensor3D) {
-    const model = await tf.loadLayersModel("file://./tests/model.json");
+    const model = await tf.loadLayersModel("file://./ML/model.json");
     const res = model.predict(sample);
     //console.log((res as tf.Tensor).dataSync()[0]);
     const model_prediction = (res as tf.Tensor).dataSync()[0];
