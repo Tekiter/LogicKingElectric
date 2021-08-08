@@ -37,4 +37,4 @@ const dummy = tf.tensor3d([
 const std = 10962.6830382078;
 const mean = 13009.62705882353;
 const res = load(dummy);
-res.then((val)=>console.log(val*std+mean));
+res.then(val => console.log(val * std + mean));
