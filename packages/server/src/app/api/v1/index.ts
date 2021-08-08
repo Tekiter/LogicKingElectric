@@ -11,6 +11,8 @@ import { SolarSimulationAPI } from "../../../core/openAPI/maruSolarSimulation";
 import { OpenWeatherAPI, OpenWeatherAPIAxios, OpenWeatherAPIDummy } from "../../../core/openAPI/openWeather";
 import { SolarSimulationAxiosCall } from "../../../core/openAPI/maruSolarSimulation/axiosCall";
 import { SolarSimulationDummyCall } from "../../../core/openAPI/maruSolarSimulation/dummyCall";
+import { WindPredictionAPI } from "../../../core/ml/windPrediction/types";
+import { WindPredictionML } from "../../../core/ml/windPrediction/tensorflow";
 export class APIv1 {
     private readonly services: ServiceFacade;
     private _router = express.Router();
@@ -29,7 +31,8 @@ export class APIv1 {
     private createServices() {
         const dataAccess = createMemoryDataAccessFacade();
         const [solarSimulationAPI, openWeatherAPI] = createOpenAPI();
-        return createServices(dataAccess, solarSimulationAPI, openWeatherAPI);
+        const windPredictionAPI = createWindPredictionAPI();
+        return createServices(dataAccess, solarSimulationAPI, openWeatherAPI, windPredictionAPI);
     }
 
     private setRequestDataParser() {
@@ -100,6 +103,10 @@ function createOpenWeatherAPI(): OpenWeatherAPI {
     }
 
     return new OpenWeatherAPIAxios(key);
+}
+
+function createWindPredictionAPI(): WindPredictionAPI {
+    return new WindPredictionML();
 }
 
 export default APIv1;

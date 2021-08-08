@@ -1,4 +1,4 @@
-import { compareAsc, isEqual, startOfMonth } from "date-fns";
+import { compareAsc, isEqual, startOfMonth, subMonths } from "date-fns";
 import { GenerationActual, GenerationPrediction } from "../../../entity/generationHistory";
 import { UserIdentifier } from "../../../entity/user";
 import { GenerationHistoryDataAccess } from "../types/generationHistory";
@@ -7,12 +7,12 @@ const predictionStore = new Map<string, DateStore<GenerationPrediction>>();
 const actualStore = new Map<string, DateStore<GenerationActual>>();
 
 export class GenerationHistoryMemoryDataAccess implements GenerationHistoryDataAccess {
-    async getMonthlyPrediction(user: UserIdentifier): Promise<GenerationPrediction[]> {
+    async getMonthlyPrediction(user: UserIdentifier, amount = 1): Promise<GenerationPrediction[]> {
         const userStore = predictionStore.get(user.username);
         if (userStore === undefined) {
             return [];
         }
-        const result = userStore.getListOfThisMonth();
+        const result = userStore.getListOfLastMonths(amount);
         return result;
     }
 
@@ -26,12 +26,21 @@ export class GenerationHistoryMemoryDataAccess implements GenerationHistoryDataA
         userStore.setOrUpdate(prediction);
     }
 
-    async getMonthlyActual(user: UserIdentifier): Promise<GenerationActual[]> {
+    async getMonthlyActual(user: UserIdentifier, amount = 1): Promise<GenerationActual[]> {
         const userStore = actualStore.get(user.username);
         if (userStore === undefined) {
             return [];
         }
-        const result = userStore.getListOfThisMonth();
+        const result = userStore.getListOfLastMonths(amount);
+        return result;
+    }
+
+    async get2MonthlyActual(user: UserIdentifier): Promise<GenerationActual[]> {
+        const userStore = actualStore.get(user.username);
+        if (userStore === undefined) {
+            return [];
+        }
+        const result = userStore.getListOfLastMonths(2);
         return result;
     }
 
@@ -62,6 +71,21 @@ class DateStore<T extends { targetDate: Date }> {
         const result: T[] = [];
 
         const thisMonthStart = startOfMonth(Date.now());
+
+        for (const entry of this.list) {
+            const isThisMonth = compareAsc(thisMonthStart, entry.targetDate) <= 0;
+            if (isThisMonth) {
+                result.push(entry);
+            }
+        }
+
+        return result;
+    }
+
+    getListOfLastMonths(amount: number) {
+        const result: T[] = [];
+
+        const thisMonthStart = startOfMonth(subMonths(Date.now(), amount - 1));
 
         for (const entry of this.list) {
             const isThisMonth = compareAsc(thisMonthStart, entry.targetDate) <= 0;

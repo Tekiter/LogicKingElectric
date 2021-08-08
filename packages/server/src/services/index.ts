@@ -1,4 +1,5 @@
 import { DataAccess } from "../core/dataAccess/types";
+import { WindPredictionAPI } from "../core/ml/windPrediction/types";
 import { SolarSimulationAPI } from "../core/openAPI/maruSolarSimulation";
 import { OpenWeatherAPI } from "../core/openAPI/openWeather";
 import { AnalysisService, AnalysisServiceImpl } from "./analysis";
@@ -8,6 +9,7 @@ import { DemoService, DemoServiceImpl } from "./demo";
 import { InitializeService, InitializeServiceImpl } from "./initialize";
 import { PlantService, PlantServiceImpl } from "./plant";
 import { PredictSolarPlantService, PredictSolarPlantServiceImpl } from "./predictSolarPlant";
+import { PredictWindPlantService, PredictWindPlantServiceImpl } from "./predictWindPlant";
 import { RegisterService, RegisterServiceImpl } from "./register";
 import { SolarPlantService, SolarPlantServiceImpl } from "./solarPlant";
 import { SubmitActualService, SubmitActualServiceImpl } from "./submitActual";
@@ -26,6 +28,7 @@ export interface ServiceFacade {
     solarPlant: SolarPlantService;
     windPlant: WindPlantService;
     predictSolarPlant: PredictSolarPlantService;
+    predictWindPlant: PredictWindPlantService;
     analysisService: AnalysisService;
     submitPrediction: SubmitPredictionService;
     submitActual: SubmitActualService;
@@ -37,6 +40,7 @@ export function createServices(
     dataAccess: DataAccess,
     solarApiCall: SolarSimulationAPI,
     weatherApiCall: OpenWeatherAPI,
+    windApiCall: WindPredictionAPI,
 ): ServiceFacade {
     const auth = new AuthWithPassword(dataAccess);
     const config = new ConfigServiceImpl(dataAccess);
@@ -45,8 +49,9 @@ export function createServices(
 
     const plant = new PlantServiceImpl(dataAccess);
     const solarPlant = new SolarPlantServiceImpl(dataAccess);
-    const windPlant = new WindPlantServiceImpl(dataAccess);
     const predictSolarPlant = new PredictSolarPlantServiceImpl(solarApiCall, plant, solarPlant);
+    const windPlant = new WindPlantServiceImpl(dataAccess);
+    const predictWindPlant = new PredictWindPlantServiceImpl(windApiCall, dataAccess);
 
     const submitPrediction = new SubmitPredictionServiceImpl(dataAccess);
     const submitActual = new SubmitActualServiceImpl(dataAccess);
@@ -66,8 +71,9 @@ export function createServices(
         initialize,
         plant,
         solarPlant,
-        windPlant,
         predictSolarPlant,
+        windPlant,
+        predictWindPlant,
         analysisService,
         submitPrediction,
         submitActual,

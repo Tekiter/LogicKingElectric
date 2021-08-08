@@ -1,3 +1,4 @@
+import { subDays } from "date-fns";
 import { Plant, SolarPlant } from "../../entity/plant";
 import { PlantService } from "../plant";
 import { RegisterService } from "../register";
@@ -84,18 +85,26 @@ const USER_ANDREW: UserInfo = {
         tiltAngle: 30,
         capacity: 1000,
     },
-    actualGeneration: [...new Array(new Date().getDate())].map((_, idx) => genEntry(idx + 1)),
-    predictionGeneration: [...new Array(new Date().getDate())].map((_, idx) => genEntry(idx + 1)),
+    actualGeneration: generateRandomData(),
+    predictionGeneration: generateRandomData(),
 };
 
-function genEntry(date: number): { target: Date; amount: number } {
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
+type GenData = { target: Date; amount: number }[];
+function generateRandomData(): GenData {
+    const result: GenData = [];
 
-    return {
-        target: new Date(`${year}-${month}-${date}`),
-        amount: randint(5000, 7000),
-    };
+    let curDate = subDays(new Date(), 1);
+
+    for (let i = 0; i < 30; i++) {
+        result.push({
+            target: curDate,
+            amount: randint(5000, 7000),
+        });
+
+        curDate = subDays(curDate, 1);
+    }
+
+    return result;
 }
 
 function randint(a: number, b: number) {

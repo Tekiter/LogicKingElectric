@@ -25,5 +25,8 @@ export interface SolarPlant {
 type SolarPlantArrayType = "fixed" | "track";
 
 export interface WindPlant {
-    size: number;
+    ratedWindSpeed: number;
+    cutInWindSpeed: number;
+    cutOutWindSpeed: number;
+    capacity: number;
 }
