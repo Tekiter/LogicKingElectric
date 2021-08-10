@@ -14,7 +14,7 @@ export class WindPredictionML implements WindPredictionAPI {
 
         const tensor = tf.tensor3d([
             base.map(item => {
-                return [item];
+                return [(item - mean) / std];
             }),
         ]);
 
