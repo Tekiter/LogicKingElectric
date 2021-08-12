@@ -44,3 +44,8 @@ ESLint와 Prettier가 코드 Lint와 포매팅을 수행합니다. 프로젝트�
 테스트는 프로젝트 루트에서만 실행 가능합니다. 이는 통일된 테스트 설정을 유지하기 위함입니다.
 
 테스트 명령어: `yarn test`
+
+## 디버그 모드 실행
+
+- 프론트엔드 실행 : `yarn client dev'
+- 백엔드 실행 : `yarn server dev`
