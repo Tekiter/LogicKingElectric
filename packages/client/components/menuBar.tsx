@@ -112,9 +112,9 @@ export default function MenuBar(): JSX.Element {
                 onClick={() => {
                     router.push("/mypage", undefined, { shallow: true });
                 }}>
-                My Page
+                내 정보
             </MenuItem>
-            <MenuItem onClick={Logout}>Log out</MenuItem>
+            <MenuItem onClick={Logout}>로그아웃</MenuItem>
         </Menu>
     );
     const classes = useStyles();

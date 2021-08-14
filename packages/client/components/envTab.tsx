@@ -1,5 +1,5 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { useAPIRequest } from "@/api/hooks";
 import { getCurrentWeather } from "@/api/endpoint";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ const mainSectionStyles = makeStyles((theme: Theme) =>
         envtab: {
             width: 400,
             marginLeft: "1.5%",
-            paddingRight: 5,
+            padding: "0.5em 0.7em",
             marginRight: 10,
             maxWidth: "100%",
             boxShadow: "0px 5px 4px rgba(0,0,0,0.25);",
@@ -91,7 +91,6 @@ export default function EnvTab(): JSX.Element {
     const [pm10Rate, setPM10Rate] = useState(0);
     const { request } = useAPIRequest(getCurrentWeather.endpoint, {
         onSuccess(res) {
-            // console.log(res);
             setWindSpeed(res.wind.speed);
             setTemper(Math.round(res.temp - 273.1)); // Convert to Celcius
             setCORate(res.quality.components.co);
@@ -99,11 +98,34 @@ export default function EnvTab(): JSX.Element {
             setNO2Rate(res.quality.components.no2);
             setPM2_5Rate(res.quality.components.pm2_5);
             setPM10Rate(res.quality.components.pm10);
+
+            setWeatherCacheToLocalStorage({
+                coRate: res.quality.components.co,
+                no2Rate: res.quality.components.no2,
+                o3Rate: res.quality.components.o3,
+                pm10Rate: res.quality.components.pm10,
+                pm2_5Rate: res.quality.components.pm2_5,
+                temper: Math.round(res.temp - 273.1),
+                windSpeed: res.wind.speed,
+            });
         },
     });
+
     useEffect(() => {
-        request(null);
+        const cache = getWeatherCache();
+        if (cache === null) {
+            request(null);
+        } else {
+            setWindSpeed(cache.data.windSpeed);
+            setTemper(cache.data.temper);
+            setCORate(cache.data.coRate);
+            setO3Rate(cache.data.o3Rate);
+            setNO2Rate(cache.data.no2Rate);
+            setPM2_5Rate(cache.data.pm2_5Rate);
+            setPM10Rate(cache.data.pm10Rate);
+        }
     }, []);
+
     return (
         <div className={mainSectionStyle.envtab}>
             <div className={mainSectionStyle.envtab_child}>
@@ -194,4 +216,62 @@ export default function EnvTab(): JSX.Element {
             </div>
         </div>
     );
+}
+
+interface WeatherCache {
+    data: {
+        windSpeed: number;
+        temper: number;
+        coRate: number;
+        o3Rate: number;
+        no2Rate: number;
+        pm2_5Rate: number;
+        pm10Rate: number;
+    };
+    datetime: Date;
+}
+
+const WEATHER_CACHE_KEY = "weatherCache";
+
+function getWeatherCacheFromLocalstorage(): WeatherCache | null {
+    const raw = localStorage.getItem(WEATHER_CACHE_KEY);
+    if (raw === null) {
+        return null;
+    }
+    try {
+        const data = JSON.parse(raw);
+        return {
+            ...data,
+            datetime: new Date(data.datetime),
+        };
+    } catch {
+        clearWeatherCacheInLocalStorage();
+        return null;
+    }
+}
+
+function setWeatherCacheToLocalStorage(data: WeatherCache["data"]) {
+    const cache = {
+        datetime: format(new Date(), "yyyy/MM/dd"),
+        data: data,
+    };
+    const raw = JSON.stringify(cache);
+    localStorage.setItem(WEATHER_CACHE_KEY, raw);
+}
+
+function clearWeatherCacheInLocalStorage() {
+    localStorage.removeItem(WEATHER_CACHE_KEY);
+}
+
+function getWeatherCache() {
+    const cache = getWeatherCacheFromLocalstorage();
+    if (cache === null) {
+        return null;
+    }
+
+    if (!isSameDay(cache.datetime, new Date())) {
+        clearWeatherCacheInLocalStorage();
+        return null;
+    }
+    return cache;
 }
