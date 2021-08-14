@@ -91,7 +91,7 @@ export default function EnvTab(): JSX.Element {
     const [pm10Rate, setPM10Rate] = useState(0);
     const { request } = useAPIRequest(getCurrentWeather.endpoint, {
         onSuccess(res) {
-            console.log(res);
+            // console.log(res);
             setWindSpeed(res.wind.speed);
             setTemper(Math.round(res.temp - 273.1)); // Convert to Celcius
             setCORate(res.quality.components.co);

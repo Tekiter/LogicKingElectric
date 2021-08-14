@@ -10,9 +10,8 @@ export default function ErrorGraph(): JSX.Element {
     const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
         onSuccess(res) {
             res.records.map((daily, idx) => {
-                if (daily.errorRate != undefined) {
-                    datas.push({ day: idx + 1, error: daily.errorRate });
-                }
+                if (daily.errorRate == undefined) datas.push({ day: idx + 1, error: 0 });
+                else datas.push({ day: idx + 1, error: daily.errorRate });
             });
         },
     });

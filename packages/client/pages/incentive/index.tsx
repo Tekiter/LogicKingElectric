@@ -17,6 +17,7 @@ const homeStyles = makeStyles((theme: Theme) =>
         sub_section: {
             display: "flex",
             marginTop: 48,
+            marginLeft: 20,
             flexDirection: "column",
         },
     }),
@@ -42,7 +43,7 @@ export default function Home(): JSX.Element {
                     <IncenErrorShow type="incentive"></IncenErrorShow>
                     <IncentiveGraph></IncentiveGraph>
                 </div>
-                <div style={{ marginTop: 35, marginLeft: 30 }}>
+                <div style={{ marginTop: 35, marginLeft: 35 }}>
                     <EnvTab></EnvTab>
                 </div>
             </div>

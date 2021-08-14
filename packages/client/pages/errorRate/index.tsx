@@ -17,6 +17,7 @@ const homeStyles = makeStyles((theme: Theme) =>
         sub_section: {
             display: "flex",
             marginTop: 48,
+            marginLeft: 20,
             flexDirection: "column",
         },
     }),

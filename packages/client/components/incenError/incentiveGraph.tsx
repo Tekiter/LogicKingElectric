@@ -10,9 +10,8 @@ export default function IncentiveGraph(): JSX.Element {
     const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
         onSuccess(res) {
             res.records.map((daily, idx) => {
-                if (daily.incentive != undefined) {
-                    datas.push({ day: idx + 1, incentive: daily.incentive });
-                }
+                if (daily.incentive == undefined) datas.push({ day: idx + 1, incentive: 0 });
+                else datas.push({ day: idx + 1, incentive: daily.incentive });
             });
         },
     });
