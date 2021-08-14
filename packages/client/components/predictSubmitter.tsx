@@ -3,9 +3,6 @@ import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
-import { submitPrediction } from "@/api/endpoint";
-import { useAPIRequest } from "@/api/hooks";
-import { useEffect, useState } from "react";
 
 const predictSubmitStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -54,14 +51,6 @@ const GreenButton = withStyles({
     },
 })(Button);
 export default function PredictSubmitter(): JSX.Element {
-    const { request } = useAPIRequest(submitPrediction.endpoint, {
-        onSuccess(res) {
-            console.log("등록완료!");
-        },
-        onError(err) {
-            console.log(err);
-        },
-    });
     const predictSubmitStyle = predictSubmitStyles();
     return (
         <div>
@@ -83,12 +72,7 @@ export default function PredictSubmitter(): JSX.Element {
                                 kW
                             </div>
                             <div style={{ marginTop: 10 }}>
-                                <GreenButton
-                                    onClick={() => {
-                                        request({ targetDate: "2021-08-14", amount: 1234 });
-                                    }}>
-                                    제출
-                                </GreenButton>
+                                <GreenButton>제출</GreenButton>
                             </div>
                         </div>
                     </div>
