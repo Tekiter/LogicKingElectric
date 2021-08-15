@@ -5,7 +5,10 @@ import { TextField } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import { submitPrediction } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
-import { useState } from "react";
+import React, { useState } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "./alert";
+import { ToNumber } from "yargs";
 
 const predictSubmitStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,14 +59,36 @@ const GreenButton = withStyles({
 })(Button);
 export default function PredictSubmitter(): JSX.Element {
     const [power, setPower] = useState("");
+    const [alert_open, setAlertOpen] = useState(false);
+    const [alert_string, setAlertString] = useState("");
+    const [alert_state, setAlertState] = useState("");
+    const handleAlertClick = (notice: string, state: string) => {
+        setAlertOpen(true);
+        setAlertState(state);
+        setAlertString(notice);
+    };
+    const handleAlertClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setAlertOpen(false);
+    };
     const { request } = useAPIRequest(submitPrediction.endpoint, {
         onSuccess(res) {
-            console.log("등록완료!");
+            handleAlertClick("데이터 제출이 완료되었습니다", "success");
         },
         onError(err) {
-            console.log(err);
+            handleAlertClick("오류가 발생하였습니다", "error");
         },
     });
+    const submitData = (date: string, value: number) => {
+        if (value == 0) {
+            handleAlertClick("올바른 값을 입력해주세요!", "error");
+        } else {
+            request({ targetDate: date, amount: value });
+            setPower("");
+        }
+    };
     const predictSubmitStyle = predictSubmitStyles();
     return (
         <div>
@@ -89,7 +114,7 @@ export default function PredictSubmitter(): JSX.Element {
                             <div style={{ marginTop: 10 }}>
                                 <GreenButton
                                     onClick={() => {
-                                        request({ targetDate: year + "-" + month + "-" + day, amount: Number(power) });
+                                        submitData(year + "-" + month + "-" + day, Number(power));
                                     }}>
                                     제출
                                 </GreenButton>
@@ -98,6 +123,12 @@ export default function PredictSubmitter(): JSX.Element {
                     </div>
                 </div>
             </div>
+            <Snackbar open={alert_open} autoHideDuration={1000} onClose={handleAlertClose}>
+                <Alert
+                    handleAlertClose={handleAlertClose}
+                    alert_string={alert_string}
+                    alert_state={alert_state}></Alert>
+            </Snackbar>
         </div>
     );
 }
