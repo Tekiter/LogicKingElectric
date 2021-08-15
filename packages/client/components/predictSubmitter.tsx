@@ -3,6 +3,9 @@ import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
+import { submitPrediction } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import { useState } from "react";
 
 const predictSubmitStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +42,7 @@ const predictSubmitStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
+const year = format(new Date(), "yyyy");
 const month = format(new Date(), "MM");
 const day = format(new Date(), "dd");
 const GreenButton = withStyles({
@@ -51,6 +55,15 @@ const GreenButton = withStyles({
     },
 })(Button);
 export default function PredictSubmitter(): JSX.Element {
+    const [power, setPower] = useState("");
+    const { request } = useAPIRequest(submitPrediction.endpoint, {
+        onSuccess(res) {
+            console.log("등록완료!");
+        },
+        onError(err) {
+            console.log(err);
+        },
+    });
     const predictSubmitStyle = predictSubmitStyles();
     return (
         <div>
@@ -64,6 +77,8 @@ export default function PredictSubmitter(): JSX.Element {
                         <div style={{ marginLeft: 250 }} className={predictSubmitStyle.inner_line}>
                             <TextField
                                 style={{ width: 230 }}
+                                value={power}
+                                onChange={e => setPower(e.target.value)}
                                 id="full-width-text-field"
                                 label="발전량(kW)"
                                 placeholder="ex) 100"
@@ -72,7 +87,12 @@ export default function PredictSubmitter(): JSX.Element {
                                 kW
                             </div>
                             <div style={{ marginTop: 10 }}>
-                                <GreenButton>제출</GreenButton>
+                                <GreenButton
+                                    onClick={() => {
+                                        request({ targetDate: year + "-" + month + "-" + day, amount: Number(power) });
+                                    }}>
+                                    제출
+                                </GreenButton>
                             </div>
                         </div>
                     </div>
