@@ -49,14 +49,15 @@ export function createServices(
 
     const plant = new PlantServiceImpl(dataAccess);
     const solarPlant = new SolarPlantServiceImpl(dataAccess);
-    const predictSolarPlant = new PredictSolarPlantServiceImpl(solarApiCall, plant, solarPlant);
     const windPlant = new WindPlantServiceImpl(dataAccess);
-    const predictWindPlant = new PredictWindPlantServiceImpl(windApiCall, dataAccess);
 
     const submitPrediction = new SubmitPredictionServiceImpl(dataAccess);
     const submitActual = new SubmitActualServiceImpl(dataAccess);
 
-    const weather = new WeatherServiceImpl(weatherApiCall, plant);
+    const weather = new WeatherServiceImpl(weatherApiCall, dataAccess, plant);
+
+    const predictSolarPlant = new PredictSolarPlantServiceImpl(solarApiCall, plant, solarPlant);
+    const predictWindPlant = new PredictWindPlantServiceImpl(windApiCall, dataAccess, weather);
 
     const analysisService = new AnalysisServiceImpl(dataAccess);
 

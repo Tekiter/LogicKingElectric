@@ -1,7 +1,10 @@
 import { defineEndpoint, defineError, defineErrors } from "../../util";
 
 interface Response {
+    /** 최근 20일치의 정보가 다 있어서 예측이 가능한가? */
     isPredictable: boolean;
+
+    /** isPredictable이 true인 경우 산출된 예측값 */
     predicted?: number;
 }
 
