@@ -170,7 +170,6 @@ function PlantInfo(props: PlantInfoProps): JSX.Element {
                 items={[
                     { key: "solar", label: "태양광" },
                     { key: "wind", label: "풍력" },
-                    { key: "hydro", label: "수력" },
                 ]}
                 value={plant.data.type}
                 onChange={value => plant.modify("type", value)}
