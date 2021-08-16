@@ -53,6 +53,7 @@ const { FormLine } = (function () {
 export const FormHeader = styled.div`
     color: black;
     font-size: 1.2em;
+    font-family: "Jua";
     margin-top: 2em;
     margin-bottom: 0.5em;
     padding-bottom: 0.2em;

@@ -115,8 +115,8 @@ const InfoCard = styled(Card)`
 function Title() {
     return (
         <>
-            <div style={{ textAlign: "center", fontSize: 35, marginTop: "1em" }}>마이페이지</div>
-            <div style={{ textAlign: "center", fontSize: 20, color: "gray" }}>
+            <div style={{ fontFamily: "Jua", textAlign: "center", fontSize: 35, marginTop: "1em" }}>마이페이지</div>
+            <div style={{ fontFamily: "Jua", textAlign: "center", fontSize: 20, color: "gray" }}>
                 아이디, 비밀번호 등의 개인정보를 수정할 수 있습니다
             </div>
         </>

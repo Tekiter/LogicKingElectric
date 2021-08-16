@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "Jua";
+    src: url("/fonts/Jua/Jua-Regular.ttf");
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "NanumGothic";
+    src: url("/fonts/NanumGothic/NanumGothic-Regular.ttf");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
