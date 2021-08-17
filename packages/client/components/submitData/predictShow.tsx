@@ -1,5 +1,5 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { predictWindPlant, monthlyHistoryReport } from "@/api/endpoint";
+import { predictSolarPlant, predictWindPlant, monthlyHistoryReport, getPlantInfo } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
@@ -41,43 +41,82 @@ const predictStyles = makeStyles((theme: Theme) =>
 const day = format(new Date(), "dd");
 export default function PredictShow(): JSX.Element {
     const predictStyle = predictStyles();
-    const [predictValue, setPredict] = useState(0);
+    const [predictWindValue, setWindPredict] = useState(0);
+    const [predictSolarValue, setSolarPredict] = useState(0);
     const [prePredictValue, setPrePredict] = useState(0);
+    const [plantType, setPlantType] = useState("");
+    const predictSolar = useAPIRequest(predictSolarPlant.endpoint, {
+        onSuccess(res) {
+            console.log(res);
+        },
+    });
     const predictionWind = useAPIRequest(predictWindPlant.endpoint, {
         onSuccess(res) {
-            if (res.predicted != undefined) setPredict(res.predicted);
+            if (res.predicted != undefined) setWindPredict(res.predicted);
         },
         onError(err) {
             console.log(err);
         },
     });
-    const predictionRequest = predictionWind.request;
     const prePredictionWind = useAPIRequest(monthlyHistoryReport.endpoint, {
         onSuccess(res) {
             const prePrediction = res.records[Number(day) - 2].prediction;
             if (prePrediction != undefined) setPrePredict(prePrediction);
         },
     });
-    const prePredictionRequest = prePredictionWind.request;
+    const plantInfo = useAPIRequest(getPlantInfo.endpoint, {
+        onSuccess(res) {
+            setPlantType(res.type);
+        },
+    });
     useEffect(() => {
-        predictionRequest(null);
-        prePredictionRequest(null);
+        plantInfo.request(null);
+        predictionWind.request(null);
+        prePredictionWind.request(null);
+        predictSolar.request(null);
     }, []);
-    return (
-        <div>
-            <div className={predictStyle.outline}>
-                <div className={predictStyle.title}>예측 발전량</div>
-                <div className={predictStyle.inner}>
-                    <div>
-                        <div className={predictStyle.inner_title}>오늘의 예측 발전량</div>
-                        <div className={predictStyle.inner_point}>{Math.floor(prePredictValue * 100) / 100} kWh</div>
-                    </div>
-                    <div style={{ marginLeft: 150 }}>
-                        <div className={predictStyle.inner_title}>내일의 예측 발전량</div>
-                        <div className={predictStyle.inner_point}>{Math.floor(predictValue * 100) / 100} kWh</div>
+    if (plantType == "wind")
+        return (
+            <div>
+                <div className={predictStyle.outline}>
+                    <div className={predictStyle.title}>예측 발전량</div>
+                    <div className={predictStyle.inner}>
+                        <div>
+                            <div className={predictStyle.inner_title}>오늘의 예측 발전량</div>
+                            <div className={predictStyle.inner_point}>
+                                {Math.floor(prePredictValue * 100) / 100} kWh
+                            </div>
+                        </div>
+                        <div style={{ marginLeft: 150 }}>
+                            <div className={predictStyle.inner_title}>내일의 예측 발전량</div>
+                            <div className={predictStyle.inner_point}>
+                                {Math.floor(predictWindValue * 100) / 100} kWh
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    else
+        return (
+            <div>
+                <div className={predictStyle.outline}>
+                    <div className={predictStyle.title}>예측 발전량</div>
+                    <div className={predictStyle.inner}>
+                        <div>
+                            <div className={predictStyle.inner_title}>오늘의 예측 발전량</div>
+                            <div className={predictStyle.inner_point}>
+                                {Math.floor(prePredictValue * 100) / 100} kWh
+                            </div>
+                        </div>
+                        <div style={{ marginLeft: 150 }}>
+                            <div className={predictStyle.inner_title}>내일의 예측 발전량</div>
+                            <div className={predictStyle.inner_point}>
+                                {Math.floor(predictSolarValue * 100) / 100} kWh
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
 }
