@@ -122,7 +122,7 @@ class ToResponseConverter {
         return entryArray.map(entry => ({
             targetDatetime: this.convertDatetime(entry.FCST_DATE, entry.FCST_TIME),
             amountOfSolarRadiation: entry.SRAD,
-            generation: entry.PCAP,
+            generation: entry.QGEN,
             temperature: entry.TEMP,
             windSpeed: entry.WSPD,
         }));
