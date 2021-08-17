@@ -24,7 +24,7 @@ export default function SmpRecSection(): JSX.Element {
                 <div style={{ fontSize: 30, fontWeight: 400 }}>SMP</div>
                 <div style={{ fontSize: 21, color: "#909090" }}>2021.7.3(토)</div>
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <div style={{ fontWeight: 700, fontSize: 38 }}>89.19원</div>
+                    <div style={{ fontWeight: 700, fontSize: 38 }}>94.05 원</div>
                     <div style={{ fontWeight: 700, fontSize: 24 }}>↑ 1.2 %</div>
                 </div>
             </div>
@@ -32,15 +32,15 @@ export default function SmpRecSection(): JSX.Element {
                 <div style={{ fontSize: 30, fontWeight: 400 }}>REC</div>
                 <div style={{ fontSize: 21, color: "#909090" }}>2021.7.3(토)</div>
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <div style={{ fontWeight: 700, fontSize: 38 }}>30023원</div>
-                    <div style={{ fontWeight: 700, fontSize: 24 }}>↓ 3.4 %</div>
+                    <div style={{ fontWeight: 700, fontSize: 38 }}>28727 원</div>
+                    <div style={{ fontWeight: 700, fontSize: 24 }}>↓ 1.4 %</div>
                 </div>
             </div>
             <div className={smpStyle.section_outline}>
                 <div style={{ fontSize: 30, fontWeight: 400 }}>SMP + (REC x 0.7)</div>
                 <div style={{ fontSize: 21, color: "#909090" }}>2021.7.3(토)</div>
                 <div style={{ display: "flex", flexDirection: "row" }}>
-                    <div style={{ fontWeight: 700, fontSize: 38 }}>110.21원</div>
+                    <div style={{ fontWeight: 700, fontSize: 38 }}>20202 원</div>
                     <div style={{ fontWeight: 700, fontSize: 24 }}>↓ 0.3 %</div>
                 </div>
             </div>

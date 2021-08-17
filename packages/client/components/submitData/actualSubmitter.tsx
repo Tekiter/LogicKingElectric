@@ -3,6 +3,11 @@ import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
+import { submitActual } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import React, { useState } from "react";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "../alert";
 
 const predictSubmitStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +44,7 @@ const predictSubmitStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
+const year = format(new Date(), "yyyy");
 const month = format(new Date(), "MM");
 const day = format(new Date(), "dd");
 const GreenButton = withStyles({
@@ -51,11 +57,42 @@ const GreenButton = withStyles({
     },
 })(Button);
 export default function PredictSubmitter(): JSX.Element {
+    const [power, setPower] = useState("");
+    const [alert_open, setAlertOpen] = useState(false);
+    const [alert_string, setAlertString] = useState("");
+    const [alert_state, setAlertState] = useState("");
+    const handleAlertClick = (notice: string, state: string) => {
+        setAlertOpen(true);
+        setAlertState(state);
+        setAlertString(notice);
+    };
+    const handleAlertClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setAlertOpen(false);
+    };
+    const { request } = useAPIRequest(submitActual.endpoint, {
+        onSuccess(res) {
+            handleAlertClick("데이터 제출이 완료되었습니다", "success");
+        },
+        onError(err) {
+            handleAlertClick("오류가 발생하였습니다", "error");
+        },
+    });
+    const submitData = (date: string, value: number) => {
+        if (value == 0) {
+            handleAlertClick("올바른 값을 입력해주세요!", "error");
+        } else {
+            request({ targetDate: date, amount: value });
+            setPower("");
+        }
+    };
     const predictSubmitStyle = predictSubmitStyles();
     return (
         <div>
             <div className={predictSubmitStyle.outline}>
-                <div className={predictSubmitStyle.title}>예측 발전량 수동입력</div>
+                <div className={predictSubmitStyle.title}>실제 발전량 수동입력</div>
                 <div className={predictSubmitStyle.inner}>
                     <div className={predictSubmitStyle.inner_line}>
                         <div className={predictSubmitStyle.inner_text}>2021 년</div>
@@ -64,6 +101,8 @@ export default function PredictSubmitter(): JSX.Element {
                         <div style={{ marginLeft: 250 }} className={predictSubmitStyle.inner_line}>
                             <TextField
                                 style={{ width: 230 }}
+                                value={power}
+                                onChange={e => setPower(e.target.value)}
                                 id="full-width-text-field"
                                 label="발전량(kW)"
                                 placeholder="ex) 100"
@@ -72,12 +111,23 @@ export default function PredictSubmitter(): JSX.Element {
                                 kW
                             </div>
                             <div style={{ marginTop: 10 }}>
-                                <GreenButton>제출</GreenButton>
+                                <GreenButton
+                                    onClick={() => {
+                                        submitData(year + "-" + month + "-" + day, Number(power));
+                                    }}>
+                                    제출
+                                </GreenButton>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <Snackbar open={alert_open} autoHideDuration={1000} onClose={handleAlertClose}>
+                <Alert
+                    handleAlertClose={handleAlertClose}
+                    alert_string={alert_string}
+                    alert_state={alert_state}></Alert>
+            </Snackbar>
         </div>
     );
 }

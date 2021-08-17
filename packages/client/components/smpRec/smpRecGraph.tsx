@@ -3,62 +3,62 @@ import { ResponsiveBar } from "@nivo/bar";
 const datas = [
     {
         month: "1월",
-        value: 8,
+        "SMP 가격": 70.47,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "2월",
-        value: 8,
+        "SMP 가격": 75.25,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "3월",
-        value: 8,
+        "SMP 가격": 83.78,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "4월",
-        value: 8,
+        "SMP 가격": 75.97,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "5월",
-        value: 8,
+        "SMP 가격": 78.93,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "6월",
-        value: 8,
+        "SMP 가격": 82.72,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "7월",
-        value: 8,
+        "SMP 가격": 87.04,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "8월",
-        value: 8,
+        "SMP 가격": 0,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "9월",
-        value: 8,
+        "SMP 가격": 0,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "10월",
-        value: 8,
+        "SMP 가격": 0,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "11월",
-        value: 8,
+        "SMP 가격": 0,
         valueColor: "hsl(357, 70%, 50%)",
     },
     {
         month: "12월",
-        value: 8,
+        "SMP 가격": 0,
         valueColor: "hsl(357, 70%, 50%)",
     },
 ];
@@ -67,7 +67,7 @@ export default function SmpRecGraph(): JSX.Element {
         <div style={{ width: 1000, height: 600 }}>
             <ResponsiveBar
                 data={datas}
-                keys={["value"]}
+                keys={["SMP 가격"]}
                 indexBy="month"
                 margin={{ top: 50, right: 130, bottom: 50, left: 180 }}
                 padding={0.5}

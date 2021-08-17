@@ -7,6 +7,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { GlobalStyle } from "@/styles/global";
 import { RecoilRoot } from "recoil";
 import { useAuthTokenLoader } from "@/state/auth";
+import "../styles/root_style.css";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     return (
