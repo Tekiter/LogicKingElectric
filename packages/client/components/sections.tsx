@@ -3,6 +3,10 @@ import { ArrowForward } from "@material-ui/icons";
 import EnvTab from "./envTab";
 import Graph from "./graph";
 import Link from "next/link";
+import { monthlyHistoryReport } from "@/api/endpoint";
+import { useAPIRequest } from "@/api/hooks";
+import { format } from "date-fns";
+import { useEffect, useState } from "react";
 
 const sectionStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -66,19 +70,56 @@ const sectionStyles = makeStyles((theme: Theme) =>
         },
     }),
 );
-
+const month = format(new Date(), "MM");
+const day = format(new Date(), "dd");
 export default function MainSections(): JSX.Element {
     const sectionStyle = sectionStyles();
+    const [errorValue, setError] = useState(0);
+    const [incenValue, setIncentive] = useState(0);
+    const [errorChangeRate, setEChnageRate] = useState(0);
+    const [errorColor, setEColor] = useState("#00BE13");
+
+    const { request } = useAPIRequest(monthlyHistoryReport.endpoint, {
+        onSuccess(res) {
+            let last_error_mean = 0,
+                _last_error_mean = 0;
+            let last_incen_mean = 0;
+            res.records.map((daily, idx) => {
+                if (daily.errorRate != undefined && daily.incentive != undefined && idx != Number(day) - 1) {
+                    last_error_mean += daily.errorRate;
+                    _last_error_mean += daily.errorRate;
+                    last_incen_mean += daily.incentive;
+                } else {
+                    if (daily.errorRate != undefined) last_error_mean += daily.errorRate;
+                    if (daily.incentive != undefined) last_incen_mean += daily.incentive;
+                }
+            });
+            last_error_mean = last_error_mean / Number(day);
+            _last_error_mean = _last_error_mean / (Number(day) - 1);
+            if (last_error_mean - _last_error_mean < 0) setEColor("red");
+            else setEColor("#00BE13");
+            setError(last_error_mean);
+            setEChnageRate(last_error_mean - _last_error_mean);
+            setIncentive(last_incen_mean);
+        },
+    });
+    useEffect(() => {
+        request(null);
+    }, []);
     return (
         <div>
             <div className={sectionStyle.layout}>
                 <div className={sectionStyle.wrapper}>
                     <div className={sectionStyle.info}>
                         <div className={sectionStyle.label}>오차율</div>
-                        <div className={sectionStyle.desc}>7월1일 ~ 7월14일</div>
+                        <div className={sectionStyle.desc}>
+                            {month}월 01일 ~ {month}월 {day}일
+                        </div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40 }}>
-                            <div className={sectionStyle.now_points}>6.6 %</div>
-                            <div className={sectionStyle.change_points}>↑ 1.2%</div>
+                            <div className={sectionStyle.now_points}>{Math.floor(errorValue * 100) / 100} %</div>
+                            <div className={sectionStyle.change_points} style={{ color: errorColor }}>
+                                {Math.floor(errorChangeRate * 100) / 100}%
+                            </div>
                         </div>
                         <div className={sectionStyle.report}>
                             <Link href="/errorRate">
@@ -93,10 +134,11 @@ export default function MainSections(): JSX.Element {
                     </div>
                     <div className={sectionStyle.info}>
                         <div className={sectionStyle.label}>인센티브</div>
-                        <div className={sectionStyle.desc}>7월1일 ~ 7월14일</div>
+                        <div className={sectionStyle.desc}>
+                            {month}월 01일 ~ {month}월 {day}일
+                        </div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 40 }}>
-                            <div className={sectionStyle.now_points}>123 원</div>
-                            <div className={sectionStyle.change_points}>↑ 1.2%</div>
+                            <div className={sectionStyle.now_points}>{Math.floor(incenValue * 100) / 100} 원</div>
                         </div>
                         <div className={sectionStyle.report}>
                             <Link href="/incentive">

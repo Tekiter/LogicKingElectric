@@ -3,12 +3,11 @@ import { format } from "date-fns";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
-import { submitPrediction } from "@/api/endpoint";
+import { submitActual } from "@/api/endpoint";
 import { useAPIRequest } from "@/api/hooks";
 import React, { useState } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
-import Alert from "./alert";
-import { ToNumber } from "yargs";
+import Alert from "../alert";
 
 const predictSubmitStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -73,7 +72,7 @@ export default function PredictSubmitter(): JSX.Element {
         }
         setAlertOpen(false);
     };
-    const { request } = useAPIRequest(submitPrediction.endpoint, {
+    const { request } = useAPIRequest(submitActual.endpoint, {
         onSuccess(res) {
             handleAlertClick("데이터 제출이 완료되었습니다", "success");
         },
@@ -93,7 +92,7 @@ export default function PredictSubmitter(): JSX.Element {
     return (
         <div>
             <div className={predictSubmitStyle.outline}>
-                <div className={predictSubmitStyle.title}>예측 발전량 수동입력</div>
+                <div className={predictSubmitStyle.title}>실제 발전량 수동입력</div>
                 <div className={predictSubmitStyle.inner}>
                     <div className={predictSubmitStyle.inner_line}>
                         <div className={predictSubmitStyle.inner_text}>2021 년</div>
