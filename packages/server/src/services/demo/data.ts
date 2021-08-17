@@ -70,7 +70,7 @@ function generateRandomData(min: number, max: number): GenData {
 }
 
 function randint(a: number, b: number) {
-    return Math.random() * (b - a) + a;
+    return Math.floor(Math.random() * (b - a) + a);
 }
 
 function generateWindGenData(): GenData {
@@ -89,6 +89,5 @@ function generateWindGenData(): GenData {
         curDate = subDays(curDate, 1);
         idx++;
     }
-
     return result;
 }

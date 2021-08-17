@@ -1,7 +1,7 @@
-import { compareAsc, isEqual, startOfMonth, subMonths } from "date-fns";
 import { GenerationActual, GenerationPrediction } from "../../../entity/generationHistory";
 import { UserIdentifier } from "../../../entity/user";
 import { GenerationHistoryDataAccess } from "../types/generationHistory";
+import { DateStore } from "./utils/store";
 
 const predictionStore = new Map<string, DateStore<GenerationPrediction>>();
 const actualStore = new Map<string, DateStore<GenerationActual>>();
@@ -57,51 +57,5 @@ export class GenerationHistoryMemoryDataAccess implements GenerationHistoryDataA
     static clear(): void {
         predictionStore.clear();
         actualStore.clear();
-    }
-}
-
-class DateStore<T extends { targetDate: Date }> {
-    private list: T[];
-
-    constructor() {
-        this.list = [];
-    }
-
-    getListOfThisMonth() {
-        const result: T[] = [];
-
-        const thisMonthStart = startOfMonth(Date.now());
-
-        for (const entry of this.list) {
-            const isThisMonth = compareAsc(thisMonthStart, entry.targetDate) <= 0;
-            if (isThisMonth) {
-                result.push(entry);
-            }
-        }
-
-        return result;
-    }
-
-    getListOfLastMonths(amount: number) {
-        const result: T[] = [];
-
-        const thisMonthStart = startOfMonth(subMonths(Date.now(), amount - 1));
-
-        for (const entry of this.list) {
-            const isThisMonth = compareAsc(thisMonthStart, entry.targetDate) <= 0;
-            if (isThisMonth) {
-                result.push(entry);
-            }
-        }
-
-        return result;
-    }
-
-    setOrUpdate(entry: T): void {
-        const existingIndex = this.list.findIndex(target => isEqual(entry.targetDate, target.targetDate));
-        if (existingIndex !== -1) {
-            this.list.splice(existingIndex, 1);
-        }
-        this.list.push(entry);
     }
 }

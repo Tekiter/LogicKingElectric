@@ -5,6 +5,7 @@ import { GenerationHistoryMemoryDataAccess } from "./generationHistory";
 import { PlantMemoryDataAccess } from "./plant";
 import { SolarPlantMemoryDataAccess } from "./solarPlant";
 import { UserMemoryDataAccess } from "./user";
+import { WeatherMemoryDataAccess } from "./weather";
 import { WindPlantMemoryDataAccess } from "./windPlant";
 
 export function createMemoryDataAccessFacade(): DataAccessFacade {
@@ -16,5 +17,6 @@ export function createMemoryDataAccessFacade(): DataAccessFacade {
         solarPlant: new SolarPlantMemoryDataAccess(),
         windPlant: new WindPlantMemoryDataAccess(),
         generationHistory: new GenerationHistoryMemoryDataAccess(),
+        weather: new WeatherMemoryDataAccess(),
     };
 }

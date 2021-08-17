@@ -1,9 +1,12 @@
+import { compareAsc } from "date-fns";
+import { DataAccess } from "../../core/dataAccess/types";
 import { OpenWeatherAPI } from "../../core/openAPI/openWeather";
 import { UserIdentifier } from "../../entity/user";
 import { PlantService } from "../plant";
 
 export interface WeatherService {
     getCurrentWeather(user: UserIdentifier): Promise<DailyWeatherInfo>;
+    getHistoryOfMonths(user: UserIdentifier, months: number): Promise<WeatherHistory>;
 }
 
 export interface DailyWeatherInfo {
@@ -34,8 +37,20 @@ interface PollutionComponents {
     pm10: number;
 }
 
+interface WeatherHistory {
+    records: {
+        targetDate: Date;
+        speed: number;
+        pressure: number;
+    }[];
+}
+
 export class WeatherServiceImpl implements WeatherService {
-    constructor(private readonly apiCall: OpenWeatherAPI, private readonly plantService: PlantService) {}
+    constructor(
+        private readonly apiCall: OpenWeatherAPI,
+        private readonly dataAccess: DataAccess<"weather">,
+        private readonly plantService: PlantService,
+    ) {}
 
     async getCurrentWeather(user: UserIdentifier): Promise<DailyWeatherInfo> {
         const plant = await this.plantService.getPlantInfo(user);
@@ -59,6 +74,14 @@ export class WeatherServiceImpl implements WeatherService {
                 level: airQualityLevelTable[pollution.list[0].main.aqi],
                 components: pollution.list[0].components,
             },
+        };
+    }
+
+    async getHistoryOfMonths(user: UserIdentifier, months: number): Promise<WeatherHistory> {
+        const history = await this.dataAccess.weather.getHistoryOfLastMonths(user, months);
+        history.sort((a, b) => compareAsc(a.targetDate, b.targetDate));
+        return {
+            records: history,
         };
     }
 }
