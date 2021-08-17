@@ -46,16 +46,13 @@ export default function PredictShow(): JSX.Element {
     const [prePredictValue, setPrePredict] = useState(0);
     const [plantType, setPlantType] = useState("");
     const predictSolar = useAPIRequest(predictSolarPlant.endpoint, {
-        onSuccess(res) {
-            console.log(res);
-        },
+        // onSuccess(res) {
+        //     console.log(res);
+        // },
     });
     const predictionWind = useAPIRequest(predictWindPlant.endpoint, {
         onSuccess(res) {
             if (res.predicted != undefined) setWindPredict(res.predicted);
-        },
-        onError(err) {
-            console.log(err);
         },
     });
     const prePredictionWind = useAPIRequest(monthlyHistoryReport.endpoint, {
