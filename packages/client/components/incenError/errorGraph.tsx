@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ResponsiveLine, Serie } from "@nivo/line";
 const datass: Serie[] = [
     {
-        id: "Incentive",
+        id: "Error Rate",
         data: [],
     },
 ];
@@ -36,7 +36,7 @@ export default function ErrorGraph(): JSX.Element {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: "transportation",
+                    legend: "day",
                     legendOffset: 36,
                     legendPosition: "middle",
                 }}
@@ -44,7 +44,7 @@ export default function ErrorGraph(): JSX.Element {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: "count",
+                    legend: "Error Rate",
                     legendOffset: -40,
                     legendPosition: "middle",
                 }}
