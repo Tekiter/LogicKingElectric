@@ -7,6 +7,7 @@ import { PlantService } from "../plant";
 export interface WeatherService {
     getCurrentWeather(user: UserIdentifier): Promise<DailyWeatherInfo>;
     getHistoryOfMonths(user: UserIdentifier, months: number): Promise<WeatherHistory>;
+    setWeatherOfDate(user: UserIdentifier, record: WeatherHistoryRecord): Promise<void>;
 }
 
 export interface DailyWeatherInfo {
@@ -38,11 +39,13 @@ interface PollutionComponents {
 }
 
 interface WeatherHistory {
-    records: {
-        targetDate: Date;
-        speed: number;
-        pressure: number;
-    }[];
+    records: WeatherHistoryRecord[];
+}
+
+interface WeatherHistoryRecord {
+    targetDate: Date;
+    speed: number;
+    pressure: number;
 }
 
 export class WeatherServiceImpl implements WeatherService {
@@ -83,6 +86,10 @@ export class WeatherServiceImpl implements WeatherService {
         return {
             records: history,
         };
+    }
+
+    async setWeatherOfDate(user: UserIdentifier, record: WeatherHistoryRecord): Promise<void> {
+        await this.dataAccess.weather.addWeatherRecord(user, record);
     }
 }
 

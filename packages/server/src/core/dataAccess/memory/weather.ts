@@ -15,4 +15,14 @@ export class WeatherMemoryDataAccess implements WeatherDataAccess {
         const result = userStore.getListOfLastMonths(months);
         return result;
     }
+
+    async addWeatherRecord(owner: UserIdentifier, weather: WeatherInfo): Promise<void> {
+        let userStore = store.get(owner.username);
+        if (userStore === undefined) {
+            userStore = new DateStore();
+            store.set(owner.username, userStore);
+        }
+
+        userStore.setOrUpdate(weather);
+    }
 }

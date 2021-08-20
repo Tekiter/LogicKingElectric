@@ -4,6 +4,7 @@ import { SolarPlantService } from "../solarPlant";
 import { SubmitActualService } from "../submitActual";
 import { SubmitPredictionService } from "../submitPrediciton";
 import { UserService } from "../user";
+import { WeatherService } from "../weather";
 import { WindPlantService } from "../windPlant";
 import { USER_ANDREW, USER_HELLOWORLD } from "./data";
 import { UserInfo } from "./types";
@@ -21,6 +22,7 @@ export class DemoServiceImpl implements DemoService {
         private readonly windPlantService: WindPlantService,
         private readonly submitActual: SubmitActualService,
         private readonly submitPrediction: SubmitPredictionService,
+        private readonly weather: WeatherService,
     ) {}
 
     async setupDemoData(): Promise<void> {
@@ -61,5 +63,19 @@ export class DemoServiceImpl implements DemoService {
                 })();
             }),
         ]);
+
+        if (userInfo.weather !== undefined) {
+            await Promise.all([
+                ...userInfo.weather.map(item => {
+                    return (async () => {
+                        this.weather.setWeatherOfDate(user, {
+                            targetDate: item.target,
+                            speed: item.speed,
+                            pressure: item.pressure,
+                        });
+                    })();
+                }),
+            ]);
+        }
     }
 }

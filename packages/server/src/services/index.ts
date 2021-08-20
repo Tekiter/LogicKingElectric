@@ -62,7 +62,16 @@ export function createServices(
     const analysisService = new AnalysisServiceImpl(dataAccess);
 
     const initialize = new InitializeServiceImpl(config, register);
-    const demo = new DemoServiceImpl(user, register, plant, solarPlant, windPlant, submitActual, submitPrediction);
+    const demo = new DemoServiceImpl(
+        user,
+        register,
+        plant,
+        solarPlant,
+        windPlant,
+        submitActual,
+        submitPrediction,
+        weather,
+    );
 
     return {
         auth,

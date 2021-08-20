@@ -42,7 +42,7 @@ const day = format(new Date(), "dd");
 export default function PredictShow(): JSX.Element {
     const predictStyle = predictStyles();
     const [predictWindValue, setWindPredict] = useState(0);
-    const [predictSolarValue, setSolarPredict] = useState(0);
+    const [predictSolarValue] = useState(0);
     const [prePredictValue, setPrePredict] = useState(0);
     const [plantType, setPlantType] = useState("");
     const predictSolar = useAPIRequest(predictSolarPlant.endpoint, {

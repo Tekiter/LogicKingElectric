@@ -8,4 +8,5 @@ export interface UserInfo {
     windPlant?: WindPlant;
     actualGeneration: { target: Date; amount: number }[];
     predictionGeneration: { target: Date; amount: number }[];
+    weather?: { target: Date; speed: number; pressure: number }[];
 }

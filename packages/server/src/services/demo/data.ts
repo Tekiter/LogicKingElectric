@@ -1,6 +1,6 @@
 import { subDays } from "date-fns";
-import { WIND_SAMPLE } from "./raw";
 import { UserInfo } from "./types";
+import { extractActualWindData, extractPredictWindData, extractWeatherHistoryData } from "./wind";
 
 export const USER_ANDREW: UserInfo = {
     username: "andrew123",
@@ -47,8 +47,9 @@ export const USER_HELLOWORLD: UserInfo = {
         cutOutWindSpeed: 25,
         ratedWindSpeed: 13,
     },
-    actualGeneration: generateWindGenData(),
-    predictionGeneration: generateWindGenData(),
+    actualGeneration: extractActualWindData(),
+    predictionGeneration: extractPredictWindData(),
+    weather: extractWeatherHistoryData(),
 };
 
 type GenData = { target: Date; amount: number }[];
@@ -71,23 +72,4 @@ function generateRandomData(min: number, max: number): GenData {
 
 function randint(a: number, b: number) {
     return Math.floor(Math.random() * (b - a) + a);
-}
-
-function generateWindGenData(): GenData {
-    let idx = randint(0, WIND_SAMPLE.length - 70);
-
-    const result: GenData = [];
-
-    let curDate = subDays(new Date(), 1);
-
-    for (let i = 0; i < 60; i++) {
-        result.push({
-            target: curDate,
-            amount: WIND_SAMPLE[idx],
-        });
-
-        curDate = subDays(curDate, 1);
-        idx++;
-    }
-    return result;
 }
