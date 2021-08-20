@@ -2,30 +2,35 @@ import { subDays } from "date-fns";
 import { UserInfo } from "./types";
 import { extractActualWindData, extractPredictWindData, extractWeatherHistoryData } from "./wind";
 
-export const USER_ANDREW: UserInfo = {
-    username: "andrew123",
-    password: "helloworld",
-    plant: {
-        name: "우리집태양광발전소",
-        type: "solar",
-        location: {
-            name: "경기도 부천시 XX로 XX",
-            coordinate: {
-                latitude: 37.486,
-                longitude: 126.801,
+export const USER_ANDREW: UserInfo = (function () {
+    const actualGeneration = generateRandomData(3000, 6000);
+    const predictionGeneration = generatePredictedData(actualGeneration);
+
+    return {
+        username: "andrew123",
+        password: "helloworld",
+        plant: {
+            name: "우리집태양광발전소",
+            type: "solar",
+            location: {
+                name: "경기도 부천시 XX로 XX",
+                coordinate: {
+                    latitude: 37.486,
+                    longitude: 126.801,
+                },
             },
         },
-    },
-    solarPlant: {
-        arrayType: "fixed",
-        temperatureCoefficientPmpp: -0.415,
-        meridianAngle: 180,
-        tiltAngle: 30,
-        capacity: 1000,
-    },
-    actualGeneration: generateRandomData(3000, 6000),
-    predictionGeneration: generateRandomData(3000, 6000),
-};
+        solarPlant: {
+            arrayType: "fixed",
+            temperatureCoefficientPmpp: -0.415,
+            meridianAngle: 180,
+            tiltAngle: 30,
+            capacity: 1000,
+        },
+        actualGeneration,
+        predictionGeneration,
+    } as UserInfo;
+})();
 
 export const USER_HELLOWORLD: UserInfo = {
     username: "helloworld",
@@ -72,4 +77,18 @@ function generateRandomData(min: number, max: number): GenData {
 
 function randint(a: number, b: number) {
     return Math.floor(Math.random() * (b - a) + a);
+}
+
+function generatePredictedData(actual: GenData): GenData {
+    function randPercent(base: number, percent: number) {
+        const maxd = (base * percent) / 100;
+        return randint(base - maxd, base + maxd);
+    }
+
+    return actual.map(({ target, amount }) => {
+        return {
+            target,
+            amount: randPercent(amount, 20),
+        };
+    });
 }
