@@ -53,9 +53,9 @@ ESLint와 Prettier가 코드 Lint와 포매팅을 수행합니다. 프로젝트�
 ## 프로젝트 빌드와 실행
 
 -   필요 모듈 설치 : `yarn install`
+-   공용 모듈 빌드 : `yarn shared build`
 -   서버 빌드 : `yarn server build`
 -   프론트엔드 빌드 : `yarn client build`
--   공용 모듈 빌드 : `yarn shared build`
 
 -   서버 실행 : `yarn server start`
 -   프론트엔드 실행 : `yarn client start`
