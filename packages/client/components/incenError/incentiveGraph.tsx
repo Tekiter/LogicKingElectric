@@ -36,7 +36,7 @@ export default function IncentiveGraph(): JSX.Element {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: "transportation",
+                    legend: "day",
                     legendOffset: 36,
                     legendPosition: "middle",
                 }}
@@ -44,7 +44,7 @@ export default function IncentiveGraph(): JSX.Element {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: "count",
+                    legend: "Incentive",
                     legendOffset: -40,
                     legendPosition: "middle",
                 }}
