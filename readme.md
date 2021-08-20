@@ -50,12 +50,20 @@ ESLint와 Prettier가 코드 Lint와 포매팅을 수행합니다. 프로젝트�
 -   프론트엔드 실행 : `yarn client dev'
 -   백엔드 실행 : `yarn server dev`
 
-## 프로젝트 빌드
+## 프로젝트 빌드와 실행
 
 -   서버 빌드 : `yarn server build`
 -   프론트엔드 빌드 : `yarn client build`
 
-## 빌드된 프로젝트 시작
-
 -   서버 실행 : `yarn server start`
 -   프론트엔드 실행 : `yarn client start`
+
+### 환경 변수 설정
+
+실행할 때 환경 변수로 적절한 서버 설정값을 지정해줘야 합니다.
+
+| 환경변수 키          | 설명                                                                                           |
+| -------------------- | ---------------------------------------------------------------------------------------------- |
+| JWT_SECRET           | 유저 세션 저장에 사용되는 Secret으로, 적절한 난수 문자열을 설정해야 합니다.                    |
+| USE_REAL_API         | 실제 API에 연결해서 사용할 지 여부로, TRUE 또는 FALSE 값을 지정해야 합니다.                    |
+| OPEN_WEATHER_API_KEY | 날씨 정보를 가져오는 데 사용하는 [OpenWeatherMap](https://openweathermap.org/)의 API 키입니다. |
