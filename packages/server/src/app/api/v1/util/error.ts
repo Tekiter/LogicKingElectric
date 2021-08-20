@@ -1,5 +1,5 @@
 import express from "express";
-import { commonErrors, ErrorObject } from "@electric/shared/src/api/v1/util";
+import { commonErrors, ErrorObject } from "@electric/shared/dist/api/v1/util";
 
 export abstract class HandleableError<ErrorData = undefined> extends Error {
     public abstract key: string;

@@ -1,5 +1,5 @@
 import express from "express";
-import { EndpointEntry } from "@electric/shared/src/api/v1/util";
+import { EndpointEntry } from "@electric/shared/dist/api/v1/util";
 import { ServiceFacade } from "../../../../../services";
 import { Controller, Request, RequestHandler } from "./controller";
 import { AuthTokenExtractor, AuthHeaderParser } from "./authToken";

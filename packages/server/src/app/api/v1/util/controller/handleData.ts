@@ -1,5 +1,5 @@
 import express from "express";
-import { EndpointEntry, HTTPMethod } from "@electric/shared/src/api/v1/util";
+import { EndpointEntry, HTTPMethod } from "@electric/shared/dist/api/v1/util";
 import { RequestError } from "../error";
 
 export function extractData(method: HTTPMethod, req: express.Request): Record<string, unknown> {

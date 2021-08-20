@@ -1,4 +1,4 @@
-import { register } from "@electric/shared/src/api/v1/request/register";
+import { register } from "@electric/shared/dist/api/v1/request/register";
 import { createNoAuthController } from "../util";
 
 export const registerUserController = createNoAuthController(register.endpoint, async (req, services) => {

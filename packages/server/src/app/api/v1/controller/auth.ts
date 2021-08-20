@@ -1,4 +1,4 @@
-import { authorize, issueToken } from "@electric/shared/src/api/v1/request/auth";
+import { authorize, issueToken } from "@electric/shared/dist/api/v1/request/auth";
 import { APIError, createAuthController, createNoAuthController } from "../util";
 
 export const issueTokenController = createNoAuthController(issueToken.endpoint, async (req, services) => {

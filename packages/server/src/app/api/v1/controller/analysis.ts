@@ -1,4 +1,4 @@
-import { monthlyHistoryReport } from "@electric/shared/src/api/v1/request";
+import { monthlyHistoryReport } from "@electric/shared/dist/api/v1/request";
 import { createAuthController } from "../util";
 
 export const monthlyHistoryReportController = createAuthController(

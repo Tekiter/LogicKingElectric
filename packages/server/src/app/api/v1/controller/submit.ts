@@ -1,4 +1,4 @@
-import { submitActual, submitPrediction } from "@electric/shared/src/api/v1/request";
+import { submitActual, submitPrediction } from "@electric/shared/dist/api/v1/request";
 import { createAuthController } from "../util";
 
 export const submitActualController = createAuthController(submitActual.endpoint, async (req, services) => {

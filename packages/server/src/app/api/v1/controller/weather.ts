@@ -1,4 +1,4 @@
-import { getCurrentWeather } from "@electric/shared/src/api/v1/request";
+import { getCurrentWeather } from "@electric/shared/dist/api/v1/request";
 import { createAuthController } from "../util";
 
 export const getCurrentWeatherController = createAuthController(getCurrentWeather.endpoint, async (req, services) => {

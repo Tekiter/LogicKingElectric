@@ -1,4 +1,4 @@
-import { getSolarPlantInfo, predictSolarPlant, updateSolarPlantInfo } from "@electric/shared/src/api/v1/request";
+import { getSolarPlantInfo, predictSolarPlant, updateSolarPlantInfo } from "@electric/shared/dist/api/v1/request";
 import { formatISO } from "date-fns";
 import { APIError, createAuthController } from "../util";
 

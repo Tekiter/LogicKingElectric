@@ -1,4 +1,4 @@
-import { getPlantInfo, updatePlantInfo } from "@electric/shared/src/api/v1/request";
+import { getPlantInfo, updatePlantInfo } from "@electric/shared/dist/api/v1/request";
 import { APIError, createAuthController } from "../util";
 
 export const getPlantInfoController = createAuthController(getPlantInfo.endpoint, async (req, services) => {
